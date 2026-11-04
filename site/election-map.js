@@ -11,10 +11,10 @@ function svg(tag, attributes = {}) {
 
 export function loadCountyGeography(stateCode) {
   if (['KY', 'CA', 'NC'].includes(stateCode)) {
-    if (!stateCountyGeography.has(stateCode)) stateCountyGeography.set(stateCode, fetch('/data/ap-county-paths-2026-' + stateCode + '.json').then((response) => { if (!response.ok) throw new Error(); return response.json(); }).catch(() => loadCountyGeography()));
+    if (!stateCountyGeography.has(stateCode)) stateCountyGeography.set(stateCode, fetch(new URL('./data/ap-county-paths-2026-' + stateCode + '.json', import.meta.url)).then((response) => { if (!response.ok) throw new Error(); return response.json(); }).catch(() => loadCountyGeography()));
     return stateCountyGeography.get(stateCode);
   }
-  if (!countyGeographyPromise) countyGeographyPromise = fetch('/data/us-counties-albers.v3.0.1.paths.json').then((response) => {
+  if (!countyGeographyPromise) countyGeographyPromise = fetch(new URL('./data/us-counties-albers.v3.0.1.paths.json', import.meta.url)).then((response) => {
     if (!response.ok) throw new Error('County geometry is unavailable.');
     return response.json();
   }).catch((error) => { countyGeographyPromise = null; throw error; });
@@ -22,7 +22,7 @@ export function loadCountyGeography(stateCode) {
 }
 
 export function loadHouseGeography() {
-  if (!houseGeographyPromise) houseGeographyPromise = fetch('/data/ap-house-paths-2026.json').then((response) => {
+  if (!houseGeographyPromise) houseGeographyPromise = fetch(new URL('./data/ap-house-paths-2026.json', import.meta.url)).then((response) => {
     if (!response.ok) throw new Error('House geometry is unavailable.');
     return response.json();
   }).catch((error) => { houseGeographyPromise = null; throw error; });
@@ -90,7 +90,7 @@ export function drawCountyMap(container, { geography, stateFips, stateBounds, va
 }
 
 export async function createElectionMap(container, onSelect) {
-  const response = await fetch('/data/us-states-albers.v3.0.1.paths.json');
+  const response = await fetch(new URL('./data/us-states-albers.v3.0.1.paths.json', import.meta.url));
   if (!response.ok) throw new Error('The geographic map could not load.');
   const geography = await response.json();
   const root = svg('svg', { viewBox: geography.viewBox, role: 'group', 'aria-label': 'United States election results. Select a state for race details.', class: 'election-map-svg' });

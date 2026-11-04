@@ -1,3 +1,4 @@
+import { resultsFetch } from './results-client.js';
 import { createElectionMap, loadCountyGeography, drawCountyMap, loadHouseGeography, drawHouseMap } from './election-map.js';
 
 const $ = (id) => document.getElementById(id);
@@ -24,7 +25,7 @@ function syncPage() { document.body.classList.add('results-mode'); }
 // Refresh requests are best-effort; a retained source snapshot still renders.
 async function requestRefresh(payload = {}) {
   try {
-    const response = await fetch('/api/results-map/refresh', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload), signal: typeof AbortSignal?.timeout === 'function' ? AbortSignal.timeout(25000) : undefined });
+    const response = await resultsFetch('/api/results-map/refresh', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload), signal: typeof AbortSignal?.timeout === 'function' ? AbortSignal.timeout(25000) : undefined });
     return response.ok;
   } catch { return false; }
 }
@@ -114,7 +115,7 @@ async function loadCounties(race) {
   const checking = el('p', 'Checking county results…', 'inspector-empty county-checking'); target.prepend(checking);
   try {
     const refreshOkay = await requestRefresh({ county_race_id: race.race_id });
-    const response = await fetch('/api/results-map?race_id=' + encodeURIComponent(race.race_id) + '&detail=county', { cache: 'no-store' });
+    const response = await resultsFetch('/api/results-map?race_id=' + encodeURIComponent(race.race_id) + '&detail=county', { cache: 'no-store' });
     if (!response.ok) throw new Error();
     const data = await response.json(); if (state.countyRace !== race.race_id || !$('county-results')) return;
     const rows = data.counties || [];
@@ -256,7 +257,7 @@ async function fetchResults(refresh = false) {
   $('map-data-status').textContent = refresh ? 'Checking public sources…' : 'Loading source snapshots…';
   try {
     const refreshOkay = refresh ? await requestRefresh() : true;
-    const response = await fetch('/api/results-map', { cache: 'no-store' }); if (!response.ok) throw new Error();
+    const response = await resultsFetch('/api/results-map', { cache: 'no-store' }); if (!response.ok) throw new Error();
     const data = await response.json(); if (!Array.isArray(data.states)) throw new Error(); state.data = data;
     if (!state.selected) {
       const races = allRaces(); const preferred = races.find((race) => race.state === 'KY' && race.office === state.office && hasVotes(race)) || races.find((race) => race.office === state.office && hasVotes(race)) || races.find((race) => race.state === 'NC' && race.office === state.office) || races[0];
