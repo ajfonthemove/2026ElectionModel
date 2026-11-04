@@ -1,7 +1,72 @@
 const SVG_NS = 'http://www.w3.org/2000/svg';
-let countyGeographyPromise;
-const stateCountyGeography = new Map();
 let houseGeographyPromise;
+const COUNTY_PRESETS = new Set(['KY', 'CA', 'NC']);
+const MAX_GEOMETRY_CHARS = 4 * 1024 * 1024;
+
+function assetURL(path) {
+  const url = new URL(path, import.meta.url);
+  const version = new URL(import.meta.url).searchParams.get('v');
+  if (version) url.searchParams.set('v', version);
+  return url;
+}
+
+function fips(value, digits) {
+  if (typeof value === 'number' && Number.isSafeInteger(value) && value >= 0) value = String(value).padStart(digits, '0');
+  return typeof value === 'string' && new RegExp('^\\d{' + digits + '}$').test(value) ? value : null;
+}
+function boundsValid(bounds) {
+  return Array.isArray(bounds) && bounds.length === 2 && bounds.every((point) => Array.isArray(point) && point.length === 2 && point.every(Number.isFinite)) && bounds[1][0] >= bounds[0][0] && bounds[1][1] >= bounds[0][1];
+}
+function viewBoxValid(value) {
+  if (typeof value !== 'string') return false;
+  const values = value.trim().split(/[\s,]+/).map(Number);
+  return values.length === 4 && values.every(Number.isFinite) && values[2] > 0 && values[3] > 0;
+}
+
+/** Boundary data may normalize numeric FIPS formatting, never locality IDs. */
+export function validateCountyGeography(geography, expectedState = null) {
+  if (!geography || !viewBoxValid(geography.viewBox) || !Array.isArray(geography.counties) || !geography.counties.length || geography.counties.length > 4000 || (expectedState && geography.state !== expectedState)) throw new Error('County boundary metadata is invalid.');
+  const ids = new Set();
+  const counties = geography.counties.map((county) => {
+    const id = fips(county.id ?? county.fips, 5), stateFips = fips(county.state_fips ?? id?.slice(0, 2), 2);
+    if (!id || !stateFips || !id.startsWith(stateFips) || ids.has(id) || (expectedState && county.state && county.state !== expectedState) || typeof county.name !== 'string' || !county.name.trim() || typeof county.path !== 'string' || !/^[Mm]/.test(county.path) || /NaN|Infinity/.test(county.path) || !boundsValid(county.bounds) || !Array.isArray(county.centroid) || county.centroid.length !== 2 || !county.centroid.every(Number.isFinite)) throw new Error('County boundary paths or exact FIPS identifiers are invalid.');
+    ids.add(id);
+    return { ...county, id, fips: id, state_fips: stateFips };
+  });
+  return { ...geography, counties };
+}
+
+/** Isolated caches make transient preset/fallback errors retryable. */
+export function createCountyGeographyLoader({ fetcher = (...args) => fetch(...args) } = {}) {
+  let national;
+  const presets = new Map();
+  async function read(path, expectedState) {
+    const controller = new AbortController(), timer = setTimeout(() => controller.abort(), 10000);
+    try {
+      const response = await fetcher(assetURL(path), { signal: controller.signal, credentials: 'same-origin' });
+      if (!response.ok) throw new Error('County boundaries returned HTTP ' + response.status + '.');
+      if (Number(response.headers.get('content-length')) > MAX_GEOMETRY_CHARS) throw new Error('County boundaries exceed the supported size.');
+      const text = await response.text();
+      if (text.length > MAX_GEOMETRY_CHARS) throw new Error('County boundaries exceed the supported size.');
+      return validateCountyGeography(JSON.parse(text), expectedState);
+    } finally { clearTimeout(timer); }
+  }
+  function nationwide() {
+    if (!national) national = read('./data/us-counties-albers.v3.0.1.paths.json').catch((error) => { national = null; throw error; });
+    return national;
+  }
+  return function load(stateCode) {
+    if (!COUNTY_PRESETS.has(stateCode)) return nationwide();
+    if (!presets.has(stateCode)) {
+      const request = read('./data/ap-county-paths-2026-' + stateCode + '.json', stateCode)
+        .catch(() => nationwide())
+        .catch((error) => { presets.delete(stateCode); throw error; });
+      presets.set(stateCode, request);
+    }
+    return presets.get(stateCode);
+  };
+}
+const countyLoader = createCountyGeographyLoader();
 
 function svg(tag, attributes = {}) {
   const node = document.createElementNS(SVG_NS, tag);
@@ -10,15 +75,7 @@ function svg(tag, attributes = {}) {
 }
 
 export function loadCountyGeography(stateCode) {
-  if (['KY', 'CA', 'NC'].includes(stateCode)) {
-    if (!stateCountyGeography.has(stateCode)) stateCountyGeography.set(stateCode, fetch(new URL('./data/ap-county-paths-2026-' + stateCode + '.json', import.meta.url)).then((response) => { if (!response.ok) throw new Error(); return response.json(); }).catch(() => loadCountyGeography()));
-    return stateCountyGeography.get(stateCode);
-  }
-  if (!countyGeographyPromise) countyGeographyPromise = fetch(new URL('./data/us-counties-albers.v3.0.1.paths.json', import.meta.url)).then((response) => {
-    if (!response.ok) throw new Error('County geometry is unavailable.');
-    return response.json();
-  }).catch((error) => { countyGeographyPromise = null; throw error; });
-  return countyGeographyPromise;
+  return countyLoader(stateCode);
 }
 
 export function loadHouseGeography() {
@@ -59,21 +116,44 @@ export function drawHouseMap(container, { geography, values, selectedKey, focusS
   return { polygons: geography.districts.length, matched: geography.districts.filter((item) => values.has(item.key)).length };
 }
 
-export function drawCountyMap(container, { geography, stateFips, stateBounds, values, selected, onSelect }) {
-  const features = geography.counties.filter((county) => county.state_fips === stateFips || county.id.slice(0, 2) === stateFips);
+/** Fit the actual county paths, not a separate state's possibly different projection. */
+export function countyMapLayout(geography, stateFips, values = new Map()) {
+  const state = fips(stateFips, 2);
+  const features = (geography?.counties || []).filter((county) => {
+    const id = fips(county.id ?? county.fips, 5);
+    return id && state && fips(county.state_fips ?? id.slice(0, 2), 2) === state;
+  }).map((county) => ({ ...county, id: fips(county.id ?? county.fips, 5) }));
   const shapeIds = new Set(features.map((county) => county.id));
   const matched = [...values.keys()].filter((id) => shapeIds.has(id));
-  const [[x0, y0], [x1, y1]] = stateBounds;
-  const padding = Math.max(x1 - x0, y1 - y0) * 0.07;
-  const viewBox = geography.state ? geography.viewBox : `${x0 - padding} ${y0 - padding} ${x1 - x0 + 2 * padding} ${y1 - y0 + 2 * padding}`;
+  const coverage = { ready: false, matched: matched.length, sourceUnits: values.size, polygons: features.length,
+    unmatchedSourceFips: [...values.keys()].filter((id) => !shapeIds.has(id)), unmatchedGeometry: features.length - matched.length };
+  if (!features.length) return { ...coverage, features, bounds: null, viewBox: null };
+  if (features.some((county) => !boundsValid(county.bounds))) throw new Error('County boundary bounds are unavailable.');
+  const x0 = Math.min(...features.map((county) => county.bounds[0][0])), y0 = Math.min(...features.map((county) => county.bounds[0][1]));
+  const x1 = Math.max(...features.map((county) => county.bounds[1][0])), y1 = Math.max(...features.map((county) => county.bounds[1][1]));
+  const padding = Math.max(x1 - x0, y1 - y0) * 0.07 || 1;
+  return { ...coverage, ready: matched.length > 0 && (x1 > x0 || y1 > y0), features,
+    bounds: [[x0, y0], [x1, y1]], viewBox: `${x0 - padding} ${y0 - padding} ${x1 - x0 + 2 * padding} ${y1 - y0 + 2 * padding}` };
+}
+
+export function drawCountyMap(container, { geography, stateFips, values, selected, onSelect }) {
+  const layout = countyMapLayout(geography, stateFips, values);
+  const { features, viewBox } = layout;
+  if (!features.length) {
+    const message = document.createElement('p'); message.textContent = 'County outlines are unavailable for this geography. Use local result tiles.';
+    container.replaceChildren(message); return layout;
+  }
+  const [[x0], [x1]] = layout.bounds;
   const root = svg('svg', { viewBox, class: 'county-map-svg', role: 'group', 'aria-label': 'County election results on published reference boundaries. Select a county for details.' });
   const title = svg('title'); title.textContent = 'County reference geography, joined to current results by exact FIPS'; root.append(title);
   const paths = [];
   for (const county of features) {
     const value = values.get(county.id);
-    const path = svg('path', { d: county.path, 'fill-rule': 'evenodd', 'data-county-fips': county.id, class: 'map-county ' + (value?.party || 'no-returns') + (selected === county.id ? ' selected' : ''), role: 'button', tabindex: '0', 'aria-pressed': String(selected === county.id), 'aria-label': value?.description || county.name + ': no exact FIPS result available' });
+    const name = value?.name || county.name || county.id;
+    const description = value?.description || 'No exact FIPS result available';
+    const path = svg('path', { d: county.path, 'fill-rule': 'evenodd', 'data-county-fips': county.id, class: 'map-county ' + (value?.party || 'no-returns') + (selected === county.id ? ' selected' : ''), role: 'button', tabindex: '0', 'aria-pressed': String(selected === county.id), 'aria-label': name + ': ' + description });
     if (value?.fill) path.style.fill = value.fill;
-    const hint = svg('title'); hint.textContent = value?.description || county.name + '\nNo exact FIPS result available'; path.append(hint);
+    const hint = svg('title'); hint.textContent = name + '\n' + description; path.append(hint);
     path.addEventListener('click', () => { if (value) onSelect(county.id); });
     path.addEventListener('keydown', (event) => {
       if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); if (value) onSelect(county.id); }
@@ -88,7 +168,9 @@ export function drawCountyMap(container, { geography, stateFips, stateBounds, va
     text.textContent = values.get(selected)?.name?.replace(/ County$/, '') || selection.name; root.append(text);
   }
   container.replaceChildren(root);
-  return { matched: matched.length, sourceUnits: values.size, polygons: features.length, unmatchedSourceFips: [...values.keys()].filter((id) => !shapeIds.has(id)), unmatchedGeometry: features.length - matched.length };
+  return { ready: layout.ready, matched: layout.matched, sourceUnits: layout.sourceUnits,
+    polygons: layout.polygons, unmatchedSourceFips: layout.unmatchedSourceFips, unmatchedGeometry: layout.unmatchedGeometry,
+    viewBox: layout.viewBox, bounds: layout.bounds };
 }
 
 export async function createElectionMap(container, onSelect) {
