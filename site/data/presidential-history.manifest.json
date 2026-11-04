@@ -1,0 +1,76 @@
+{
+  "schema_version": "presidential_history_manifest_v1",
+  "sources": [
+    {
+      "requested_url": "https://raw.githubusercontent.com/tonmcg/US_County_Level_Election_Results_08-24/master/2024_US_County_Level_Presidential_Results.csv",
+      "response_url": "https://raw.githubusercontent.com/tonmcg/US_County_Level_Election_Results_08-24/master/2024_US_County_Level_Presidential_Results.csv",
+      "retrieved_at": "2026-11-04T04:01:11.799168+00:00",
+      "sha256": "538a8fbe2d7a20524b049dd1b3b9ec7e215c4433d99f91fbd7b0dea05270136a",
+      "bytes": 352475,
+      "archive_filename": "county-2024.csv"
+    },
+    {
+      "requested_url": "https://politics.api.cnn.io/results/national-races/2024-PG.json",
+      "response_url": "https://politics.api.cnn.io/results/national-races/2024-PG.json",
+      "retrieved_at": "2026-11-04T04:03:47.919001+00:00",
+      "sha256": "9c60fa4300c06fe854389ccc872307f94f282ffd828807923f179f92e581949c",
+      "bytes": 165381,
+      "archive_filename": "cnn-national-2024-PG.json"
+    },
+    {
+      "requested_url": "https://raw.githubusercontent.com/tonmcg/US_County_Level_Election_Results_08-24/master/2020_US_County_Level_Presidential_Results.csv",
+      "response_url": "https://raw.githubusercontent.com/tonmcg/US_County_Level_Election_Results_08-24/master/2020_US_County_Level_Presidential_Results.csv",
+      "retrieved_at": "2026-11-04T04:01:12.140428+00:00",
+      "sha256": "98c7412018bfaa2a9ac4fea088fd5bb4bbf1c5f2b93f524da574a2d83c25ccbe",
+      "bytes": 347884,
+      "archive_filename": "county-2020.csv"
+    },
+    {
+      "requested_url": "https://politics.api.cnn.io/results/national-races/2020-PG.json",
+      "response_url": "https://politics.api.cnn.io/results/national-races/2020-PG.json",
+      "retrieved_at": "2026-11-04T04:03:48.514347+00:00",
+      "sha256": "604653a52578c4a5f85d36037cb9e32f8c2db6387f03fffe5623577e545311ef",
+      "bytes": 102885,
+      "archive_filename": "cnn-national-2020-PG.json"
+    },
+    {
+      "requested_url": "https://raw.githubusercontent.com/tonmcg/US_County_Level_Election_Results_08-24/master/LICENSE",
+      "response_url": "https://raw.githubusercontent.com/tonmcg/US_County_Level_Election_Results_08-24/master/LICENSE",
+      "retrieved_at": "2026-11-04T04:01:13.152407+00:00",
+      "sha256": "83db729e275f98eb6e0c7ad66c50bbcf8966730b01799912cecd52ce41138db8",
+      "bytes": 1069,
+      "archive_filename": "tonmcg-LICENSE",
+      "license": "MIT",
+      "copyright": "Copyright (c) 2025 Tony McGovern"
+    }
+  ],
+  "datasets": [
+    {
+      "year": 2024,
+      "filename": "presidential-history-2024.json",
+      "sha256": "f06c673e21a445f2af5d9ab2df9b858885a5f7bd87ef0a56466fcb6a58481f31",
+      "bytes": 711005,
+      "states": 51,
+      "counties": 3112,
+      "source_unit_count": 3160,
+      "excluded_county_unit_count": 48
+    },
+    {
+      "year": 2020,
+      "filename": "presidential-history-2020.json",
+      "sha256": "5d26c34e72832f06d0750ca5715cc4d4ab28bbf5a0e68ff7aef2f0c00e04304d",
+      "bytes": 710840,
+      "states": 51,
+      "counties": 3111,
+      "source_unit_count": 3152,
+      "excluded_county_unit_count": 41
+    }
+  ],
+  "limitations": [
+    "Archived reported presidential counts; not certified-final or independently verified all-valid totals.",
+    "States and counties use independently timed sources; rollup mismatches are retained, never forced to agree.",
+    "County other_votes is total minus Democratic and Republican counts: nonmajor/unassigned residual, not a candidate roster.",
+    "County comparison joins exact FIPS only. Shared identifiers do not certify unchanged boundaries; no district allocation is performed.",
+    "Alaska House election districts and DC wards are excluded from county baselines; Connecticut 2024 planning regions are distinct from 2020 legacy counties."
+  ]
+}

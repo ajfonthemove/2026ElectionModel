@@ -1,9 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { buildView, createResultsWorker, NATIONAL_URLS, parseQuery, raceParts, validateRows } from '../index.js';
+import { buildView, createResultsWorker, NATIONAL_URLS, STATES, parseQuery, raceParts, validateRows } from '../index.js';
 
 function race(code = 'SG', state = 'NC', values = {}) {
-  const fips = { NC: '37', CA: '06', FL: '12', OH: '39' }[state];
+  const fips = STATES[state].fips;
   const district = code === 'HG' ? 1 : null;
   return { ecKey: `2026-${code}-${state}${district ? '-' + district : ''}`, contestType: code, stateAbbreviation: state, stateFipsCode: fips, electionType: code === 'SP' ? 'P' : 'G', raceType: code[0], raceTypeCode: code[0], jurisdictionCode: district || 0, resourceType: 'race', raceEmbargo: { assignedPollsClose: Date.parse('2026-11-04T00:30:00Z'), pollsClosed: true, votesReleased: true, callsReleased: true }, candidates: [{ candidateId: 1, fullName: 'Candidate D', majorParty: 'DEM', voteNum: 60, winner: false }, { candidateId: 2, fullName: 'Candidate R', majorParty: 'REP', voteNum: 35, winner: false }], totalVote: 100, voteTimestamp: '2026-11-04T01:30:00Z', extractedAt: '2026-11-04T01:30:01', percentReporting: 45, ...values };
 }
@@ -31,7 +31,7 @@ function fixtureApp({ fail = () => false, county = null, initialClock = Date.par
   const value = data.states.find((s) => s.state === 'NC').races.find((r) => r.office === 'senate');
   assert.equal(value.reported_total, 100);assert.equal(value.candidate_attributed_total, 95);assert.equal(value.unattributed_source_votes, 5);
   assert.equal(value.candidates[0].vote_share, .6);assert.equal(value.source_extracted_at_raw, '2026-11-04T01:30:01');
-  assert.equal(value.source_updated_at, '2026-11-04T01:30:00Z');assert.match(value.percent_reporting_definition, /not the percentage of votes/);
+  assert.equal(value.source_updated_at, '2026-11-04T01:30:00Z');assert.match(value.percent_reporting_definition, /CNN estimated percentage of votes in/);
 });
 
 test('source calls require a single explicit winner and a released CNN call', async () => {
@@ -127,4 +127,103 @@ test('source identity, old House runoff and county FIPS are bounded', () => {
   assert.throws(() => validateRows([{ ...race(), stateFipsCode: '06' }], 'SG'));
   assert.throws(() => validateRows([{ ...race(), raceEmbargo: { assignedPollsClose: Date.parse('2025-11-04T01:00:00Z') } }], 'SG'));
   assert.throws(() => validateRows([{ ...race(), resourceType: 'county-races', countyFipsCode: '06001' }], 'SG', '2026-SG-NC'));
+});
+
+// Source-shaped municipal IDs reproduced from archived public CNN feeds:
+// county-races/2026-SG-MI.json (126 rows) and 2026-HG-RI-1.json (20 rows).
+function normalizedCountyFixture(code, state, rows, parentValues = {}) {
+  const parent = race(code, state, parentValues), office = code === 'SP' ? 'SG' : code;
+  const source = { source_url: `https://politics.api.cnn.io/results/county-races/${parent.ecKey}.json`, retrieved_at: '2026-11-04T03:55:00Z', sha256: 'fixture' };
+  validateRows(rows, office, parent.ecKey);
+  return buildView({ verified: true, offices: { [office]: { ...source, rows: [parent] } } }, { race_id: parent.ecKey, detail: 'county' }, { source, rows });
+}
+function countyRow(code, state, id, name, values = {}) {
+  return { ...race(code, state), resourceType: 'county-races', countyFipsCode: id, countyLongName: name, ...values };
+}
+
+test('CNN estimated vote percentage is carried directly and remaining is only a labeled complement', async () => {
+  const fixture = fixtureApp();
+  for (const percent of [0, 45, 99, 100, null, -1, 101]) {
+    fixture.feeds.SG[0].percentReporting = percent;fixture.advance(31_000);
+    const data = await (await fixture.request()).json(), value = data.states.find((s) => s.state === 'NC').races.find((r) => r.office === 'senate');
+    const progress = value.source_vote_progress, valid = percent !== null && percent >= 0 && percent <= 100;
+    assert.equal(progress.percent_votes_counted, valid ? percent : null);assert.equal(progress.percent_votes_remaining, valid ? 100 - percent : null);
+    assert.equal(progress.expected_votes, null);assert.equal(progress.estimated_votes_remaining, null);
+    assert.equal(progress.source_field, 'percentReporting');assert.equal(progress.remaining_percentage_derived, true);
+    assert.match(progress.semantics_source_url, /^https:\/\/www.cnn.com\/election\//);
+    assert.equal(value.source_percent_reporting, progress.percent_votes_counted);
+  }
+  fixture.feeds.SG[0].raceEmbargo.votesReleased = false;fixture.advance(31_000);
+  const embargoed = await (await fixture.request()).json();
+  assert.equal(embargoed.states.find((s) => s.state === 'NC').races.find((r) => r.office === 'senate').source_vote_progress.percent_votes_remaining, null);
+});
+
+test('county progress is its own source estimate and never inherited from statewide progress', () => {
+  const data = normalizedCountyFixture('SG', 'NC', [countyRow('SG', 'NC', '37001', 'Alamance', { percentReporting: 90 })], { percentReporting: 45 });
+  assert.equal(data.counties[0].source_vote_progress.percent_votes_counted, 90);assert.equal(data.counties[0].source_vote_progress.percent_votes_remaining, 10);
+  assert.equal(data.states.find((s) => s.state === 'NC').races[0].source_vote_progress.percent_votes_counted, 45);
+  assert.equal(data.counties[0].source_vote_progress.estimated_votes_remaining, null);
+});
+
+test('Michigan municipal detail is preserved separately and cannot duplicate Wayne coverage totals', () => {
+  const rows = [countyRow('SG', 'MI', '26163', 'Wayne', { totalVote: 100 }), countyRow('SG', 'MI', '92623098', 'Wayne County - Detroit', { totalVote: 100 })];
+  const data = normalizedCountyFixture('SG', 'MI', rows);
+  assert.equal(data.counties.length, 1);assert.equal(data.supplemental_localities.length, 1);
+  assert.equal(data.county_coverage.reported_total, 100);assert.equal(data.county_coverage.source_unit_count, 2);
+  assert.equal(data.county_coverage.canonical_county_count, 1);assert.equal(data.county_coverage.source_locality_count, 1);
+  const city = data.supplemental_localities[0];assert.equal(city.reporting_unit_id, '92623098');assert.equal(city.county_fips, null);
+  assert.equal(city.geography_type, 'source_locality');assert.equal(city.geographic_join_supported, false);assert.equal(city.included_in_coverage_total, false);
+  assert.deepEqual(city.candidates.map((c) => c.votes), [60, 35]);
+});
+
+test('Rhode Island House towns remain usable tiles without invented county geography or partition totals', () => {
+  const data = normalizedCountyFixture('HG', 'RI', [countyRow('HG', 'RI', '94440001', 'Barrington'), countyRow('HG', 'RI', '94440002', 'Bristol')]);
+  assert.equal(data.counties.length, 2);assert.equal(data.supplemental_localities.length, 0);
+  assert.equal(data.county_coverage.reported_total, null);assert.equal(data.county_coverage.matches_national_snapshot, null);
+  assert.equal(data.county_coverage.aggregation_basis, 'unverified_source_locality_partition');
+  for (const town of data.counties) { assert.equal(town.county_fips, null);assert.equal(town.geographic_join_supported, false);assert.equal(town.historical_comparison, null);assert.equal(town.district, '1'); }
+});
+
+test('Alaska source election districts and overseas category never become borough FIPS', () => {
+  for (const code of ['SG', 'HG']) {
+    const rows = Array.from({ length: 40 }, (_, i) => countyRow(code, 'AK', `9902${String(i + 1).padStart(3, '0')}`, `State House District ${i + 1}`));
+    rows.push(countyRow(code, 'AK', '9902099', 'Overseas Absentee'));
+    const data = normalizedCountyFixture(code, 'AK', rows);
+    assert.equal(data.counties.length, 41);assert.equal(data.county_coverage.canonical_county_count, 0);assert.equal(data.county_coverage.reported_total, null);
+    assert.equal(data.counties[0].geography_type, 'source_election_district');assert.equal(data.counties.at(-1).geography_type, 'source_reporting_category');
+    assert.ok(data.counties.every((r) => r.county_fips === null && !r.geographic_join_supported));
+    assert.throws(() => normalizedCountyFixture(code, 'AK', [countyRow(code, 'AK', '02001', 'Pseudo county')]));
+  }
+});
+
+test('ordinary House fragments and both Senate specials retain office and source unit identity', () => {
+  const house = normalizedCountyFixture('HG', 'NY', [countyRow('HG', 'NY', '36103', 'Suffolk')]);
+  assert.equal(house.counties[0].county_fips, '36103');assert.equal(house.counties[0].district, '1');
+  assert.throws(() => normalizedCountyFixture('HG', 'NY', [countyRow('HG', 'NY', '36103', 'Suffolk', { jurisdictionCode: 2 })]));
+  for (const [state, fips] of [['FL', '12001'], ['OH', '39001']]) {
+    const data = normalizedCountyFixture('SP', state, [countyRow('SP', state, fips, 'County')]);
+    assert.equal(data.states.find((s) => s.state === state).races[0].special, true);assert.equal(data.counties[0].race_id, `2026-SP-${state}`);
+  }
+  assert.throws(() => normalizedCountyFixture('SG', 'MI', [countyRow('SG', 'MI', '94440001', 'Wrong state')]));
+  assert.throws(() => normalizedCountyFixture('SG', 'MI', [countyRow('SG', 'MI', '92623098', 'Detroit'), countyRow('SG', 'MI', '92623098', 'Detroit duplicate')]));
+});
+
+test('unknown candidate counts and totals remain null without zero-filling or attributed residuals', async () => {
+  const fixture = fixtureApp();fixture.feeds.SG[0].candidates[1].voteNum = null;
+  const first = await (await fixture.request()).json(), value = first.states.find((s) => s.state === 'NC').races.find((r) => r.office === 'senate');
+  assert.equal(value.candidates[1].votes, null);assert.equal(value.candidates[1].vote_share, null);assert.equal(value.reported_total, 100);
+  assert.equal(value.vote_counts_complete, false);assert.equal(value.known_candidate_vote_total, 60);assert.equal(value.candidate_attributed_total, null);assert.equal(value.unattributed_source_votes, null);
+  assert.equal(value.accounting_status, 'partial_candidate_counts');
+  fixture.feeds.SG[0].totalVote = null;fixture.advance(31_000);
+  const second = await (await fixture.request()).json(), missingTotal = second.states.find((s) => s.state === 'NC').races.find((r) => r.office === 'senate');
+  assert.equal(missingTotal.reported_total, null);assert.equal(missingTotal.candidates[0].votes, 60);assert.equal(missingTotal.candidates[0].vote_share, null);
+});
+
+test('a malformed county refresh retains last good source unit counts and progress', async () => {
+  const rows = [countyRow('SG', 'NC', '37001', 'Alamance', { percentReporting: 90 })], fixture = fixtureApp({ county: rows });
+  const path = '/api/results-map?race_id=2026-SG-NC&detail=county';const before = await (await fixture.request(path)).json();
+  rows[0].countyFipsCode = '94440001';fixture.advance(31_000);
+  const stale = await (await fixture.request(path)).json();assert.equal(stale.county_coverage.stale, true);assert.equal(stale.county_coverage.checked_at, before.county_coverage.checked_at);
+  assert.equal(stale.counties[0].county_fips, '37001');assert.equal(stale.counties[0].source_vote_progress.percent_votes_remaining, 10);
+  assert.equal(stale.counties[0].reported_total, 100);assert.match(stale.county_coverage.error, /geography/);
 });

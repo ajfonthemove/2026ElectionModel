@@ -45,6 +45,7 @@ export function drawHouseMap(container, { geography, values, selectedKey, focusS
   for (const district of geography.districts) {
     const value = values.get(district.key);
     const path = svg('path', { d: district.path, 'fill-rule': 'evenodd', 'data-district-key': district.key, class: 'map-district ' + (value?.party || 'no-returns') + (selectedKey === district.key ? ' selected' : ''), role: 'button', tabindex: '0', 'aria-label': value?.description || district.name + ': no connected results', 'aria-pressed': String(selectedKey === district.key) });
+    if (value?.fill) path.style.fill = value.fill;
     const hint = svg('title'); hint.textContent = value?.description || district.name + '\nNo connected results'; path.append(hint);
     path.addEventListener('click', () => onSelect(district.key, district));
     path.addEventListener('keydown', (event) => {
@@ -71,6 +72,7 @@ export function drawCountyMap(container, { geography, stateFips, stateBounds, va
   for (const county of features) {
     const value = values.get(county.id);
     const path = svg('path', { d: county.path, 'fill-rule': 'evenodd', 'data-county-fips': county.id, class: 'map-county ' + (value?.party || 'no-returns') + (selected === county.id ? ' selected' : ''), role: 'button', tabindex: '0', 'aria-pressed': String(selected === county.id), 'aria-label': value?.description || county.name + ': no exact FIPS result available' });
+    if (value?.fill) path.style.fill = value.fill;
     const hint = svg('title'); hint.textContent = value?.description || county.name + '\nNo exact FIPS result available'; path.append(hint);
     path.addEventListener('click', () => { if (value) onSelect(county.id); });
     path.addEventListener('keydown', (event) => {
@@ -135,6 +137,7 @@ export async function createElectionMap(container, onSelect) {
         const path = paths.get(state.state);
         path.classList.remove('dem', 'rep', 'other', 'no-returns', 'source-called');
         path.classList.add(value.party || 'no-returns');
+        path.style.fill = value.fill || '';
         if (value.called) path.classList.add('source-called');
         path.setAttribute('aria-label', state.name + ': ' + (value.description || 'no reported votes / no connected feed'));
         path.querySelector('title').textContent = state.name + '\n' + (value.description || 'No reported votes / no connected feed');

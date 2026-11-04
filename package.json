@@ -6,7 +6,7 @@
   "description": "Results-only 2026 election dashboard",
   "scripts": {
     "pretest": "npm run build",
-    "test": "node site-worker/test/worker.test.js && node site/results-client.test.mjs",
+    "test": "node site-worker/test/worker.test.js && node site/results-client.test.mjs && node site/presidential-history.test.mjs && node scripts/build-github-pages.test.mjs",
     "build": "node scripts/build-github-pages.mjs",
     "preview": "node scripts/preview.mjs"
   },
