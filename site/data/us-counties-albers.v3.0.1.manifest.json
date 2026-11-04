@@ -1,0 +1,57 @@
+{
+  "artifact": "us-counties-albers.v3.0.1.paths.json",
+  "boundary_authority": "U.S. Census Bureau",
+  "geometry_vintage": 2017,
+  "source_url": "https://cdn.jsdelivr.net/npm/us-atlas@3.0.1/counties-albers-10m.json",
+  "source_package": "us-atlas@3.0.1",
+  "retrieved_at": "2026-11-04T00:18:54.006856+00:00",
+  "source_sha256": "a674dfa31b625e92635f32684a61ae135b05a91507f17f2d5164833237fecf46",
+  "render_sha256": "4679aa272dea43aac4b5d3bec0b5b47a29d789dab55f2f10ff96a7cfb8ba6eaf",
+  "projection": "Albers USA; scale1300, translate[487.5,305]; Alaska/Hawaii insets",
+  "viewBox": "-63 7 1026 605",
+  "attribution": "County boundaries: U.S. Census Bureau, 2017; us-atlas 3.0.1 (ISC).",
+  "license": "ISC (us-atlas); underlying federal Census boundaries are public data",
+  "license_file": "us-atlas-LICENSE",
+  "generator": "build-county-paths.py",
+  "validation": {
+    "unique_fips": 3142,
+    "county_features": 3142,
+    "ky_counties": 120,
+    "ca_counties": 58,
+    "nc_counties": 100,
+    "finite_centroids": true,
+    "closed_paths": true
+  },
+  "current_id_checks": [
+    {
+      "state": "KY",
+      "reference": "AP published2026 exactdetail fipsCode crosswalk",
+      "reference_asset": "ap-county-paths-2026-KY.json",
+      "reference_sha256": "8d00d5f942834b03944cd64e837dccdce5b56d98e942d5068af610188771c1dc",
+      "reference_ids": 120,
+      "matched_geometry_ids": 120,
+      "missing_geometry_ids": []
+    },
+    {
+      "state": "CA",
+      "reference": "AP published2026 exactdetail fipsCode crosswalk",
+      "reference_asset": "ap-county-paths-2026-CA.json",
+      "reference_sha256": "51a2aedf63ae5e4160c25273c6086b9e47f3b7594485f63f70babe2f88205517",
+      "reference_ids": 58,
+      "matched_geometry_ids": 58,
+      "missing_geometry_ids": []
+    },
+    {
+      "state": "NC",
+      "reference": "AP published2026 exactdetail fipsCode crosswalk",
+      "reference_asset": "ap-county-paths-2026-NC.json",
+      "reference_sha256": "33c5194e9655bde262218f0fa8b782ef1bfa818d6b8f6fe39d198dc752a6860b",
+      "reference_ids": 100,
+      "matched_geometry_ids": 100,
+      "missing_geometry_ids": []
+    }
+  ],
+  "national_2026_ids_not_audited": true,
+  "missing_current_ids_policy": "Only exact countyFIPS joins are allowed. Unmatched current IDs remain missing. No fuzzy crosswalk or boundary equivalence is inferred. National changes since2017 are not audited by this fallback geometry.",
+  "notes": "Fallback2017 Census county geometry. Primary AP2026 published county display assets are provided separately for KY/CA/NC; their underlying boundary vintage is unspecified."
+}

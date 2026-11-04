@@ -1,0 +1,40 @@
+{
+  "artifact_version": "us-atlas-3.0.1-state-geometry-v1",
+  "upstream_url": "https://cdn.jsdelivr.net/npm/us-atlas@3.0.1/states-albers-10m.json",
+  "upstream_package": "us-atlas@3.0.1",
+  "upstream_repository": "https://github.com/topojson/us-atlas",
+  "retrieved_at": "2026-11-04T00:02:55.076616+00:00",
+  "boundary_authority": "U.S. Census Bureau",
+  "boundary_vintage": 2017,
+  "scope": "50 U.S. states plus District of Columbia; no congressional districts",
+  "projection": {
+    "name": "Albers USA composite",
+    "scale": 1300,
+    "translate": [
+      487.5,
+      305
+    ],
+    "insets": [
+      "Alaska",
+      "Hawaii"
+    ],
+    "input_coordinates": "Already projected planar coordinates; do not reproject as longitude/latitude"
+  },
+  "license": "ISC (us-atlas); underlying federal Census boundaries are public data",
+  "license_file": "us-atlas-LICENSE",
+  "render_asset": "us-states-albers.v3.0.1.paths.json",
+  "source_asset": "us-states-albers-10m.v3.0.1.topojson",
+  "source_sha256": "6e7bb086a3c791490361968a3094f377f7726c5d0c4900fec03cc42db2305a3d",
+  "render_sha256": "fb95ce07519be5fc06aa4ef256d0b990d0ce7989fd6c90e9c955017d16836145",
+  "generator": "build-state-paths.py",
+  "validation": {
+    "feature_count": 51,
+    "unique_state_fips": 51,
+    "unique_state_abbreviations": 51,
+    "finite_centroids": true,
+    "closed_svg_paths": true,
+    "alaska_present": true,
+    "hawaii_present": true
+  },
+  "comparability": "Only state boundaries are rendered. These files must not be used to infer2026congressional boundaries or district comparability."
+}

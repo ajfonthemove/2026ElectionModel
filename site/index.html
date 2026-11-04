@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Reported 2026 U.S. election results. Explore Senate, House and Governor races with state, congressional district and county views.">
+  <meta name="theme-color" content="#11263f">
+  <title>Election Desk 2026 · Results</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+  <script type="module" src="/main.js"></script>
+</head>
+<body class="results-mode">
+  <a class="skip-link" href="#main">Skip to results</a>
+  <div class="page-shell">
+    <header>
+      <div class="masthead">
+        <a class="brand" href="/" aria-label="Election Desk 2026 results"><svg class="brand-symbol" width="25" height="25" viewBox="0 0 25 25" aria-hidden="true"><path fill="#63aaff" d="M0 14h6v11H0zM9 7h6v18H9z"/><path fill="#ee6672" d="M18 0h6v25h-6z"/></svg>Election Desk <span class="brand-year">2026</span></a>
+        <p class="election-date"><span>Tuesday, November 3</span><span id="results-clock">Eastern Time</span></p>
+      </div>
+      <nav class="primary-nav" aria-label="Main navigation"><a href="/" aria-current="page">Results</a><span class="results-nav-caption">Reported vote counts &amp; source calls</span></nav>
+    </header>
+    <main id="main" tabindex="-1">
+<section id="page-results" class="page-view results-view" aria-labelledby="results-title">
+          <div class="results-heading">
+            <div><h1 id="results-title">Election night.</h1><p>Follow the vote. Explore the country, one race at a time.</p></div>
+
+          </div>
+          <div class="results-map-controls">
+            <div class="results-office-tabs" role="group" aria-label="Election office"><button type="button" data-results-office="senate" aria-pressed="true">Senate</button><button type="button" data-results-office="house" aria-pressed="false">House</button><button type="button" data-results-office="governor" aria-pressed="false">Governor</button></div>
+            <div class="results-search-wrap"><label class="visually-hidden" for="results-search">Find a state, district or candidate</label><svg width="17" height="17" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5" stroke="currentColor" stroke-width="1.5"/><path d="m13 13 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><input id="results-search" type="search" placeholder="Find a state, district or candidate" autocomplete="off" aria-controls="results-search-matches"><div id="results-search-matches" class="results-search-matches" hidden></div></div>
+          </div>
+          <p id="results-source-notice" class="results-source-notice" role="status" hidden></p>
+          <div class="results-layout custom-results-layout">
+            <section id="national-map-panel" class="national-map-panel" aria-labelledby="national-map-title">
+              <div class="map-panel-heading"><div><p class="map-eyebrow">2026 GENERAL ELECTION</p><h2 id="national-map-title">U.S. Senate</h2></div><div class="map-view-actions"><button id="results-refresh" type="button" title="Check for newer source snapshots"><svg width="17" height="17" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M16.5 8a6.5 6.5 0 1 0-.7 5.4M16.5 3.5V8H12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Refresh</span></button><button id="results-fullscreen" type="button" title="Expand the map"><svg width="17" height="17" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M7 3H3v4m10-4h4v4M3 13v4h4m10-4v4h-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Fullscreen</span></button></div></div>
+              <div class="map-national-summary" id="map-national-summary"><span class="summary-party dem"><span class="summary-dot"></span><strong id="map-dem-leads">—</strong> Democratic leads</span><span id="map-summary-context">Loading source snapshots</span><span class="summary-party rep"><strong id="map-rep-leads">—</strong> Republican leads <span class="summary-dot"></span></span></div>
+              <div class="map-navigation"><span id="map-view-label">National overview</span><div class="map-layer-actions"><span id="county-layer-controls" hidden><button type="button" id="map-show-states" aria-pressed="true">States</button><button type="button" id="map-show-county-geo" aria-pressed="false" disabled>Counties</button><button type="button" id="map-show-counties" aria-pressed="false">Tiles</button></span><button type="button" id="map-focus-state" hidden>Focus state</button><button type="button" id="map-reset" hidden>Back to U.S.</button></div></div>
+              <div id="results-map" class="results-map"><p class="map-loading">Loading the U.S. map…</p></div><div id="house-results-map" class="house-results-map" hidden></div><div id="county-geographic-view" class="county-geographic-view" hidden><p id="county-geometry-description" class="county-tile-description"></p><div id="county-geographic-map"></div></div><div id="county-tile-view" class="county-tile-view" hidden><p id="county-tile-description" class="county-tile-description"></p><div id="county-tile-grid" class="county-tile-grid" aria-label="County result tiles"></div></div>
+              <div class="map-legend" aria-label="Map legend"><span><i class="dem"></i>Democratic lead</span><span><i class="rep"></i>Republican lead</span><span><i class="other"></i>Other lead</span><span><i class="no-returns"></i>No reported votes / no feed</span></div>
+              <p id="map-geography-note" class="map-geography-note">Select a state to see candidates and reported votes. Colors show a current leader, not a race call.</p>
+              <div class="map-source-footer"><p id="map-data-status" role="status">Connecting to public results…</p><span id="map-geometry-credit">Geography: <a href="https://github.com/topojson/us-atlas" target="_blank" rel="noopener noreferrer">U.S. Census / US Atlas</a> · AK/HI shown as insets</span></div>
+            </section>
+            <aside class="results-sidebar map-results-sidebar" aria-label="Selected race">
+              <section class="race-inspector" aria-labelledby="race-inspector-title"><div class="inspector-eyebrow"><span class="source-indicator"></span>RACE DETAILS</div><label class="visually-hidden" for="results-state">Choose a state</label><select id="results-state"><option value="">Choose a state</option></select><div id="race-inspector-content"><h2 id="race-inspector-title">Explore a race</h2><p class="inspector-empty">Select any state on the map. Connected races show the actual reported vote; states without a source stay gray.</p></div></section>
+              <p class="desk-source-note">Counts and race calls are attributed to their reporting source. A reported lead is not a race call.</p>
+            </aside>
+          </div>
+          <section class="results-race-strip" aria-labelledby="results-available-title"><div><h2 id="results-available-title">Connected races</h2><p id="results-coverage-note">Source coverage is loading.</p></div><div id="results-available-races" class="results-available-races"></div></section>
+        </section>
+    </main>
+    <footer><p>Election Desk 2026 · Public aggregate results</p><p>Reported results: <a href="https://www.cnn.com/election/2026" target="_blank" rel="noopener noreferrer">CNN</a> · <a href="/data/SOURCES.html">Map sources &amp; attribution</a></p></footer>
+  </div>
+  <noscript><p class="noscript-notice">JavaScript is required to display reported results and interactive maps.</p></noscript>
+</body>
+</html>

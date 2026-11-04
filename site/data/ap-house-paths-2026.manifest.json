@@ -1,0 +1,80 @@
+{
+  "artifact": "ap-house-paths-2026.json",
+  "generated_at": "2026-11-04T00:22:09.970157+00:00",
+  "source_url": "https://interactives.apelections.org/election-results/data-live/cycle-2026/maps/US/district/geo.json",
+  "source_retrieved_at": "2026-11-04T00:17:05.336272+00:00",
+  "source_acquisition_sha256": "4d7f6cea5c614c635769fb88fd12bb3f183ad05230eede95152d10d07f40a22c",
+  "decoded_source_sha256": "4d7f6cea5c614c635769fb88fd12bb3f183ad05230eede95152d10d07f40a22c",
+  "render_asset_sha256": "e81f8e22d5784db65b54c9888adc38f839f7af74389167f4840ffd18385fa0ee",
+  "source_cycle": 2026,
+  "boundary_vintage": null,
+  "source_label": "AP published 2026 layout \u00b7 underlying boundary vintage not specified",
+  "attribution": "District outlines: AP published 2026 map.",
+  "local_preview_only": true,
+  "external_deployment_authorized": false,
+  "source_result_verification": {
+    "source_url": "https://politics.api.cnn.io/results/national-races/2026-HG.json",
+    "source_sha256": "c8dfb35fc55dddceede1089d4a49a9560a6ed9c08a7c3208c46b0319c4dac837",
+    "retrieved_at": "2026-11-04T00:21:27.171810+00:00",
+    "snapshot_id": "20261104T002127-8026569c47c1",
+    "included_cnn_slots": 435,
+    "exact_joined_slots": 435,
+    "missing_geometry_keys": [],
+    "missing_result_keys": []
+  },
+  "validation": {
+    "districts": 435,
+    "unique_keys": 435,
+    "closed_svg_paths": true,
+    "finite_centroids": true,
+    "excluded_nonvoting_districts": [
+      "DC98"
+    ],
+    "at_large": [
+      {
+        "id": "AK01",
+        "state": "AK",
+        "district": 1,
+        "at_large": true,
+        "source_district_fips": "00"
+      },
+      {
+        "id": "DE01",
+        "state": "DE",
+        "district": 1,
+        "at_large": true,
+        "source_district_fips": "00"
+      },
+      {
+        "id": "ND01",
+        "state": "ND",
+        "district": 1,
+        "at_large": true,
+        "source_district_fips": "00"
+      },
+      {
+        "id": "SD01",
+        "state": "SD",
+        "district": 1,
+        "at_large": true,
+        "source_district_fips": "00"
+      },
+      {
+        "id": "VT01",
+        "state": "VT",
+        "district": 1,
+        "at_large": true,
+        "source_district_fips": "00"
+      },
+      {
+        "id": "WY01",
+        "state": "WY",
+        "district": 1,
+        "at_large": true,
+        "source_district_fips": "00"
+      }
+    ]
+  },
+  "generator": "build-ap-house-paths.py",
+  "notes": "Exact displayID join only. Atlarge district1 is explicit in APid while source districtFips00 is retained. No APvotes or modeled parameters are copied."
+}

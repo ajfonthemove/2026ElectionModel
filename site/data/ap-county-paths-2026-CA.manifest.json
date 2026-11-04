@@ -1,0 +1,268 @@
+{
+  "artifact": "ap-county-paths-2026-CA.json",
+  "generated_at": "2026-11-04T00:20:58.183925+00:00",
+  "state": "CA",
+  "source_url": "https://interactives.apelections.org/election-results/data-live/cycle-2026/maps/CA/full.json",
+  "detail_source_url": "https://interactives.apelections.org/election-results/data-live/2026-11-03/results/races/CA/20261103CA6123/detail.json",
+  "source_retrieved_at": "2026-11-04T00:17:05.367740+00:00",
+  "source_acquisition_sha256": "4e69acb1659c80a0ed4e2e1260d96bfbaea4eb93111d044621ed3af8f53f2e41",
+  "detail_acquisition_sha256": "17c1a0c80fc1df47ae4ec7fecf22acfbed41124f755975ac50a5965418c46f7a",
+  "decoded_geometry_sha256": "849a21686187f8d304818e7220f51885bc183204286d278c241171dc357c0177",
+  "crosswalk_enriched_geometry_sha256": "38d21bae02377638af5834c6e36257e47f161a66840d5aab9e73394103ffad82",
+  "decoded_detail_sha256": "aba125adcf7871cbf8809938f08d4daebab951b874bf725c36cb1a4fcc900901",
+  "render_asset_sha256": "51a2aedf63ae5e4160c25273c6086b9e47f3b7594485f63f70babe2f88205517",
+  "boundary_vintage": null,
+  "published_cycle": 2026,
+  "source_label": "AP published 2026 layout \u00b7 underlying boundary vintage not specified",
+  "attribution": "County outlines: AP published 2026 map.",
+  "local_preview_only": true,
+  "external_deployment_authorized": false,
+  "projection": "AP preprojected 600\u00d7400 display coordinates; not Albers USA state-map coordinates",
+  "viewBox": "0 0 600 400",
+  "validation": {
+    "expected_count": 58,
+    "actual_count": 58,
+    "unique_county_fips": 58,
+    "unique_ap_ruid": 58,
+    "exact_one_to_one_crosswalk": true,
+    "missing_geometry_fips": [],
+    "finite_centroids": true,
+    "closed_svg_paths": true
+  },
+  "crosswalk": [
+    {
+      "ap_reportingunit_id": "5004",
+      "county_fips": "06007"
+    },
+    {
+      "ap_reportingunit_id": "5011",
+      "county_fips": "06021"
+    },
+    {
+      "ap_reportingunit_id": "5017",
+      "county_fips": "06033"
+    },
+    {
+      "ap_reportingunit_id": "5018",
+      "county_fips": "06035"
+    },
+    {
+      "ap_reportingunit_id": "5023",
+      "county_fips": "06045"
+    },
+    {
+      "ap_reportingunit_id": "5032",
+      "county_fips": "06063"
+    },
+    {
+      "ap_reportingunit_id": "5046",
+      "county_fips": "06091"
+    },
+    {
+      "ap_reportingunit_id": "5049",
+      "county_fips": "06097"
+    },
+    {
+      "ap_reportingunit_id": "5052",
+      "county_fips": "06103"
+    },
+    {
+      "ap_reportingunit_id": "5008",
+      "county_fips": "06015"
+    },
+    {
+      "ap_reportingunit_id": "5012",
+      "county_fips": "06023"
+    },
+    {
+      "ap_reportingunit_id": "5021",
+      "county_fips": "06041"
+    },
+    {
+      "ap_reportingunit_id": "5025",
+      "county_fips": "06049"
+    },
+    {
+      "ap_reportingunit_id": "5045",
+      "county_fips": "06089"
+    },
+    {
+      "ap_reportingunit_id": "5047",
+      "county_fips": "06093"
+    },
+    {
+      "ap_reportingunit_id": "5053",
+      "county_fips": "06105"
+    },
+    {
+      "ap_reportingunit_id": "5009",
+      "county_fips": "06017"
+    },
+    {
+      "ap_reportingunit_id": "5029",
+      "county_fips": "06057"
+    },
+    {
+      "ap_reportingunit_id": "5031",
+      "county_fips": "06061"
+    },
+    {
+      "ap_reportingunit_id": "5034",
+      "county_fips": "06067"
+    },
+    {
+      "ap_reportingunit_id": "5006",
+      "county_fips": "06011"
+    },
+    {
+      "ap_reportingunit_id": "5028",
+      "county_fips": "06055"
+    },
+    {
+      "ap_reportingunit_id": "5051",
+      "county_fips": "06101"
+    },
+    {
+      "ap_reportingunit_id": "5057",
+      "county_fips": "06113"
+    },
+    {
+      "ap_reportingunit_id": "5058",
+      "county_fips": "06115"
+    },
+    {
+      "ap_reportingunit_id": "5002",
+      "county_fips": "06003"
+    },
+    {
+      "ap_reportingunit_id": "5003",
+      "county_fips": "06005"
+    },
+    {
+      "ap_reportingunit_id": "5005",
+      "county_fips": "06009"
+    },
+    {
+      "ap_reportingunit_id": "5010",
+      "county_fips": "06019"
+    },
+    {
+      "ap_reportingunit_id": "5014",
+      "county_fips": "06027"
+    },
+    {
+      "ap_reportingunit_id": "5020",
+      "county_fips": "06039"
+    },
+    {
+      "ap_reportingunit_id": "5022",
+      "county_fips": "06043"
+    },
+    {
+      "ap_reportingunit_id": "5026",
+      "county_fips": "06051"
+    },
+    {
+      "ap_reportingunit_id": "5039",
+      "county_fips": "06077"
+    },
+    {
+      "ap_reportingunit_id": "5050",
+      "county_fips": "06099"
+    },
+    {
+      "ap_reportingunit_id": "5055",
+      "county_fips": "06109"
+    },
+    {
+      "ap_reportingunit_id": "5007",
+      "county_fips": "06013"
+    },
+    {
+      "ap_reportingunit_id": "5048",
+      "county_fips": "06095"
+    },
+    {
+      "ap_reportingunit_id": "5001",
+      "county_fips": "06001"
+    },
+    {
+      "ap_reportingunit_id": "5038",
+      "county_fips": "06075"
+    },
+    {
+      "ap_reportingunit_id": "5024",
+      "county_fips": "06047"
+    },
+    {
+      "ap_reportingunit_id": "5041",
+      "county_fips": "06081"
+    },
+    {
+      "ap_reportingunit_id": "5043",
+      "county_fips": "06085"
+    },
+    {
+      "ap_reportingunit_id": "5016",
+      "county_fips": "06031"
+    },
+    {
+      "ap_reportingunit_id": "5027",
+      "county_fips": "06053"
+    },
+    {
+      "ap_reportingunit_id": "5035",
+      "county_fips": "06069"
+    },
+    {
+      "ap_reportingunit_id": "5044",
+      "county_fips": "06087"
+    },
+    {
+      "ap_reportingunit_id": "5040",
+      "county_fips": "06079"
+    },
+    {
+      "ap_reportingunit_id": "5015",
+      "county_fips": "06029"
+    },
+    {
+      "ap_reportingunit_id": "5054",
+      "county_fips": "06107"
+    },
+    {
+      "ap_reportingunit_id": "5019",
+      "county_fips": "06037"
+    },
+    {
+      "ap_reportingunit_id": "5033",
+      "county_fips": "06065"
+    },
+    {
+      "ap_reportingunit_id": "5036",
+      "county_fips": "06071"
+    },
+    {
+      "ap_reportingunit_id": "5042",
+      "county_fips": "06083"
+    },
+    {
+      "ap_reportingunit_id": "5056",
+      "county_fips": "06111"
+    },
+    {
+      "ap_reportingunit_id": "5013",
+      "county_fips": "06025"
+    },
+    {
+      "ap_reportingunit_id": "5030",
+      "county_fips": "06059"
+    },
+    {
+      "ap_reportingunit_id": "5037",
+      "county_fips": "06073"
+    }
+  ],
+  "generator": "build-ap-county-paths.py",
+  "notes": "No AP votes, expected-vote parameters or model outputs are included in this geometry asset. No fuzzy matching or guessed FIPS."
+}

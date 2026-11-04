@@ -1,0 +1,10 @@
+{
+  "name": "election-results-public",
+  "main": "index.js",
+  "compatibility_date": "2025-04-01",
+  "assets": {
+    "directory": "../site",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/*"]
+  }
+}

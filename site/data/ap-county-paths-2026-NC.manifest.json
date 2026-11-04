@@ -1,0 +1,436 @@
+{
+  "artifact": "ap-county-paths-2026-NC.json",
+  "generated_at": "2026-11-04T00:20:58.203771+00:00",
+  "state": "NC",
+  "source_url": "https://interactives.apelections.org/election-results/data-live/cycle-2026/maps/NC/full.json",
+  "detail_source_url": "https://interactives.apelections.org/election-results/data-live/2026-11-03/results/races/NC/20261103NC35984/detail.json",
+  "source_retrieved_at": "2026-11-04T00:17:41.777268+00:00",
+  "source_acquisition_sha256": "e78389ba7c3257397b6714ebe95bb37ffadc54711fac624a0af8607b601372be",
+  "detail_acquisition_sha256": "85fd984cf8053ad70c286f143a246dadd7c2556e59a9f9f1a585c6c4c03df951",
+  "decoded_geometry_sha256": "fbb8cfb478934ce8cbc56f85533dac0a25ae64172eaeaf641cdf07d58e97aa6b",
+  "crosswalk_enriched_geometry_sha256": "dbc6c9cdd7f76665c1fa3cb463f056e145379985d40b52abb24339d43a0cb35b",
+  "decoded_detail_sha256": "6b26e360229f994f8b58b0d72d453c02003cab0911b95bcb124e51ce8a9ea24a",
+  "render_asset_sha256": "33c5194e9655bde262218f0fa8b782ef1bfa818d6b8f6fe39d198dc752a6860b",
+  "boundary_vintage": null,
+  "published_cycle": 2026,
+  "source_label": "AP published 2026 layout \u00b7 underlying boundary vintage not specified",
+  "attribution": "County outlines: AP published 2026 map.",
+  "local_preview_only": true,
+  "external_deployment_authorized": false,
+  "projection": "AP preprojected 600\u00d7400 display coordinates; not Albers USA state-map coordinates",
+  "viewBox": "0 0 600 400",
+  "validation": {
+    "expected_count": 100,
+    "actual_count": 100,
+    "unique_county_fips": 100,
+    "unique_ap_ruid": 100,
+    "exact_one_to_one_crosswalk": true,
+    "missing_geometry_fips": [],
+    "finite_centroids": true,
+    "closed_svg_paths": true
+  },
+  "crosswalk": [
+    {
+      "ap_reportingunit_id": "34007",
+      "county_fips": "37013"
+    },
+    {
+      "ap_reportingunit_id": "34008",
+      "county_fips": "37015"
+    },
+    {
+      "ap_reportingunit_id": "34015",
+      "county_fips": "37029"
+    },
+    {
+      "ap_reportingunit_id": "34016",
+      "county_fips": "37031"
+    },
+    {
+      "ap_reportingunit_id": "34021",
+      "county_fips": "37041"
+    },
+    {
+      "ap_reportingunit_id": "34025",
+      "county_fips": "37049"
+    },
+    {
+      "ap_reportingunit_id": "34027",
+      "county_fips": "37053"
+    },
+    {
+      "ap_reportingunit_id": "34028",
+      "county_fips": "37055"
+    },
+    {
+      "ap_reportingunit_id": "34033",
+      "county_fips": "37065"
+    },
+    {
+      "ap_reportingunit_id": "34037",
+      "county_fips": "37073"
+    },
+    {
+      "ap_reportingunit_id": "34039",
+      "county_fips": "37077"
+    },
+    {
+      "ap_reportingunit_id": "34042",
+      "county_fips": "37083"
+    },
+    {
+      "ap_reportingunit_id": "34046",
+      "county_fips": "37091"
+    },
+    {
+      "ap_reportingunit_id": "34048",
+      "county_fips": "37095"
+    },
+    {
+      "ap_reportingunit_id": "34059",
+      "county_fips": "37117"
+    },
+    {
+      "ap_reportingunit_id": "34064",
+      "county_fips": "37127"
+    },
+    {
+      "ap_reportingunit_id": "34066",
+      "county_fips": "37131"
+    },
+    {
+      "ap_reportingunit_id": "34067",
+      "county_fips": "37133"
+    },
+    {
+      "ap_reportingunit_id": "34069",
+      "county_fips": "37137"
+    },
+    {
+      "ap_reportingunit_id": "34070",
+      "county_fips": "37139"
+    },
+    {
+      "ap_reportingunit_id": "34072",
+      "county_fips": "37143"
+    },
+    {
+      "ap_reportingunit_id": "34089",
+      "county_fips": "37177"
+    },
+    {
+      "ap_reportingunit_id": "34091",
+      "county_fips": "37181"
+    },
+    {
+      "ap_reportingunit_id": "34093",
+      "county_fips": "37185"
+    },
+    {
+      "ap_reportingunit_id": "34094",
+      "county_fips": "37187"
+    },
+    {
+      "ap_reportingunit_id": "34092",
+      "county_fips": "37183"
+    },
+    {
+      "ap_reportingunit_id": "34031",
+      "county_fips": "37061"
+    },
+    {
+      "ap_reportingunit_id": "34040",
+      "county_fips": "37079"
+    },
+    {
+      "ap_reportingunit_id": "34052",
+      "county_fips": "37103"
+    },
+    {
+      "ap_reportingunit_id": "34054",
+      "county_fips": "37107"
+    },
+    {
+      "ap_reportingunit_id": "34074",
+      "county_fips": "37147"
+    },
+    {
+      "ap_reportingunit_id": "34082",
+      "county_fips": "37163"
+    },
+    {
+      "ap_reportingunit_id": "34096",
+      "county_fips": "37191"
+    },
+    {
+      "ap_reportingunit_id": "34098",
+      "county_fips": "37195"
+    },
+    {
+      "ap_reportingunit_id": "34019",
+      "county_fips": "37037"
+    },
+    {
+      "ap_reportingunit_id": "34032",
+      "county_fips": "37063"
+    },
+    {
+      "ap_reportingunit_id": "34068",
+      "county_fips": "37135"
+    },
+    {
+      "ap_reportingunit_id": "34002",
+      "county_fips": "37003"
+    },
+    {
+      "ap_reportingunit_id": "34003",
+      "county_fips": "37005"
+    },
+    {
+      "ap_reportingunit_id": "34005",
+      "county_fips": "37009"
+    },
+    {
+      "ap_reportingunit_id": "34014",
+      "county_fips": "37027"
+    },
+    {
+      "ap_reportingunit_id": "34041",
+      "county_fips": "37081"
+    },
+    {
+      "ap_reportingunit_id": "34079",
+      "county_fips": "37157"
+    },
+    {
+      "ap_reportingunit_id": "34085",
+      "county_fips": "37169"
+    },
+    {
+      "ap_reportingunit_id": "34086",
+      "county_fips": "37171"
+    },
+    {
+      "ap_reportingunit_id": "34095",
+      "county_fips": "37189"
+    },
+    {
+      "ap_reportingunit_id": "34097",
+      "county_fips": "37193"
+    },
+    {
+      "ap_reportingunit_id": "34013",
+      "county_fips": "37025"
+    },
+    {
+      "ap_reportingunit_id": "34029",
+      "county_fips": "37057"
+    },
+    {
+      "ap_reportingunit_id": "34030",
+      "county_fips": "37059"
+    },
+    {
+      "ap_reportingunit_id": "34034",
+      "county_fips": "37067"
+    },
+    {
+      "ap_reportingunit_id": "34080",
+      "county_fips": "37159"
+    },
+    {
+      "ap_reportingunit_id": "34009",
+      "county_fips": "37017"
+    },
+    {
+      "ap_reportingunit_id": "34010",
+      "county_fips": "37019"
+    },
+    {
+      "ap_reportingunit_id": "34024",
+      "county_fips": "37047"
+    },
+    {
+      "ap_reportingunit_id": "34026",
+      "county_fips": "37051"
+    },
+    {
+      "ap_reportingunit_id": "34065",
+      "county_fips": "37129"
+    },
+    {
+      "ap_reportingunit_id": "34071",
+      "county_fips": "37141"
+    },
+    {
+      "ap_reportingunit_id": "34078",
+      "county_fips": "37155"
+    },
+    {
+      "ap_reportingunit_id": "34004",
+      "county_fips": "37007"
+    },
+    {
+      "ap_reportingunit_id": "34060",
+      "county_fips": "37119"
+    },
+    {
+      "ap_reportingunit_id": "34062",
+      "county_fips": "37123"
+    },
+    {
+      "ap_reportingunit_id": "34077",
+      "county_fips": "37153"
+    },
+    {
+      "ap_reportingunit_id": "34083",
+      "county_fips": "37165"
+    },
+    {
+      "ap_reportingunit_id": "34084",
+      "county_fips": "37167"
+    },
+    {
+      "ap_reportingunit_id": "34090",
+      "county_fips": "37179"
+    },
+    {
+      "ap_reportingunit_id": "34001",
+      "county_fips": "37001"
+    },
+    {
+      "ap_reportingunit_id": "34047",
+      "county_fips": "37093"
+    },
+    {
+      "ap_reportingunit_id": "34063",
+      "county_fips": "37125"
+    },
+    {
+      "ap_reportingunit_id": "34076",
+      "county_fips": "37151"
+    },
+    {
+      "ap_reportingunit_id": "34018",
+      "county_fips": "37035"
+    },
+    {
+      "ap_reportingunit_id": "34049",
+      "county_fips": "37097"
+    },
+    {
+      "ap_reportingunit_id": "34055",
+      "county_fips": "37109"
+    },
+    {
+      "ap_reportingunit_id": "34099",
+      "county_fips": "37197"
+    },
+    {
+      "ap_reportingunit_id": "34006",
+      "county_fips": "37011"
+    },
+    {
+      "ap_reportingunit_id": "34011",
+      "county_fips": "37021"
+    },
+    {
+      "ap_reportingunit_id": "34020",
+      "county_fips": "37039"
+    },
+    {
+      "ap_reportingunit_id": "34022",
+      "county_fips": "37043"
+    },
+    {
+      "ap_reportingunit_id": "34038",
+      "county_fips": "37075"
+    },
+    {
+      "ap_reportingunit_id": "34044",
+      "county_fips": "37087"
+    },
+    {
+      "ap_reportingunit_id": "34045",
+      "county_fips": "37089"
+    },
+    {
+      "ap_reportingunit_id": "34050",
+      "county_fips": "37099"
+    },
+    {
+      "ap_reportingunit_id": "34056",
+      "county_fips": "37111"
+    },
+    {
+      "ap_reportingunit_id": "34057",
+      "county_fips": "37113"
+    },
+    {
+      "ap_reportingunit_id": "34058",
+      "county_fips": "37115"
+    },
+    {
+      "ap_reportingunit_id": "34061",
+      "county_fips": "37121"
+    },
+    {
+      "ap_reportingunit_id": "34075",
+      "county_fips": "37149"
+    },
+    {
+      "ap_reportingunit_id": "34087",
+      "county_fips": "37173"
+    },
+    {
+      "ap_reportingunit_id": "34088",
+      "county_fips": "37175"
+    },
+    {
+      "ap_reportingunit_id": "34100",
+      "county_fips": "37199"
+    },
+    {
+      "ap_reportingunit_id": "34017",
+      "county_fips": "37033"
+    },
+    {
+      "ap_reportingunit_id": "34035",
+      "county_fips": "37069"
+    },
+    {
+      "ap_reportingunit_id": "34043",
+      "county_fips": "37085"
+    },
+    {
+      "ap_reportingunit_id": "34051",
+      "county_fips": "37101"
+    },
+    {
+      "ap_reportingunit_id": "34053",
+      "county_fips": "37105"
+    },
+    {
+      "ap_reportingunit_id": "34073",
+      "county_fips": "37145"
+    },
+    {
+      "ap_reportingunit_id": "34012",
+      "county_fips": "37023"
+    },
+    {
+      "ap_reportingunit_id": "34023",
+      "county_fips": "37045"
+    },
+    {
+      "ap_reportingunit_id": "34036",
+      "county_fips": "37071"
+    },
+    {
+      "ap_reportingunit_id": "34081",
+      "county_fips": "37161"
+    }
+  ],
+  "generator": "build-ap-county-paths.py",
+  "notes": "No AP votes, expected-vote parameters or model outputs are included in this geometry asset. No fuzzy matching or guessed FIPS."
+}

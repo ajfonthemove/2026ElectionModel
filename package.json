@@ -1,0 +1,14 @@
+{
+  "name": "election-desk-2026-results",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Results-only 2026 election dashboard",
+  "scripts": {
+    "test": "node site-worker/test/worker.test.js",
+    "build": "node scripts/build-results-site.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
