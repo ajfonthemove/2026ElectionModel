@@ -101,9 +101,9 @@ export function drawHouseMap(container, { geography, values, selectedKey, focusS
   const paths = [];
   for (const district of geography.districts) {
     const value = values.get(district.key);
-    const path = svg('path', { d: district.path, 'fill-rule': 'evenodd', 'data-district-key': district.key, class: 'map-district ' + (value?.party || 'no-returns') + (selectedKey === district.key ? ' selected' : ''), role: 'button', tabindex: '0', 'aria-label': value?.description || district.name + ': no connected results', 'aria-pressed': String(selectedKey === district.key) });
+    const path = svg('path', { d: district.path, 'fill-rule': 'evenodd', 'data-district-key': district.key, class: 'map-district ' + (value?.party || 'no-returns') + (selectedKey === district.key ? ' selected' : ''), role: 'button', tabindex: '0', 'aria-label': value?.description || district.name, 'aria-pressed': String(selectedKey === district.key) });
     if (value?.fill) path.style.fill = value.fill;
-    const hint = svg('title'); hint.textContent = value?.description || district.name + '\nNo connected results'; path.append(hint);
+    const hint = svg('title'); hint.textContent = value?.description || district.name; path.append(hint);
     path.addEventListener('click', () => onSelect(district.key, district));
     path.addEventListener('keydown', (event) => {
       if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); onSelect(district.key, district); }
@@ -150,10 +150,10 @@ export function drawCountyMap(container, { geography, stateFips, values, selecte
   for (const county of features) {
     const value = values.get(county.id);
     const name = value?.name || county.name || county.id;
-    const description = value?.description || 'No exact FIPS result available';
-    const path = svg('path', { d: county.path, 'fill-rule': 'evenodd', 'data-county-fips': county.id, class: 'map-county ' + (value?.party || 'no-returns') + (selected === county.id ? ' selected' : ''), role: 'button', tabindex: '0', 'aria-pressed': String(selected === county.id), 'aria-label': name + ': ' + description });
+    const description = value?.description || '';
+    const path = svg('path', { d: county.path, 'fill-rule': 'evenodd', 'data-county-fips': county.id, class: 'map-county ' + (value?.party || 'no-returns') + (selected === county.id ? ' selected' : ''), role: 'button', tabindex: '0', 'aria-pressed': String(selected === county.id), 'aria-label': name + (description ? ': ' + description : '') });
     if (value?.fill) path.style.fill = value.fill;
-    const hint = svg('title'); hint.textContent = name + '\n' + description; path.append(hint);
+    const hint = svg('title'); hint.textContent = name + (description ? '\n' + description : ''); path.append(hint);
     path.addEventListener('click', () => { if (value) onSelect(county.id); });
     path.addEventListener('keydown', (event) => {
       if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); if (value) onSelect(county.id); }
@@ -183,7 +183,7 @@ export async function createElectionMap(container, onSelect) {
   const labels = svg('g', { class: 'map-state-labels', 'aria-hidden': 'true' });
   const smallStates = new Set(['DE', 'RI', 'DC', 'CT', 'MA', 'NJ', 'MD']);
   for (const state of geography.states) {
-    const path = svg('path', { d: state.path, 'data-state': state.state, 'fill-rule': 'evenodd', class: 'map-state no-returns', role: 'button', tabindex: '0', 'aria-label': state.name + ': no reported votes', 'aria-pressed': 'false' });
+    const path = svg('path', { d: state.path, 'data-state': state.state, 'fill-rule': 'evenodd', class: 'map-state no-returns', role: 'button', tabindex: '0', 'aria-label': state.name, 'aria-pressed': 'false' });
     const hint = svg('title'); hint.textContent = state.name; path.append(hint);
     path.addEventListener('click', () => onSelect(state.state));
     path.addEventListener('keydown', (event) => {
@@ -221,8 +221,8 @@ export async function createElectionMap(container, onSelect) {
         path.classList.add(value.party || 'no-returns');
         path.style.fill = value.fill || '';
         if (value.called) path.classList.add('source-called');
-        path.setAttribute('aria-label', state.name + ': ' + (value.description || 'no reported votes / no connected feed'));
-        path.querySelector('title').textContent = state.name + '\n' + (value.description || 'No reported votes / no connected feed');
+        path.setAttribute('aria-label', state.name + (value.description ? ': ' + value.description : ''));
+        path.querySelector('title').textContent = state.name + (value.description ? '\n' + value.description : '');
       }
     },
     setSelected(code) {

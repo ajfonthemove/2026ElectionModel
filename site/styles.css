@@ -513,3 +513,57 @@ body.results-mode{background:#f1f4f8;font-size:16px;color:#1a2940}
   .registration-overview-table .registration-overview-count small{white-space:normal;max-width:110px}
   .registration-overview-table .registration-overview-count.dem,.registration-overview-table .registration-overview-count.rep{min-width:120px!important}
 }
+
+/* National composition stays independent of the selected geography. */
+.chamber-summary{background:#fff;border:1px solid #d5dfeb;border-radius:6px;padding:16px 20px;margin:3px 0 17px}
+.chamber-summary-heading{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:13px}
+.chamber-summary-heading h2{font:700 20px/1.3 var(--sans);color:#1b3957;margin:0}
+.chamber-summary-heading>span{font-size:11px;color:#657b92}
+.chamber-parties{display:flex;gap:25px;align-items:baseline;justify-content:space-between}
+.chamber-party{display:grid;grid-template-columns:auto auto;align-items:baseline;column-gap:11px;row-gap:2px;min-width:0;color:#60738a}
+.chamber-party>span{font-size:12px;font-weight:600}
+.chamber-party>strong{font-size:31px;line-height:1.1;font-weight:750;font-variant-numeric:tabular-nums;letter-spacing:-.6px}
+.chamber-party>small{grid-column:1/-1;font-size:10px;color:#6b7d91}
+.chamber-party.dem{color:var(--dem)}
+.chamber-party.rep{color:var(--rep)}
+.chamber-party.ind{color:#7760a8}
+.chamber-party.other{color:#8c7252}
+.chamber-party.undecided{color:#7a8796}
+.chamber-seat-bar{display:flex;gap:2px;height:9px;overflow:hidden;border-radius:2px;margin-top:13px;background:#e5eaf0}
+.chamber-seat-bar>span{min-width:0}
+.chamber-seat-bar .dem{background:var(--dem)}
+.chamber-seat-bar .rep{background:var(--rep)}
+.chamber-seat-bar .ind{background:#8874b6}
+.chamber-seat-bar .other{background:#a38b68}
+.chamber-seat-bar .undecided{background:#d9e0e9}
+.chamber-summary-meta{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:8px;color:#667b92;font-size:10px}
+.chamber-summary-meta a{font-size:10px;color:#4f7197}
+.map-geography-note:empty,#results-comparison-status:empty,.registration-reference-meta:empty,.inspector-source:empty{display:none}
+.comparison-columns:has(>.comparison-party-card:only-child){grid-template-columns:1fr}
+.registration-reference>.registration-source-details{margin-top:7px}
+.registration-reference-meta{align-items:center;justify-content:space-between}
+.registration-reference-meta a{margin:0}
+.registration-snapshot-cell>.registration-source-details{margin-top:2px}
+@media(max-width:800px){
+ .chamber-summary{padding:13px 15px;margin:2px 0 12px}
+ .chamber-summary-heading{margin-bottom:10px}
+ .chamber-summary-heading h2{font-size:18px}
+ .chamber-parties{gap:13px}
+ .chamber-party{display:flex;flex-direction:column;gap:3px}
+ .chamber-party>span{font-size:11px}
+ .chamber-party>strong{font-size:29px}
+ .chamber-party>small{font-size:9px}
+ .chamber-summary-meta{gap:7px;flex-wrap:wrap;font-size:10px}
+ .chamber-seat-bar{margin-top:10px;height:7px}
+}
+@media(max-width:520px){
+ .chamber-summary{padding:11px 12px}
+ .chamber-summary-heading h2{font-size:16px}
+ .chamber-summary-heading>span{font-size:10px}
+ .chamber-parties{gap:8px}
+ .chamber-party>span{font-size:10px}
+ .chamber-party>strong{font-size:26px}
+ .chamber-party>small{font-size:9px;line-height:1.4}
+ .chamber-summary-meta{font-size:9px}
+ .chamber-summary-meta a{font-size:9px}
+}

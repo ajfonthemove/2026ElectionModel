@@ -1,0 +1,5119 @@
+{
+  "schema_version": "chamber_reference_2026_v1",
+  "cycle": 2026,
+  "as_of": "2026-11-04T20:17:23.807225+00:00",
+  "sources": [
+    {
+      "id": "senators-official",
+      "name": "U.S. Senate current roster",
+      "url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+      "sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+      "retrieved_at": "2026-11-04T20:15:48.825960+00:00",
+      "capture_format": "original_response_bytes"
+    },
+    {
+      "id": "senate-classes",
+      "name": "U.S. Senate ClassII terms and membership",
+      "url": "https://www.senate.gov/senators/Class_II.htm",
+      "sha256": "0aef363da02d696cfbbcd4895d17e291197b5f6a5619790c6a8bdb545a247ad9",
+      "retrieved_at": "2026-11-04T20:15:48.940936+00:00",
+      "capture_format": "original_response_bytes"
+    },
+    {
+      "id": "legislators-current",
+      "name": "United States Congress legislators current terms",
+      "url": "https://raw.githubusercontent.com/unitedstates/congress-legislators/main/legislators-current.yaml",
+      "sha256": "fcd8e7f3b8b8286d99056a2be95907c7f6bce4d2dce069a074aa2f6970ecc717",
+      "retrieved_at": "2026-11-04T20:15:49.885597+00:00",
+      "capture_format": "original_response_bytes"
+    },
+    {
+      "id": "governor-2026-ballotpedia",
+      "name": "Ballotpedia2026 gubernatorial election inventory",
+      "url": "https://ballotpedia.org/Gubernatorial_elections,_2026",
+      "sha256": "770ddd1fe893772e73d423a73f03343e8cdfbd0e856f1df4ed0b9d71bcc2bffd",
+      "retrieved_at": "2026-11-04T20:16:59.855394+00:00",
+      "capture_format": "original_response_bytes"
+    },
+    {
+      "id": "nga-roster",
+      "name": "National Governors Association current governor party roster",
+      "url": "https://www.nga.org/wp-content/uploads/2024/12/Governors-Roster.pdf",
+      "sha256": "4d71f8d1d0d5028db4a50e0fa57d420630bad3eac86702caef90990cb6ff9ae1",
+      "retrieved_at": "2026-11-04T20:17:23.807225+00:00",
+      "capture_format": "web_tool_rendered_extract_bundle"
+    },
+    {
+      "id": "senate-caucus",
+      "name": "U.S. Senate Daily Press party lineup and independent caucuses",
+      "url": "https://www.dailypress.senate.gov/on-the-floor/senate-facts/",
+      "sha256": "4d71f8d1d0d5028db4a50e0fa57d420630bad3eac86702caef90990cb6ff9ae1",
+      "retrieved_at": "2026-11-04T20:17:23.807225+00:00",
+      "capture_format": "web_tool_rendered_extract_bundle"
+    },
+    {
+      "id": "house-2026-geography",
+      "name": "Published2026 U.S. House district inventory",
+      "url": "https://interactives.apelections.org/election-results/data-live/cycle-2026/maps/US/district/geo.json",
+      "sha256": "e81f8e22d5784db65b54c9888adc38f839f7af74389167f4840ffd18385fa0ee",
+      "retrieved_at": "2026-11-04T00:17:05.336272+00:00",
+      "generated_at": "2026-11-04T00:22:09.970157+00:00",
+      "verified_at": "2026-11-04T20:17:23.807225+00:00",
+      "capture_format": "previously_verified_derived_geometry_inventory",
+      "upstream_sha256": "4d7f6cea5c614c635769fb88fd12bb3f183ad05230eede95152d10d07f40a22c"
+    }
+  ],
+  "offices": {
+    "senate": {
+      "total": 100,
+      "seats": [
+        {
+          "seat_id": "AK-2",
+          "state": "AK",
+          "class": 2,
+          "up_for_election": true,
+          "special": false,
+          "race_id": "2026-SG-AK",
+          "source_id": "senate-classes"
+        },
+        {
+          "seat_id": "AK-3",
+          "state": "AK",
+          "class": 3,
+          "up_for_election": false,
+          "special": false,
+          "name": "Lisa Murkowski",
+          "party": "REP",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2029-01-03"
+        },
+        {
+          "seat_id": "AL-2",
+          "state": "AL",
+          "class": 2,
+          "up_for_election": true,
+          "special": false,
+          "race_id": "2026-SG-AL",
+          "source_id": "senate-classes"
+        },
+        {
+          "seat_id": "AL-3",
+          "state": "AL",
+          "class": 3,
+          "up_for_election": false,
+          "special": false,
+          "name": "Katie Boyd Britt",
+          "party": "REP",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2029-01-03"
+        },
+        {
+          "seat_id": "AR-2",
+          "state": "AR",
+          "class": 2,
+          "up_for_election": true,
+          "special": false,
+          "race_id": "2026-SG-AR",
+          "source_id": "senate-classes"
+        },
+        {
+          "seat_id": "AR-3",
+          "state": "AR",
+          "class": 3,
+          "up_for_election": false,
+          "special": false,
+          "name": "John Boozman",
+          "party": "REP",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2029-01-03"
+        },
+        {
+          "seat_id": "AZ-1",
+          "state": "AZ",
+          "class": 1,
+          "up_for_election": false,
+          "special": false,
+          "name": "Ruben Gallego",
+          "party": "DEM",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2031-01-03"
+        },
+        {
+          "seat_id": "AZ-3",
+          "state": "AZ",
+          "class": 3,
+          "up_for_election": false,
+          "special": false,
+          "name": "Mark Kelly",
+          "party": "DEM",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2029-01-03"
+        },
+        {
+          "seat_id": "CA-1",
+          "state": "CA",
+          "class": 1,
+          "up_for_election": false,
+          "special": false,
+          "name": "Adam B. Schiff",
+          "party": "DEM",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2031-01-03"
+        },
+        {
+          "seat_id": "CA-3",
+          "state": "CA",
+          "class": 3,
+          "up_for_election": false,
+          "special": false,
+          "name": "Alex Padilla",
+          "party": "DEM",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2029-01-03"
+        },
+        {
+          "seat_id": "CO-2",
+          "state": "CO",
+          "class": 2,
+          "up_for_election": true,
+          "special": false,
+          "race_id": "2026-SG-CO",
+          "source_id": "senate-classes"
+        },
+        {
+          "seat_id": "CO-3",
+          "state": "CO",
+          "class": 3,
+          "up_for_election": false,
+          "special": false,
+          "name": "Michael F. Bennet",
+          "party": "DEM",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2029-01-03"
+        },
+        {
+          "seat_id": "CT-1",
+          "state": "CT",
+          "class": 1,
+          "up_for_election": false,
+          "special": false,
+          "name": "Christopher Murphy",
+          "party": "DEM",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2031-01-03"
+        },
+        {
+          "seat_id": "CT-3",
+          "state": "CT",
+          "class": 3,
+          "up_for_election": false,
+          "special": false,
+          "name": "Richard Blumenthal",
+          "party": "DEM",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2029-01-03"
+        },
+        {
+          "seat_id": "DE-1",
+          "state": "DE",
+          "class": 1,
+          "up_for_election": false,
+          "special": false,
+          "name": "Lisa Blunt Rochester",
+          "party": "DEM",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2031-01-03"
+        },
+        {
+          "seat_id": "DE-2",
+          "state": "DE",
+          "class": 2,
+          "up_for_election": true,
+          "special": false,
+          "race_id": "2026-SG-DE",
+          "source_id": "senate-classes"
+        },
+        {
+          "seat_id": "FL-1",
+          "state": "FL",
+          "class": 1,
+          "up_for_election": false,
+          "special": false,
+          "name": "Rick Scott",
+          "party": "REP",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2031-01-03"
+        },
+        {
+          "seat_id": "FL-3",
+          "state": "FL",
+          "class": 3,
+          "up_for_election": true,
+          "special": true,
+          "race_id": "2026-SP-FL",
+          "source_id": "senate-classes"
+        },
+        {
+          "seat_id": "GA-2",
+          "state": "GA",
+          "class": 2,
+          "up_for_election": true,
+          "special": false,
+          "race_id": "2026-SG-GA",
+          "source_id": "senate-classes"
+        },
+        {
+          "seat_id": "GA-3",
+          "state": "GA",
+          "class": 3,
+          "up_for_election": false,
+          "special": false,
+          "name": "Raphael G. Warnock",
+          "party": "DEM",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2029-01-03"
+        },
+        {
+          "seat_id": "HI-1",
+          "state": "HI",
+          "class": 1,
+          "up_for_election": false,
+          "special": false,
+          "name": "Mazie K. Hirono",
+          "party": "DEM",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2031-01-03"
+        },
+        {
+          "seat_id": "HI-3",
+          "state": "HI",
+          "class": 3,
+          "up_for_election": false,
+          "special": false,
+          "name": "Brian Schatz",
+          "party": "DEM",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2029-01-03"
+        },
+        {
+          "seat_id": "IA-2",
+          "state": "IA",
+          "class": 2,
+          "up_for_election": true,
+          "special": false,
+          "race_id": "2026-SG-IA",
+          "source_id": "senate-classes"
+        },
+        {
+          "seat_id": "IA-3",
+          "state": "IA",
+          "class": 3,
+          "up_for_election": false,
+          "special": false,
+          "name": "Chuck Grassley",
+          "party": "REP",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2029-01-03"
+        },
+        {
+          "seat_id": "ID-2",
+          "state": "ID",
+          "class": 2,
+          "up_for_election": true,
+          "special": false,
+          "race_id": "2026-SG-ID",
+          "source_id": "senate-classes"
+        },
+        {
+          "seat_id": "ID-3",
+          "state": "ID",
+          "class": 3,
+          "up_for_election": false,
+          "special": false,
+          "name": "Mike Crapo",
+          "party": "REP",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2029-01-03"
+        },
+        {
+          "seat_id": "IL-2",
+          "state": "IL",
+          "class": 2,
+          "up_for_election": true,
+          "special": false,
+          "race_id": "2026-SG-IL",
+          "source_id": "senate-classes"
+        },
+        {
+          "seat_id": "IL-3",
+          "state": "IL",
+          "class": 3,
+          "up_for_election": false,
+          "special": false,
+          "name": "Tammy Duckworth",
+          "party": "DEM",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2029-01-03"
+        },
+        {
+          "seat_id": "IN-1",
+          "state": "IN",
+          "class": 1,
+          "up_for_election": false,
+          "special": false,
+          "name": "Jim Banks",
+          "party": "REP",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2031-01-03"
+        },
+        {
+          "seat_id": "IN-3",
+          "state": "IN",
+          "class": 3,
+          "up_for_election": false,
+          "special": false,
+          "name": "Todd Young",
+          "party": "REP",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2029-01-03"
+        },
+        {
+          "seat_id": "KS-2",
+          "state": "KS",
+          "class": 2,
+          "up_for_election": true,
+          "special": false,
+          "race_id": "2026-SG-KS",
+          "source_id": "senate-classes"
+        },
+        {
+          "seat_id": "KS-3",
+          "state": "KS",
+          "class": 3,
+          "up_for_election": false,
+          "special": false,
+          "name": "Jerry Moran",
+          "party": "REP",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2029-01-03"
+        },
+        {
+          "seat_id": "KY-2",
+          "state": "KY",
+          "class": 2,
+          "up_for_election": true,
+          "special": false,
+          "race_id": "2026-SG-KY",
+          "source_id": "senate-classes"
+        },
+        {
+          "seat_id": "KY-3",
+          "state": "KY",
+          "class": 3,
+          "up_for_election": false,
+          "special": false,
+          "name": "Rand Paul",
+          "party": "REP",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2029-01-03"
+        },
+        {
+          "seat_id": "LA-2",
+          "state": "LA",
+          "class": 2,
+          "up_for_election": true,
+          "special": false,
+          "race_id": "2026-SG-LA",
+          "source_id": "senate-classes"
+        },
+        {
+          "seat_id": "LA-3",
+          "state": "LA",
+          "class": 3,
+          "up_for_election": false,
+          "special": false,
+          "name": "John Kennedy",
+          "party": "REP",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2029-01-03"
+        },
+        {
+          "seat_id": "MA-1",
+          "state": "MA",
+          "class": 1,
+          "up_for_election": false,
+          "special": false,
+          "name": "Elizabeth Warren",
+          "party": "DEM",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2031-01-03"
+        },
+        {
+          "seat_id": "MA-2",
+          "state": "MA",
+          "class": 2,
+          "up_for_election": true,
+          "special": false,
+          "race_id": "2026-SG-MA",
+          "source_id": "senate-classes"
+        },
+        {
+          "seat_id": "MD-1",
+          "state": "MD",
+          "class": 1,
+          "up_for_election": false,
+          "special": false,
+          "name": "Angela D. Alsobrooks",
+          "party": "DEM",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2031-01-03"
+        },
+        {
+          "seat_id": "MD-3",
+          "state": "MD",
+          "class": 3,
+          "up_for_election": false,
+          "special": false,
+          "name": "Chris Van Hollen",
+          "party": "DEM",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2029-01-03"
+        },
+        {
+          "seat_id": "ME-1",
+          "state": "ME",
+          "class": 1,
+          "up_for_election": false,
+          "special": false,
+          "name": "Angus S., Jr. King",
+          "party": "IND",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "caucus": "DEM",
+          "caucus_source_id": "senate-caucus",
+          "term_end": "2031-01-03"
+        },
+        {
+          "seat_id": "ME-2",
+          "state": "ME",
+          "class": 2,
+          "up_for_election": true,
+          "special": false,
+          "race_id": "2026-SG-ME",
+          "source_id": "senate-classes"
+        },
+        {
+          "seat_id": "MI-1",
+          "state": "MI",
+          "class": 1,
+          "up_for_election": false,
+          "special": false,
+          "name": "Elissa Slotkin",
+          "party": "DEM",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2031-01-03"
+        },
+        {
+          "seat_id": "MI-2",
+          "state": "MI",
+          "class": 2,
+          "up_for_election": true,
+          "special": false,
+          "race_id": "2026-SG-MI",
+          "source_id": "senate-classes"
+        },
+        {
+          "seat_id": "MN-1",
+          "state": "MN",
+          "class": 1,
+          "up_for_election": false,
+          "special": false,
+          "name": "Amy Klobuchar",
+          "party": "DEM",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2031-01-03"
+        },
+        {
+          "seat_id": "MN-2",
+          "state": "MN",
+          "class": 2,
+          "up_for_election": true,
+          "special": false,
+          "race_id": "2026-SG-MN",
+          "source_id": "senate-classes"
+        },
+        {
+          "seat_id": "MO-1",
+          "state": "MO",
+          "class": 1,
+          "up_for_election": false,
+          "special": false,
+          "name": "Josh Hawley",
+          "party": "REP",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2031-01-03"
+        },
+        {
+          "seat_id": "MO-3",
+          "state": "MO",
+          "class": 3,
+          "up_for_election": false,
+          "special": false,
+          "name": "Eric Schmitt",
+          "party": "REP",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2029-01-03"
+        },
+        {
+          "seat_id": "MS-1",
+          "state": "MS",
+          "class": 1,
+          "up_for_election": false,
+          "special": false,
+          "name": "Roger F. Wicker",
+          "party": "REP",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2031-01-03"
+        },
+        {
+          "seat_id": "MS-2",
+          "state": "MS",
+          "class": 2,
+          "up_for_election": true,
+          "special": false,
+          "race_id": "2026-SG-MS",
+          "source_id": "senate-classes"
+        },
+        {
+          "seat_id": "MT-1",
+          "state": "MT",
+          "class": 1,
+          "up_for_election": false,
+          "special": false,
+          "name": "Tim Sheehy",
+          "party": "REP",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2031-01-03"
+        },
+        {
+          "seat_id": "MT-2",
+          "state": "MT",
+          "class": 2,
+          "up_for_election": true,
+          "special": false,
+          "race_id": "2026-SG-MT",
+          "source_id": "senate-classes"
+        },
+        {
+          "seat_id": "NC-2",
+          "state": "NC",
+          "class": 2,
+          "up_for_election": true,
+          "special": false,
+          "race_id": "2026-SG-NC",
+          "source_id": "senate-classes"
+        },
+        {
+          "seat_id": "NC-3",
+          "state": "NC",
+          "class": 3,
+          "up_for_election": false,
+          "special": false,
+          "name": "Ted Budd",
+          "party": "REP",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2029-01-03"
+        },
+        {
+          "seat_id": "ND-1",
+          "state": "ND",
+          "class": 1,
+          "up_for_election": false,
+          "special": false,
+          "name": "Kevin Cramer",
+          "party": "REP",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2031-01-03"
+        },
+        {
+          "seat_id": "ND-3",
+          "state": "ND",
+          "class": 3,
+          "up_for_election": false,
+          "special": false,
+          "name": "John Hoeven",
+          "party": "REP",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2029-01-03"
+        },
+        {
+          "seat_id": "NE-1",
+          "state": "NE",
+          "class": 1,
+          "up_for_election": false,
+          "special": false,
+          "name": "Deb Fischer",
+          "party": "REP",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2031-01-03"
+        },
+        {
+          "seat_id": "NE-2",
+          "state": "NE",
+          "class": 2,
+          "up_for_election": true,
+          "special": false,
+          "race_id": "2026-SG-NE",
+          "source_id": "senate-classes"
+        },
+        {
+          "seat_id": "NH-2",
+          "state": "NH",
+          "class": 2,
+          "up_for_election": true,
+          "special": false,
+          "race_id": "2026-SG-NH",
+          "source_id": "senate-classes"
+        },
+        {
+          "seat_id": "NH-3",
+          "state": "NH",
+          "class": 3,
+          "up_for_election": false,
+          "special": false,
+          "name": "Margaret Wood Hassan",
+          "party": "DEM",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2029-01-03"
+        },
+        {
+          "seat_id": "NJ-1",
+          "state": "NJ",
+          "class": 1,
+          "up_for_election": false,
+          "special": false,
+          "name": "Andy Kim",
+          "party": "DEM",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2031-01-03"
+        },
+        {
+          "seat_id": "NJ-2",
+          "state": "NJ",
+          "class": 2,
+          "up_for_election": true,
+          "special": false,
+          "race_id": "2026-SG-NJ",
+          "source_id": "senate-classes"
+        },
+        {
+          "seat_id": "NM-1",
+          "state": "NM",
+          "class": 1,
+          "up_for_election": false,
+          "special": false,
+          "name": "Martin Heinrich",
+          "party": "DEM",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2031-01-03"
+        },
+        {
+          "seat_id": "NM-2",
+          "state": "NM",
+          "class": 2,
+          "up_for_election": true,
+          "special": false,
+          "race_id": "2026-SG-NM",
+          "source_id": "senate-classes"
+        },
+        {
+          "seat_id": "NV-1",
+          "state": "NV",
+          "class": 1,
+          "up_for_election": false,
+          "special": false,
+          "name": "Jacky Rosen",
+          "party": "DEM",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2031-01-03"
+        },
+        {
+          "seat_id": "NV-3",
+          "state": "NV",
+          "class": 3,
+          "up_for_election": false,
+          "special": false,
+          "name": "Catherine Cortez Masto",
+          "party": "DEM",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2029-01-03"
+        },
+        {
+          "seat_id": "NY-1",
+          "state": "NY",
+          "class": 1,
+          "up_for_election": false,
+          "special": false,
+          "name": "Kirsten E. Gillibrand",
+          "party": "DEM",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2031-01-03"
+        },
+        {
+          "seat_id": "NY-3",
+          "state": "NY",
+          "class": 3,
+          "up_for_election": false,
+          "special": false,
+          "name": "Charles E. Schumer",
+          "party": "DEM",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2029-01-03"
+        },
+        {
+          "seat_id": "OH-1",
+          "state": "OH",
+          "class": 1,
+          "up_for_election": false,
+          "special": false,
+          "name": "Bernie Moreno",
+          "party": "REP",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2031-01-03"
+        },
+        {
+          "seat_id": "OH-3",
+          "state": "OH",
+          "class": 3,
+          "up_for_election": true,
+          "special": true,
+          "race_id": "2026-SP-OH",
+          "source_id": "senate-classes"
+        },
+        {
+          "seat_id": "OK-2",
+          "state": "OK",
+          "class": 2,
+          "up_for_election": true,
+          "special": false,
+          "race_id": "2026-SG-OK",
+          "source_id": "senate-classes"
+        },
+        {
+          "seat_id": "OK-3",
+          "state": "OK",
+          "class": 3,
+          "up_for_election": false,
+          "special": false,
+          "name": "James Lankford",
+          "party": "REP",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2029-01-03"
+        },
+        {
+          "seat_id": "OR-2",
+          "state": "OR",
+          "class": 2,
+          "up_for_election": true,
+          "special": false,
+          "race_id": "2026-SG-OR",
+          "source_id": "senate-classes"
+        },
+        {
+          "seat_id": "OR-3",
+          "state": "OR",
+          "class": 3,
+          "up_for_election": false,
+          "special": false,
+          "name": "Ron Wyden",
+          "party": "DEM",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2029-01-03"
+        },
+        {
+          "seat_id": "PA-1",
+          "state": "PA",
+          "class": 1,
+          "up_for_election": false,
+          "special": false,
+          "name": "David McCormick",
+          "party": "REP",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2031-01-03"
+        },
+        {
+          "seat_id": "PA-3",
+          "state": "PA",
+          "class": 3,
+          "up_for_election": false,
+          "special": false,
+          "name": "John Fetterman",
+          "party": "DEM",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2029-01-03"
+        },
+        {
+          "seat_id": "RI-1",
+          "state": "RI",
+          "class": 1,
+          "up_for_election": false,
+          "special": false,
+          "name": "Sheldon Whitehouse",
+          "party": "DEM",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2031-01-03"
+        },
+        {
+          "seat_id": "RI-2",
+          "state": "RI",
+          "class": 2,
+          "up_for_election": true,
+          "special": false,
+          "race_id": "2026-SG-RI",
+          "source_id": "senate-classes"
+        },
+        {
+          "seat_id": "SC-2",
+          "state": "SC",
+          "class": 2,
+          "up_for_election": true,
+          "special": false,
+          "race_id": "2026-SG-SC",
+          "source_id": "senate-classes"
+        },
+        {
+          "seat_id": "SC-3",
+          "state": "SC",
+          "class": 3,
+          "up_for_election": false,
+          "special": false,
+          "name": "Tim Scott",
+          "party": "REP",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2029-01-03"
+        },
+        {
+          "seat_id": "SD-2",
+          "state": "SD",
+          "class": 2,
+          "up_for_election": true,
+          "special": false,
+          "race_id": "2026-SG-SD",
+          "source_id": "senate-classes"
+        },
+        {
+          "seat_id": "SD-3",
+          "state": "SD",
+          "class": 3,
+          "up_for_election": false,
+          "special": false,
+          "name": "John Thune",
+          "party": "REP",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2029-01-03"
+        },
+        {
+          "seat_id": "TN-1",
+          "state": "TN",
+          "class": 1,
+          "up_for_election": false,
+          "special": false,
+          "name": "Marsha Blackburn",
+          "party": "REP",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2031-01-03"
+        },
+        {
+          "seat_id": "TN-2",
+          "state": "TN",
+          "class": 2,
+          "up_for_election": true,
+          "special": false,
+          "race_id": "2026-SG-TN",
+          "source_id": "senate-classes"
+        },
+        {
+          "seat_id": "TX-1",
+          "state": "TX",
+          "class": 1,
+          "up_for_election": false,
+          "special": false,
+          "name": "Ted Cruz",
+          "party": "REP",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2031-01-03"
+        },
+        {
+          "seat_id": "TX-2",
+          "state": "TX",
+          "class": 2,
+          "up_for_election": true,
+          "special": false,
+          "race_id": "2026-SG-TX",
+          "source_id": "senate-classes"
+        },
+        {
+          "seat_id": "UT-1",
+          "state": "UT",
+          "class": 1,
+          "up_for_election": false,
+          "special": false,
+          "name": "John R. Curtis",
+          "party": "REP",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2031-01-03"
+        },
+        {
+          "seat_id": "UT-3",
+          "state": "UT",
+          "class": 3,
+          "up_for_election": false,
+          "special": false,
+          "name": "Mike Lee",
+          "party": "REP",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2029-01-03"
+        },
+        {
+          "seat_id": "VA-1",
+          "state": "VA",
+          "class": 1,
+          "up_for_election": false,
+          "special": false,
+          "name": "Tim Kaine",
+          "party": "DEM",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2031-01-03"
+        },
+        {
+          "seat_id": "VA-2",
+          "state": "VA",
+          "class": 2,
+          "up_for_election": true,
+          "special": false,
+          "race_id": "2026-SG-VA",
+          "source_id": "senate-classes"
+        },
+        {
+          "seat_id": "VT-1",
+          "state": "VT",
+          "class": 1,
+          "up_for_election": false,
+          "special": false,
+          "name": "Bernard Sanders",
+          "party": "IND",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "caucus": "DEM",
+          "caucus_source_id": "senate-caucus",
+          "term_end": "2031-01-03"
+        },
+        {
+          "seat_id": "VT-3",
+          "state": "VT",
+          "class": 3,
+          "up_for_election": false,
+          "special": false,
+          "name": "Peter Welch",
+          "party": "DEM",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2029-01-03"
+        },
+        {
+          "seat_id": "WA-1",
+          "state": "WA",
+          "class": 1,
+          "up_for_election": false,
+          "special": false,
+          "name": "Maria Cantwell",
+          "party": "DEM",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2031-01-03"
+        },
+        {
+          "seat_id": "WA-3",
+          "state": "WA",
+          "class": 3,
+          "up_for_election": false,
+          "special": false,
+          "name": "Patty Murray",
+          "party": "DEM",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2029-01-03"
+        },
+        {
+          "seat_id": "WI-1",
+          "state": "WI",
+          "class": 1,
+          "up_for_election": false,
+          "special": false,
+          "name": "Tammy Baldwin",
+          "party": "DEM",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2031-01-03"
+        },
+        {
+          "seat_id": "WI-3",
+          "state": "WI",
+          "class": 3,
+          "up_for_election": false,
+          "special": false,
+          "name": "Ron Johnson",
+          "party": "REP",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2029-01-03"
+        },
+        {
+          "seat_id": "WV-1",
+          "state": "WV",
+          "class": 1,
+          "up_for_election": false,
+          "special": false,
+          "name": "James C. Justice",
+          "party": "REP",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2031-01-03"
+        },
+        {
+          "seat_id": "WV-2",
+          "state": "WV",
+          "class": 2,
+          "up_for_election": true,
+          "special": false,
+          "race_id": "2026-SG-WV",
+          "source_id": "senate-classes"
+        },
+        {
+          "seat_id": "WY-1",
+          "state": "WY",
+          "class": 1,
+          "up_for_election": false,
+          "special": false,
+          "name": "John Barrasso",
+          "party": "REP",
+          "source_id": "senators-official",
+          "source_url": "https://www.senate.gov/general/contact_information/senators_cfm.xml",
+          "source_sha256": "01459d6977e9b5590e7d27cb333ff062cf9cf0783c934373393512fe2542b5e2",
+          "term_end": "2031-01-03"
+        },
+        {
+          "seat_id": "WY-2",
+          "state": "WY",
+          "class": 2,
+          "up_for_election": true,
+          "special": false,
+          "race_id": "2026-SG-WY",
+          "source_id": "senate-classes"
+        }
+      ]
+    },
+    "house": {
+      "total": 435,
+      "seats": [
+        {
+          "seat_id": "AL-1",
+          "state": "AL",
+          "district": 1,
+          "up_for_election": true,
+          "race_id": "2026-HG-AL-1",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "AL-2",
+          "state": "AL",
+          "district": 2,
+          "up_for_election": true,
+          "race_id": "2026-HG-AL-2",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "AL-3",
+          "state": "AL",
+          "district": 3,
+          "up_for_election": true,
+          "race_id": "2026-HG-AL-3",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "AL-4",
+          "state": "AL",
+          "district": 4,
+          "up_for_election": true,
+          "race_id": "2026-HG-AL-4",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "AL-5",
+          "state": "AL",
+          "district": 5,
+          "up_for_election": true,
+          "race_id": "2026-HG-AL-5",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "AL-6",
+          "state": "AL",
+          "district": 6,
+          "up_for_election": true,
+          "race_id": "2026-HG-AL-6",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "AL-7",
+          "state": "AL",
+          "district": 7,
+          "up_for_election": true,
+          "race_id": "2026-HG-AL-7",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "AK-1",
+          "state": "AK",
+          "district": 1,
+          "up_for_election": true,
+          "race_id": "2026-HG-AK-1",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "AZ-1",
+          "state": "AZ",
+          "district": 1,
+          "up_for_election": true,
+          "race_id": "2026-HG-AZ-1",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "AZ-2",
+          "state": "AZ",
+          "district": 2,
+          "up_for_election": true,
+          "race_id": "2026-HG-AZ-2",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "AZ-3",
+          "state": "AZ",
+          "district": 3,
+          "up_for_election": true,
+          "race_id": "2026-HG-AZ-3",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "AZ-4",
+          "state": "AZ",
+          "district": 4,
+          "up_for_election": true,
+          "race_id": "2026-HG-AZ-4",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "AZ-5",
+          "state": "AZ",
+          "district": 5,
+          "up_for_election": true,
+          "race_id": "2026-HG-AZ-5",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "AZ-6",
+          "state": "AZ",
+          "district": 6,
+          "up_for_election": true,
+          "race_id": "2026-HG-AZ-6",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "AZ-7",
+          "state": "AZ",
+          "district": 7,
+          "up_for_election": true,
+          "race_id": "2026-HG-AZ-7",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "AZ-8",
+          "state": "AZ",
+          "district": 8,
+          "up_for_election": true,
+          "race_id": "2026-HG-AZ-8",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "AZ-9",
+          "state": "AZ",
+          "district": 9,
+          "up_for_election": true,
+          "race_id": "2026-HG-AZ-9",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "AR-1",
+          "state": "AR",
+          "district": 1,
+          "up_for_election": true,
+          "race_id": "2026-HG-AR-1",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "AR-2",
+          "state": "AR",
+          "district": 2,
+          "up_for_election": true,
+          "race_id": "2026-HG-AR-2",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "AR-3",
+          "state": "AR",
+          "district": 3,
+          "up_for_election": true,
+          "race_id": "2026-HG-AR-3",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "AR-4",
+          "state": "AR",
+          "district": 4,
+          "up_for_election": true,
+          "race_id": "2026-HG-AR-4",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CA-1",
+          "state": "CA",
+          "district": 1,
+          "up_for_election": true,
+          "race_id": "2026-HG-CA-1",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CA-2",
+          "state": "CA",
+          "district": 2,
+          "up_for_election": true,
+          "race_id": "2026-HG-CA-2",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CA-3",
+          "state": "CA",
+          "district": 3,
+          "up_for_election": true,
+          "race_id": "2026-HG-CA-3",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CA-4",
+          "state": "CA",
+          "district": 4,
+          "up_for_election": true,
+          "race_id": "2026-HG-CA-4",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CA-5",
+          "state": "CA",
+          "district": 5,
+          "up_for_election": true,
+          "race_id": "2026-HG-CA-5",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CA-6",
+          "state": "CA",
+          "district": 6,
+          "up_for_election": true,
+          "race_id": "2026-HG-CA-6",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CA-7",
+          "state": "CA",
+          "district": 7,
+          "up_for_election": true,
+          "race_id": "2026-HG-CA-7",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CA-8",
+          "state": "CA",
+          "district": 8,
+          "up_for_election": true,
+          "race_id": "2026-HG-CA-8",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CA-9",
+          "state": "CA",
+          "district": 9,
+          "up_for_election": true,
+          "race_id": "2026-HG-CA-9",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CA-10",
+          "state": "CA",
+          "district": 10,
+          "up_for_election": true,
+          "race_id": "2026-HG-CA-10",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CA-11",
+          "state": "CA",
+          "district": 11,
+          "up_for_election": true,
+          "race_id": "2026-HG-CA-11",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CA-12",
+          "state": "CA",
+          "district": 12,
+          "up_for_election": true,
+          "race_id": "2026-HG-CA-12",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CA-13",
+          "state": "CA",
+          "district": 13,
+          "up_for_election": true,
+          "race_id": "2026-HG-CA-13",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CA-14",
+          "state": "CA",
+          "district": 14,
+          "up_for_election": true,
+          "race_id": "2026-HG-CA-14",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CA-15",
+          "state": "CA",
+          "district": 15,
+          "up_for_election": true,
+          "race_id": "2026-HG-CA-15",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CA-16",
+          "state": "CA",
+          "district": 16,
+          "up_for_election": true,
+          "race_id": "2026-HG-CA-16",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CA-17",
+          "state": "CA",
+          "district": 17,
+          "up_for_election": true,
+          "race_id": "2026-HG-CA-17",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CA-18",
+          "state": "CA",
+          "district": 18,
+          "up_for_election": true,
+          "race_id": "2026-HG-CA-18",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CA-19",
+          "state": "CA",
+          "district": 19,
+          "up_for_election": true,
+          "race_id": "2026-HG-CA-19",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CA-20",
+          "state": "CA",
+          "district": 20,
+          "up_for_election": true,
+          "race_id": "2026-HG-CA-20",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CA-21",
+          "state": "CA",
+          "district": 21,
+          "up_for_election": true,
+          "race_id": "2026-HG-CA-21",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CA-22",
+          "state": "CA",
+          "district": 22,
+          "up_for_election": true,
+          "race_id": "2026-HG-CA-22",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CA-23",
+          "state": "CA",
+          "district": 23,
+          "up_for_election": true,
+          "race_id": "2026-HG-CA-23",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CA-24",
+          "state": "CA",
+          "district": 24,
+          "up_for_election": true,
+          "race_id": "2026-HG-CA-24",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CA-25",
+          "state": "CA",
+          "district": 25,
+          "up_for_election": true,
+          "race_id": "2026-HG-CA-25",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CA-26",
+          "state": "CA",
+          "district": 26,
+          "up_for_election": true,
+          "race_id": "2026-HG-CA-26",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CA-27",
+          "state": "CA",
+          "district": 27,
+          "up_for_election": true,
+          "race_id": "2026-HG-CA-27",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CA-28",
+          "state": "CA",
+          "district": 28,
+          "up_for_election": true,
+          "race_id": "2026-HG-CA-28",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CA-29",
+          "state": "CA",
+          "district": 29,
+          "up_for_election": true,
+          "race_id": "2026-HG-CA-29",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CA-30",
+          "state": "CA",
+          "district": 30,
+          "up_for_election": true,
+          "race_id": "2026-HG-CA-30",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CA-31",
+          "state": "CA",
+          "district": 31,
+          "up_for_election": true,
+          "race_id": "2026-HG-CA-31",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CA-32",
+          "state": "CA",
+          "district": 32,
+          "up_for_election": true,
+          "race_id": "2026-HG-CA-32",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CA-33",
+          "state": "CA",
+          "district": 33,
+          "up_for_election": true,
+          "race_id": "2026-HG-CA-33",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CA-34",
+          "state": "CA",
+          "district": 34,
+          "up_for_election": true,
+          "race_id": "2026-HG-CA-34",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CA-35",
+          "state": "CA",
+          "district": 35,
+          "up_for_election": true,
+          "race_id": "2026-HG-CA-35",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CA-36",
+          "state": "CA",
+          "district": 36,
+          "up_for_election": true,
+          "race_id": "2026-HG-CA-36",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CA-37",
+          "state": "CA",
+          "district": 37,
+          "up_for_election": true,
+          "race_id": "2026-HG-CA-37",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CA-38",
+          "state": "CA",
+          "district": 38,
+          "up_for_election": true,
+          "race_id": "2026-HG-CA-38",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CA-39",
+          "state": "CA",
+          "district": 39,
+          "up_for_election": true,
+          "race_id": "2026-HG-CA-39",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CA-40",
+          "state": "CA",
+          "district": 40,
+          "up_for_election": true,
+          "race_id": "2026-HG-CA-40",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CA-41",
+          "state": "CA",
+          "district": 41,
+          "up_for_election": true,
+          "race_id": "2026-HG-CA-41",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CA-42",
+          "state": "CA",
+          "district": 42,
+          "up_for_election": true,
+          "race_id": "2026-HG-CA-42",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CA-43",
+          "state": "CA",
+          "district": 43,
+          "up_for_election": true,
+          "race_id": "2026-HG-CA-43",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CA-44",
+          "state": "CA",
+          "district": 44,
+          "up_for_election": true,
+          "race_id": "2026-HG-CA-44",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CA-45",
+          "state": "CA",
+          "district": 45,
+          "up_for_election": true,
+          "race_id": "2026-HG-CA-45",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CA-46",
+          "state": "CA",
+          "district": 46,
+          "up_for_election": true,
+          "race_id": "2026-HG-CA-46",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CA-47",
+          "state": "CA",
+          "district": 47,
+          "up_for_election": true,
+          "race_id": "2026-HG-CA-47",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CA-48",
+          "state": "CA",
+          "district": 48,
+          "up_for_election": true,
+          "race_id": "2026-HG-CA-48",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CA-49",
+          "state": "CA",
+          "district": 49,
+          "up_for_election": true,
+          "race_id": "2026-HG-CA-49",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CA-50",
+          "state": "CA",
+          "district": 50,
+          "up_for_election": true,
+          "race_id": "2026-HG-CA-50",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CA-51",
+          "state": "CA",
+          "district": 51,
+          "up_for_election": true,
+          "race_id": "2026-HG-CA-51",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CA-52",
+          "state": "CA",
+          "district": 52,
+          "up_for_election": true,
+          "race_id": "2026-HG-CA-52",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CO-1",
+          "state": "CO",
+          "district": 1,
+          "up_for_election": true,
+          "race_id": "2026-HG-CO-1",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CO-2",
+          "state": "CO",
+          "district": 2,
+          "up_for_election": true,
+          "race_id": "2026-HG-CO-2",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CO-3",
+          "state": "CO",
+          "district": 3,
+          "up_for_election": true,
+          "race_id": "2026-HG-CO-3",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CO-4",
+          "state": "CO",
+          "district": 4,
+          "up_for_election": true,
+          "race_id": "2026-HG-CO-4",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CO-5",
+          "state": "CO",
+          "district": 5,
+          "up_for_election": true,
+          "race_id": "2026-HG-CO-5",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CO-6",
+          "state": "CO",
+          "district": 6,
+          "up_for_election": true,
+          "race_id": "2026-HG-CO-6",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CO-7",
+          "state": "CO",
+          "district": 7,
+          "up_for_election": true,
+          "race_id": "2026-HG-CO-7",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CO-8",
+          "state": "CO",
+          "district": 8,
+          "up_for_election": true,
+          "race_id": "2026-HG-CO-8",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CT-1",
+          "state": "CT",
+          "district": 1,
+          "up_for_election": true,
+          "race_id": "2026-HG-CT-1",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CT-2",
+          "state": "CT",
+          "district": 2,
+          "up_for_election": true,
+          "race_id": "2026-HG-CT-2",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CT-3",
+          "state": "CT",
+          "district": 3,
+          "up_for_election": true,
+          "race_id": "2026-HG-CT-3",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CT-4",
+          "state": "CT",
+          "district": 4,
+          "up_for_election": true,
+          "race_id": "2026-HG-CT-4",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "CT-5",
+          "state": "CT",
+          "district": 5,
+          "up_for_election": true,
+          "race_id": "2026-HG-CT-5",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "DE-1",
+          "state": "DE",
+          "district": 1,
+          "up_for_election": true,
+          "race_id": "2026-HG-DE-1",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "FL-1",
+          "state": "FL",
+          "district": 1,
+          "up_for_election": true,
+          "race_id": "2026-HG-FL-1",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "FL-2",
+          "state": "FL",
+          "district": 2,
+          "up_for_election": true,
+          "race_id": "2026-HG-FL-2",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "FL-3",
+          "state": "FL",
+          "district": 3,
+          "up_for_election": true,
+          "race_id": "2026-HG-FL-3",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "FL-4",
+          "state": "FL",
+          "district": 4,
+          "up_for_election": true,
+          "race_id": "2026-HG-FL-4",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "FL-5",
+          "state": "FL",
+          "district": 5,
+          "up_for_election": true,
+          "race_id": "2026-HG-FL-5",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "FL-6",
+          "state": "FL",
+          "district": 6,
+          "up_for_election": true,
+          "race_id": "2026-HG-FL-6",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "FL-7",
+          "state": "FL",
+          "district": 7,
+          "up_for_election": true,
+          "race_id": "2026-HG-FL-7",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "FL-8",
+          "state": "FL",
+          "district": 8,
+          "up_for_election": true,
+          "race_id": "2026-HG-FL-8",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "FL-9",
+          "state": "FL",
+          "district": 9,
+          "up_for_election": true,
+          "race_id": "2026-HG-FL-9",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "FL-10",
+          "state": "FL",
+          "district": 10,
+          "up_for_election": true,
+          "race_id": "2026-HG-FL-10",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "FL-11",
+          "state": "FL",
+          "district": 11,
+          "up_for_election": true,
+          "race_id": "2026-HG-FL-11",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "FL-12",
+          "state": "FL",
+          "district": 12,
+          "up_for_election": true,
+          "race_id": "2026-HG-FL-12",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "FL-13",
+          "state": "FL",
+          "district": 13,
+          "up_for_election": true,
+          "race_id": "2026-HG-FL-13",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "FL-14",
+          "state": "FL",
+          "district": 14,
+          "up_for_election": true,
+          "race_id": "2026-HG-FL-14",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "FL-15",
+          "state": "FL",
+          "district": 15,
+          "up_for_election": true,
+          "race_id": "2026-HG-FL-15",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "FL-16",
+          "state": "FL",
+          "district": 16,
+          "up_for_election": true,
+          "race_id": "2026-HG-FL-16",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "FL-17",
+          "state": "FL",
+          "district": 17,
+          "up_for_election": true,
+          "race_id": "2026-HG-FL-17",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "FL-18",
+          "state": "FL",
+          "district": 18,
+          "up_for_election": true,
+          "race_id": "2026-HG-FL-18",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "FL-19",
+          "state": "FL",
+          "district": 19,
+          "up_for_election": true,
+          "race_id": "2026-HG-FL-19",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "FL-20",
+          "state": "FL",
+          "district": 20,
+          "up_for_election": true,
+          "race_id": "2026-HG-FL-20",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "FL-21",
+          "state": "FL",
+          "district": 21,
+          "up_for_election": true,
+          "race_id": "2026-HG-FL-21",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "FL-22",
+          "state": "FL",
+          "district": 22,
+          "up_for_election": true,
+          "race_id": "2026-HG-FL-22",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "FL-23",
+          "state": "FL",
+          "district": 23,
+          "up_for_election": true,
+          "race_id": "2026-HG-FL-23",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "FL-24",
+          "state": "FL",
+          "district": 24,
+          "up_for_election": true,
+          "race_id": "2026-HG-FL-24",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "FL-25",
+          "state": "FL",
+          "district": 25,
+          "up_for_election": true,
+          "race_id": "2026-HG-FL-25",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "FL-26",
+          "state": "FL",
+          "district": 26,
+          "up_for_election": true,
+          "race_id": "2026-HG-FL-26",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "FL-27",
+          "state": "FL",
+          "district": 27,
+          "up_for_election": true,
+          "race_id": "2026-HG-FL-27",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "FL-28",
+          "state": "FL",
+          "district": 28,
+          "up_for_election": true,
+          "race_id": "2026-HG-FL-28",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "GA-1",
+          "state": "GA",
+          "district": 1,
+          "up_for_election": true,
+          "race_id": "2026-HG-GA-1",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "GA-2",
+          "state": "GA",
+          "district": 2,
+          "up_for_election": true,
+          "race_id": "2026-HG-GA-2",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "GA-3",
+          "state": "GA",
+          "district": 3,
+          "up_for_election": true,
+          "race_id": "2026-HG-GA-3",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "GA-4",
+          "state": "GA",
+          "district": 4,
+          "up_for_election": true,
+          "race_id": "2026-HG-GA-4",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "GA-5",
+          "state": "GA",
+          "district": 5,
+          "up_for_election": true,
+          "race_id": "2026-HG-GA-5",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "GA-6",
+          "state": "GA",
+          "district": 6,
+          "up_for_election": true,
+          "race_id": "2026-HG-GA-6",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "GA-7",
+          "state": "GA",
+          "district": 7,
+          "up_for_election": true,
+          "race_id": "2026-HG-GA-7",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "GA-8",
+          "state": "GA",
+          "district": 8,
+          "up_for_election": true,
+          "race_id": "2026-HG-GA-8",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "GA-9",
+          "state": "GA",
+          "district": 9,
+          "up_for_election": true,
+          "race_id": "2026-HG-GA-9",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "GA-10",
+          "state": "GA",
+          "district": 10,
+          "up_for_election": true,
+          "race_id": "2026-HG-GA-10",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "GA-11",
+          "state": "GA",
+          "district": 11,
+          "up_for_election": true,
+          "race_id": "2026-HG-GA-11",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "GA-12",
+          "state": "GA",
+          "district": 12,
+          "up_for_election": true,
+          "race_id": "2026-HG-GA-12",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "GA-13",
+          "state": "GA",
+          "district": 13,
+          "up_for_election": true,
+          "race_id": "2026-HG-GA-13",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "GA-14",
+          "state": "GA",
+          "district": 14,
+          "up_for_election": true,
+          "race_id": "2026-HG-GA-14",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "HI-1",
+          "state": "HI",
+          "district": 1,
+          "up_for_election": true,
+          "race_id": "2026-HG-HI-1",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "HI-2",
+          "state": "HI",
+          "district": 2,
+          "up_for_election": true,
+          "race_id": "2026-HG-HI-2",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "ID-1",
+          "state": "ID",
+          "district": 1,
+          "up_for_election": true,
+          "race_id": "2026-HG-ID-1",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "ID-2",
+          "state": "ID",
+          "district": 2,
+          "up_for_election": true,
+          "race_id": "2026-HG-ID-2",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "IL-1",
+          "state": "IL",
+          "district": 1,
+          "up_for_election": true,
+          "race_id": "2026-HG-IL-1",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "IL-2",
+          "state": "IL",
+          "district": 2,
+          "up_for_election": true,
+          "race_id": "2026-HG-IL-2",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "IL-3",
+          "state": "IL",
+          "district": 3,
+          "up_for_election": true,
+          "race_id": "2026-HG-IL-3",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "IL-4",
+          "state": "IL",
+          "district": 4,
+          "up_for_election": true,
+          "race_id": "2026-HG-IL-4",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "IL-5",
+          "state": "IL",
+          "district": 5,
+          "up_for_election": true,
+          "race_id": "2026-HG-IL-5",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "IL-6",
+          "state": "IL",
+          "district": 6,
+          "up_for_election": true,
+          "race_id": "2026-HG-IL-6",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "IL-7",
+          "state": "IL",
+          "district": 7,
+          "up_for_election": true,
+          "race_id": "2026-HG-IL-7",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "IL-8",
+          "state": "IL",
+          "district": 8,
+          "up_for_election": true,
+          "race_id": "2026-HG-IL-8",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "IL-9",
+          "state": "IL",
+          "district": 9,
+          "up_for_election": true,
+          "race_id": "2026-HG-IL-9",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "IL-10",
+          "state": "IL",
+          "district": 10,
+          "up_for_election": true,
+          "race_id": "2026-HG-IL-10",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "IL-11",
+          "state": "IL",
+          "district": 11,
+          "up_for_election": true,
+          "race_id": "2026-HG-IL-11",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "IL-12",
+          "state": "IL",
+          "district": 12,
+          "up_for_election": true,
+          "race_id": "2026-HG-IL-12",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "IL-13",
+          "state": "IL",
+          "district": 13,
+          "up_for_election": true,
+          "race_id": "2026-HG-IL-13",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "IL-14",
+          "state": "IL",
+          "district": 14,
+          "up_for_election": true,
+          "race_id": "2026-HG-IL-14",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "IL-15",
+          "state": "IL",
+          "district": 15,
+          "up_for_election": true,
+          "race_id": "2026-HG-IL-15",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "IL-16",
+          "state": "IL",
+          "district": 16,
+          "up_for_election": true,
+          "race_id": "2026-HG-IL-16",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "IL-17",
+          "state": "IL",
+          "district": 17,
+          "up_for_election": true,
+          "race_id": "2026-HG-IL-17",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "IN-1",
+          "state": "IN",
+          "district": 1,
+          "up_for_election": true,
+          "race_id": "2026-HG-IN-1",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "IN-2",
+          "state": "IN",
+          "district": 2,
+          "up_for_election": true,
+          "race_id": "2026-HG-IN-2",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "IN-3",
+          "state": "IN",
+          "district": 3,
+          "up_for_election": true,
+          "race_id": "2026-HG-IN-3",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "IN-4",
+          "state": "IN",
+          "district": 4,
+          "up_for_election": true,
+          "race_id": "2026-HG-IN-4",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "IN-5",
+          "state": "IN",
+          "district": 5,
+          "up_for_election": true,
+          "race_id": "2026-HG-IN-5",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "IN-6",
+          "state": "IN",
+          "district": 6,
+          "up_for_election": true,
+          "race_id": "2026-HG-IN-6",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "IN-7",
+          "state": "IN",
+          "district": 7,
+          "up_for_election": true,
+          "race_id": "2026-HG-IN-7",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "IN-8",
+          "state": "IN",
+          "district": 8,
+          "up_for_election": true,
+          "race_id": "2026-HG-IN-8",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "IN-9",
+          "state": "IN",
+          "district": 9,
+          "up_for_election": true,
+          "race_id": "2026-HG-IN-9",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "IA-1",
+          "state": "IA",
+          "district": 1,
+          "up_for_election": true,
+          "race_id": "2026-HG-IA-1",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "IA-2",
+          "state": "IA",
+          "district": 2,
+          "up_for_election": true,
+          "race_id": "2026-HG-IA-2",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "IA-3",
+          "state": "IA",
+          "district": 3,
+          "up_for_election": true,
+          "race_id": "2026-HG-IA-3",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "IA-4",
+          "state": "IA",
+          "district": 4,
+          "up_for_election": true,
+          "race_id": "2026-HG-IA-4",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "KS-1",
+          "state": "KS",
+          "district": 1,
+          "up_for_election": true,
+          "race_id": "2026-HG-KS-1",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "KS-2",
+          "state": "KS",
+          "district": 2,
+          "up_for_election": true,
+          "race_id": "2026-HG-KS-2",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "KS-3",
+          "state": "KS",
+          "district": 3,
+          "up_for_election": true,
+          "race_id": "2026-HG-KS-3",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "KS-4",
+          "state": "KS",
+          "district": 4,
+          "up_for_election": true,
+          "race_id": "2026-HG-KS-4",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "KY-1",
+          "state": "KY",
+          "district": 1,
+          "up_for_election": true,
+          "race_id": "2026-HG-KY-1",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "KY-2",
+          "state": "KY",
+          "district": 2,
+          "up_for_election": true,
+          "race_id": "2026-HG-KY-2",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "KY-3",
+          "state": "KY",
+          "district": 3,
+          "up_for_election": true,
+          "race_id": "2026-HG-KY-3",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "KY-4",
+          "state": "KY",
+          "district": 4,
+          "up_for_election": true,
+          "race_id": "2026-HG-KY-4",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "KY-5",
+          "state": "KY",
+          "district": 5,
+          "up_for_election": true,
+          "race_id": "2026-HG-KY-5",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "KY-6",
+          "state": "KY",
+          "district": 6,
+          "up_for_election": true,
+          "race_id": "2026-HG-KY-6",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "LA-1",
+          "state": "LA",
+          "district": 1,
+          "up_for_election": true,
+          "race_id": "2026-HG-LA-1",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "LA-2",
+          "state": "LA",
+          "district": 2,
+          "up_for_election": true,
+          "race_id": "2026-HG-LA-2",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "LA-3",
+          "state": "LA",
+          "district": 3,
+          "up_for_election": true,
+          "race_id": "2026-HG-LA-3",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "LA-4",
+          "state": "LA",
+          "district": 4,
+          "up_for_election": true,
+          "race_id": "2026-HG-LA-4",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "LA-5",
+          "state": "LA",
+          "district": 5,
+          "up_for_election": true,
+          "race_id": "2026-HG-LA-5",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "LA-6",
+          "state": "LA",
+          "district": 6,
+          "up_for_election": true,
+          "race_id": "2026-HG-LA-6",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "ME-1",
+          "state": "ME",
+          "district": 1,
+          "up_for_election": true,
+          "race_id": "2026-HG-ME-1",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "ME-2",
+          "state": "ME",
+          "district": 2,
+          "up_for_election": true,
+          "race_id": "2026-HG-ME-2",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "MD-1",
+          "state": "MD",
+          "district": 1,
+          "up_for_election": true,
+          "race_id": "2026-HG-MD-1",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "MD-2",
+          "state": "MD",
+          "district": 2,
+          "up_for_election": true,
+          "race_id": "2026-HG-MD-2",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "MD-3",
+          "state": "MD",
+          "district": 3,
+          "up_for_election": true,
+          "race_id": "2026-HG-MD-3",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "MD-4",
+          "state": "MD",
+          "district": 4,
+          "up_for_election": true,
+          "race_id": "2026-HG-MD-4",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "MD-5",
+          "state": "MD",
+          "district": 5,
+          "up_for_election": true,
+          "race_id": "2026-HG-MD-5",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "MD-6",
+          "state": "MD",
+          "district": 6,
+          "up_for_election": true,
+          "race_id": "2026-HG-MD-6",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "MD-7",
+          "state": "MD",
+          "district": 7,
+          "up_for_election": true,
+          "race_id": "2026-HG-MD-7",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "MD-8",
+          "state": "MD",
+          "district": 8,
+          "up_for_election": true,
+          "race_id": "2026-HG-MD-8",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "MA-1",
+          "state": "MA",
+          "district": 1,
+          "up_for_election": true,
+          "race_id": "2026-HG-MA-1",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "MA-2",
+          "state": "MA",
+          "district": 2,
+          "up_for_election": true,
+          "race_id": "2026-HG-MA-2",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "MA-3",
+          "state": "MA",
+          "district": 3,
+          "up_for_election": true,
+          "race_id": "2026-HG-MA-3",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "MA-4",
+          "state": "MA",
+          "district": 4,
+          "up_for_election": true,
+          "race_id": "2026-HG-MA-4",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "MA-5",
+          "state": "MA",
+          "district": 5,
+          "up_for_election": true,
+          "race_id": "2026-HG-MA-5",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "MA-6",
+          "state": "MA",
+          "district": 6,
+          "up_for_election": true,
+          "race_id": "2026-HG-MA-6",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "MA-7",
+          "state": "MA",
+          "district": 7,
+          "up_for_election": true,
+          "race_id": "2026-HG-MA-7",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "MA-8",
+          "state": "MA",
+          "district": 8,
+          "up_for_election": true,
+          "race_id": "2026-HG-MA-8",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "MA-9",
+          "state": "MA",
+          "district": 9,
+          "up_for_election": true,
+          "race_id": "2026-HG-MA-9",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "MI-1",
+          "state": "MI",
+          "district": 1,
+          "up_for_election": true,
+          "race_id": "2026-HG-MI-1",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "MI-2",
+          "state": "MI",
+          "district": 2,
+          "up_for_election": true,
+          "race_id": "2026-HG-MI-2",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "MI-3",
+          "state": "MI",
+          "district": 3,
+          "up_for_election": true,
+          "race_id": "2026-HG-MI-3",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "MI-4",
+          "state": "MI",
+          "district": 4,
+          "up_for_election": true,
+          "race_id": "2026-HG-MI-4",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "MI-5",
+          "state": "MI",
+          "district": 5,
+          "up_for_election": true,
+          "race_id": "2026-HG-MI-5",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "MI-6",
+          "state": "MI",
+          "district": 6,
+          "up_for_election": true,
+          "race_id": "2026-HG-MI-6",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "MI-7",
+          "state": "MI",
+          "district": 7,
+          "up_for_election": true,
+          "race_id": "2026-HG-MI-7",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "MI-8",
+          "state": "MI",
+          "district": 8,
+          "up_for_election": true,
+          "race_id": "2026-HG-MI-8",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "MI-9",
+          "state": "MI",
+          "district": 9,
+          "up_for_election": true,
+          "race_id": "2026-HG-MI-9",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "MI-10",
+          "state": "MI",
+          "district": 10,
+          "up_for_election": true,
+          "race_id": "2026-HG-MI-10",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "MI-11",
+          "state": "MI",
+          "district": 11,
+          "up_for_election": true,
+          "race_id": "2026-HG-MI-11",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "MI-12",
+          "state": "MI",
+          "district": 12,
+          "up_for_election": true,
+          "race_id": "2026-HG-MI-12",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "MI-13",
+          "state": "MI",
+          "district": 13,
+          "up_for_election": true,
+          "race_id": "2026-HG-MI-13",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "MN-1",
+          "state": "MN",
+          "district": 1,
+          "up_for_election": true,
+          "race_id": "2026-HG-MN-1",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "MN-2",
+          "state": "MN",
+          "district": 2,
+          "up_for_election": true,
+          "race_id": "2026-HG-MN-2",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "MN-3",
+          "state": "MN",
+          "district": 3,
+          "up_for_election": true,
+          "race_id": "2026-HG-MN-3",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "MN-4",
+          "state": "MN",
+          "district": 4,
+          "up_for_election": true,
+          "race_id": "2026-HG-MN-4",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "MN-5",
+          "state": "MN",
+          "district": 5,
+          "up_for_election": true,
+          "race_id": "2026-HG-MN-5",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "MN-6",
+          "state": "MN",
+          "district": 6,
+          "up_for_election": true,
+          "race_id": "2026-HG-MN-6",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "MN-7",
+          "state": "MN",
+          "district": 7,
+          "up_for_election": true,
+          "race_id": "2026-HG-MN-7",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "MN-8",
+          "state": "MN",
+          "district": 8,
+          "up_for_election": true,
+          "race_id": "2026-HG-MN-8",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "MS-1",
+          "state": "MS",
+          "district": 1,
+          "up_for_election": true,
+          "race_id": "2026-HG-MS-1",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "MS-2",
+          "state": "MS",
+          "district": 2,
+          "up_for_election": true,
+          "race_id": "2026-HG-MS-2",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "MS-3",
+          "state": "MS",
+          "district": 3,
+          "up_for_election": true,
+          "race_id": "2026-HG-MS-3",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "MS-4",
+          "state": "MS",
+          "district": 4,
+          "up_for_election": true,
+          "race_id": "2026-HG-MS-4",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "MO-1",
+          "state": "MO",
+          "district": 1,
+          "up_for_election": true,
+          "race_id": "2026-HG-MO-1",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "MO-2",
+          "state": "MO",
+          "district": 2,
+          "up_for_election": true,
+          "race_id": "2026-HG-MO-2",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "MO-3",
+          "state": "MO",
+          "district": 3,
+          "up_for_election": true,
+          "race_id": "2026-HG-MO-3",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "MO-4",
+          "state": "MO",
+          "district": 4,
+          "up_for_election": true,
+          "race_id": "2026-HG-MO-4",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "MO-5",
+          "state": "MO",
+          "district": 5,
+          "up_for_election": true,
+          "race_id": "2026-HG-MO-5",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "MO-6",
+          "state": "MO",
+          "district": 6,
+          "up_for_election": true,
+          "race_id": "2026-HG-MO-6",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "MO-7",
+          "state": "MO",
+          "district": 7,
+          "up_for_election": true,
+          "race_id": "2026-HG-MO-7",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "MO-8",
+          "state": "MO",
+          "district": 8,
+          "up_for_election": true,
+          "race_id": "2026-HG-MO-8",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "MT-1",
+          "state": "MT",
+          "district": 1,
+          "up_for_election": true,
+          "race_id": "2026-HG-MT-1",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "MT-2",
+          "state": "MT",
+          "district": 2,
+          "up_for_election": true,
+          "race_id": "2026-HG-MT-2",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NE-1",
+          "state": "NE",
+          "district": 1,
+          "up_for_election": true,
+          "race_id": "2026-HG-NE-1",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NE-2",
+          "state": "NE",
+          "district": 2,
+          "up_for_election": true,
+          "race_id": "2026-HG-NE-2",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NE-3",
+          "state": "NE",
+          "district": 3,
+          "up_for_election": true,
+          "race_id": "2026-HG-NE-3",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NV-1",
+          "state": "NV",
+          "district": 1,
+          "up_for_election": true,
+          "race_id": "2026-HG-NV-1",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NV-2",
+          "state": "NV",
+          "district": 2,
+          "up_for_election": true,
+          "race_id": "2026-HG-NV-2",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NV-3",
+          "state": "NV",
+          "district": 3,
+          "up_for_election": true,
+          "race_id": "2026-HG-NV-3",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NV-4",
+          "state": "NV",
+          "district": 4,
+          "up_for_election": true,
+          "race_id": "2026-HG-NV-4",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NH-1",
+          "state": "NH",
+          "district": 1,
+          "up_for_election": true,
+          "race_id": "2026-HG-NH-1",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NH-2",
+          "state": "NH",
+          "district": 2,
+          "up_for_election": true,
+          "race_id": "2026-HG-NH-2",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NJ-1",
+          "state": "NJ",
+          "district": 1,
+          "up_for_election": true,
+          "race_id": "2026-HG-NJ-1",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NJ-2",
+          "state": "NJ",
+          "district": 2,
+          "up_for_election": true,
+          "race_id": "2026-HG-NJ-2",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NJ-3",
+          "state": "NJ",
+          "district": 3,
+          "up_for_election": true,
+          "race_id": "2026-HG-NJ-3",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NJ-4",
+          "state": "NJ",
+          "district": 4,
+          "up_for_election": true,
+          "race_id": "2026-HG-NJ-4",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NJ-5",
+          "state": "NJ",
+          "district": 5,
+          "up_for_election": true,
+          "race_id": "2026-HG-NJ-5",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NJ-6",
+          "state": "NJ",
+          "district": 6,
+          "up_for_election": true,
+          "race_id": "2026-HG-NJ-6",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NJ-7",
+          "state": "NJ",
+          "district": 7,
+          "up_for_election": true,
+          "race_id": "2026-HG-NJ-7",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NJ-8",
+          "state": "NJ",
+          "district": 8,
+          "up_for_election": true,
+          "race_id": "2026-HG-NJ-8",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NJ-9",
+          "state": "NJ",
+          "district": 9,
+          "up_for_election": true,
+          "race_id": "2026-HG-NJ-9",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NJ-10",
+          "state": "NJ",
+          "district": 10,
+          "up_for_election": true,
+          "race_id": "2026-HG-NJ-10",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NJ-11",
+          "state": "NJ",
+          "district": 11,
+          "up_for_election": true,
+          "race_id": "2026-HG-NJ-11",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NJ-12",
+          "state": "NJ",
+          "district": 12,
+          "up_for_election": true,
+          "race_id": "2026-HG-NJ-12",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NM-1",
+          "state": "NM",
+          "district": 1,
+          "up_for_election": true,
+          "race_id": "2026-HG-NM-1",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NM-2",
+          "state": "NM",
+          "district": 2,
+          "up_for_election": true,
+          "race_id": "2026-HG-NM-2",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NM-3",
+          "state": "NM",
+          "district": 3,
+          "up_for_election": true,
+          "race_id": "2026-HG-NM-3",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NY-1",
+          "state": "NY",
+          "district": 1,
+          "up_for_election": true,
+          "race_id": "2026-HG-NY-1",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NY-2",
+          "state": "NY",
+          "district": 2,
+          "up_for_election": true,
+          "race_id": "2026-HG-NY-2",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NY-3",
+          "state": "NY",
+          "district": 3,
+          "up_for_election": true,
+          "race_id": "2026-HG-NY-3",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NY-4",
+          "state": "NY",
+          "district": 4,
+          "up_for_election": true,
+          "race_id": "2026-HG-NY-4",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NY-5",
+          "state": "NY",
+          "district": 5,
+          "up_for_election": true,
+          "race_id": "2026-HG-NY-5",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NY-6",
+          "state": "NY",
+          "district": 6,
+          "up_for_election": true,
+          "race_id": "2026-HG-NY-6",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NY-7",
+          "state": "NY",
+          "district": 7,
+          "up_for_election": true,
+          "race_id": "2026-HG-NY-7",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NY-8",
+          "state": "NY",
+          "district": 8,
+          "up_for_election": true,
+          "race_id": "2026-HG-NY-8",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NY-9",
+          "state": "NY",
+          "district": 9,
+          "up_for_election": true,
+          "race_id": "2026-HG-NY-9",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NY-10",
+          "state": "NY",
+          "district": 10,
+          "up_for_election": true,
+          "race_id": "2026-HG-NY-10",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NY-11",
+          "state": "NY",
+          "district": 11,
+          "up_for_election": true,
+          "race_id": "2026-HG-NY-11",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NY-12",
+          "state": "NY",
+          "district": 12,
+          "up_for_election": true,
+          "race_id": "2026-HG-NY-12",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NY-13",
+          "state": "NY",
+          "district": 13,
+          "up_for_election": true,
+          "race_id": "2026-HG-NY-13",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NY-14",
+          "state": "NY",
+          "district": 14,
+          "up_for_election": true,
+          "race_id": "2026-HG-NY-14",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NY-15",
+          "state": "NY",
+          "district": 15,
+          "up_for_election": true,
+          "race_id": "2026-HG-NY-15",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NY-16",
+          "state": "NY",
+          "district": 16,
+          "up_for_election": true,
+          "race_id": "2026-HG-NY-16",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NY-17",
+          "state": "NY",
+          "district": 17,
+          "up_for_election": true,
+          "race_id": "2026-HG-NY-17",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NY-18",
+          "state": "NY",
+          "district": 18,
+          "up_for_election": true,
+          "race_id": "2026-HG-NY-18",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NY-19",
+          "state": "NY",
+          "district": 19,
+          "up_for_election": true,
+          "race_id": "2026-HG-NY-19",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NY-20",
+          "state": "NY",
+          "district": 20,
+          "up_for_election": true,
+          "race_id": "2026-HG-NY-20",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NY-21",
+          "state": "NY",
+          "district": 21,
+          "up_for_election": true,
+          "race_id": "2026-HG-NY-21",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NY-22",
+          "state": "NY",
+          "district": 22,
+          "up_for_election": true,
+          "race_id": "2026-HG-NY-22",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NY-23",
+          "state": "NY",
+          "district": 23,
+          "up_for_election": true,
+          "race_id": "2026-HG-NY-23",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NY-24",
+          "state": "NY",
+          "district": 24,
+          "up_for_election": true,
+          "race_id": "2026-HG-NY-24",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NY-25",
+          "state": "NY",
+          "district": 25,
+          "up_for_election": true,
+          "race_id": "2026-HG-NY-25",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NY-26",
+          "state": "NY",
+          "district": 26,
+          "up_for_election": true,
+          "race_id": "2026-HG-NY-26",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NC-1",
+          "state": "NC",
+          "district": 1,
+          "up_for_election": true,
+          "race_id": "2026-HG-NC-1",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NC-2",
+          "state": "NC",
+          "district": 2,
+          "up_for_election": true,
+          "race_id": "2026-HG-NC-2",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NC-3",
+          "state": "NC",
+          "district": 3,
+          "up_for_election": true,
+          "race_id": "2026-HG-NC-3",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NC-4",
+          "state": "NC",
+          "district": 4,
+          "up_for_election": true,
+          "race_id": "2026-HG-NC-4",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NC-5",
+          "state": "NC",
+          "district": 5,
+          "up_for_election": true,
+          "race_id": "2026-HG-NC-5",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NC-6",
+          "state": "NC",
+          "district": 6,
+          "up_for_election": true,
+          "race_id": "2026-HG-NC-6",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NC-7",
+          "state": "NC",
+          "district": 7,
+          "up_for_election": true,
+          "race_id": "2026-HG-NC-7",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NC-8",
+          "state": "NC",
+          "district": 8,
+          "up_for_election": true,
+          "race_id": "2026-HG-NC-8",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NC-9",
+          "state": "NC",
+          "district": 9,
+          "up_for_election": true,
+          "race_id": "2026-HG-NC-9",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NC-10",
+          "state": "NC",
+          "district": 10,
+          "up_for_election": true,
+          "race_id": "2026-HG-NC-10",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NC-11",
+          "state": "NC",
+          "district": 11,
+          "up_for_election": true,
+          "race_id": "2026-HG-NC-11",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NC-12",
+          "state": "NC",
+          "district": 12,
+          "up_for_election": true,
+          "race_id": "2026-HG-NC-12",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NC-13",
+          "state": "NC",
+          "district": 13,
+          "up_for_election": true,
+          "race_id": "2026-HG-NC-13",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "NC-14",
+          "state": "NC",
+          "district": 14,
+          "up_for_election": true,
+          "race_id": "2026-HG-NC-14",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "ND-1",
+          "state": "ND",
+          "district": 1,
+          "up_for_election": true,
+          "race_id": "2026-HG-ND-1",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "OH-1",
+          "state": "OH",
+          "district": 1,
+          "up_for_election": true,
+          "race_id": "2026-HG-OH-1",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "OH-2",
+          "state": "OH",
+          "district": 2,
+          "up_for_election": true,
+          "race_id": "2026-HG-OH-2",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "OH-3",
+          "state": "OH",
+          "district": 3,
+          "up_for_election": true,
+          "race_id": "2026-HG-OH-3",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "OH-4",
+          "state": "OH",
+          "district": 4,
+          "up_for_election": true,
+          "race_id": "2026-HG-OH-4",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "OH-5",
+          "state": "OH",
+          "district": 5,
+          "up_for_election": true,
+          "race_id": "2026-HG-OH-5",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "OH-6",
+          "state": "OH",
+          "district": 6,
+          "up_for_election": true,
+          "race_id": "2026-HG-OH-6",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "OH-7",
+          "state": "OH",
+          "district": 7,
+          "up_for_election": true,
+          "race_id": "2026-HG-OH-7",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "OH-8",
+          "state": "OH",
+          "district": 8,
+          "up_for_election": true,
+          "race_id": "2026-HG-OH-8",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "OH-9",
+          "state": "OH",
+          "district": 9,
+          "up_for_election": true,
+          "race_id": "2026-HG-OH-9",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "OH-10",
+          "state": "OH",
+          "district": 10,
+          "up_for_election": true,
+          "race_id": "2026-HG-OH-10",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "OH-11",
+          "state": "OH",
+          "district": 11,
+          "up_for_election": true,
+          "race_id": "2026-HG-OH-11",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "OH-12",
+          "state": "OH",
+          "district": 12,
+          "up_for_election": true,
+          "race_id": "2026-HG-OH-12",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "OH-13",
+          "state": "OH",
+          "district": 13,
+          "up_for_election": true,
+          "race_id": "2026-HG-OH-13",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "OH-14",
+          "state": "OH",
+          "district": 14,
+          "up_for_election": true,
+          "race_id": "2026-HG-OH-14",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "OH-15",
+          "state": "OH",
+          "district": 15,
+          "up_for_election": true,
+          "race_id": "2026-HG-OH-15",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "OK-1",
+          "state": "OK",
+          "district": 1,
+          "up_for_election": true,
+          "race_id": "2026-HG-OK-1",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "OK-2",
+          "state": "OK",
+          "district": 2,
+          "up_for_election": true,
+          "race_id": "2026-HG-OK-2",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "OK-3",
+          "state": "OK",
+          "district": 3,
+          "up_for_election": true,
+          "race_id": "2026-HG-OK-3",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "OK-4",
+          "state": "OK",
+          "district": 4,
+          "up_for_election": true,
+          "race_id": "2026-HG-OK-4",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "OK-5",
+          "state": "OK",
+          "district": 5,
+          "up_for_election": true,
+          "race_id": "2026-HG-OK-5",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "OR-1",
+          "state": "OR",
+          "district": 1,
+          "up_for_election": true,
+          "race_id": "2026-HG-OR-1",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "OR-2",
+          "state": "OR",
+          "district": 2,
+          "up_for_election": true,
+          "race_id": "2026-HG-OR-2",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "OR-3",
+          "state": "OR",
+          "district": 3,
+          "up_for_election": true,
+          "race_id": "2026-HG-OR-3",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "OR-4",
+          "state": "OR",
+          "district": 4,
+          "up_for_election": true,
+          "race_id": "2026-HG-OR-4",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "OR-5",
+          "state": "OR",
+          "district": 5,
+          "up_for_election": true,
+          "race_id": "2026-HG-OR-5",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "OR-6",
+          "state": "OR",
+          "district": 6,
+          "up_for_election": true,
+          "race_id": "2026-HG-OR-6",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "PA-1",
+          "state": "PA",
+          "district": 1,
+          "up_for_election": true,
+          "race_id": "2026-HG-PA-1",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "PA-2",
+          "state": "PA",
+          "district": 2,
+          "up_for_election": true,
+          "race_id": "2026-HG-PA-2",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "PA-3",
+          "state": "PA",
+          "district": 3,
+          "up_for_election": true,
+          "race_id": "2026-HG-PA-3",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "PA-4",
+          "state": "PA",
+          "district": 4,
+          "up_for_election": true,
+          "race_id": "2026-HG-PA-4",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "PA-5",
+          "state": "PA",
+          "district": 5,
+          "up_for_election": true,
+          "race_id": "2026-HG-PA-5",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "PA-6",
+          "state": "PA",
+          "district": 6,
+          "up_for_election": true,
+          "race_id": "2026-HG-PA-6",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "PA-7",
+          "state": "PA",
+          "district": 7,
+          "up_for_election": true,
+          "race_id": "2026-HG-PA-7",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "PA-8",
+          "state": "PA",
+          "district": 8,
+          "up_for_election": true,
+          "race_id": "2026-HG-PA-8",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "PA-9",
+          "state": "PA",
+          "district": 9,
+          "up_for_election": true,
+          "race_id": "2026-HG-PA-9",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "PA-10",
+          "state": "PA",
+          "district": 10,
+          "up_for_election": true,
+          "race_id": "2026-HG-PA-10",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "PA-11",
+          "state": "PA",
+          "district": 11,
+          "up_for_election": true,
+          "race_id": "2026-HG-PA-11",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "PA-12",
+          "state": "PA",
+          "district": 12,
+          "up_for_election": true,
+          "race_id": "2026-HG-PA-12",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "PA-13",
+          "state": "PA",
+          "district": 13,
+          "up_for_election": true,
+          "race_id": "2026-HG-PA-13",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "PA-14",
+          "state": "PA",
+          "district": 14,
+          "up_for_election": true,
+          "race_id": "2026-HG-PA-14",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "PA-15",
+          "state": "PA",
+          "district": 15,
+          "up_for_election": true,
+          "race_id": "2026-HG-PA-15",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "PA-16",
+          "state": "PA",
+          "district": 16,
+          "up_for_election": true,
+          "race_id": "2026-HG-PA-16",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "PA-17",
+          "state": "PA",
+          "district": 17,
+          "up_for_election": true,
+          "race_id": "2026-HG-PA-17",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "RI-1",
+          "state": "RI",
+          "district": 1,
+          "up_for_election": true,
+          "race_id": "2026-HG-RI-1",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "RI-2",
+          "state": "RI",
+          "district": 2,
+          "up_for_election": true,
+          "race_id": "2026-HG-RI-2",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "SC-1",
+          "state": "SC",
+          "district": 1,
+          "up_for_election": true,
+          "race_id": "2026-HG-SC-1",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "SC-2",
+          "state": "SC",
+          "district": 2,
+          "up_for_election": true,
+          "race_id": "2026-HG-SC-2",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "SC-3",
+          "state": "SC",
+          "district": 3,
+          "up_for_election": true,
+          "race_id": "2026-HG-SC-3",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "SC-4",
+          "state": "SC",
+          "district": 4,
+          "up_for_election": true,
+          "race_id": "2026-HG-SC-4",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "SC-5",
+          "state": "SC",
+          "district": 5,
+          "up_for_election": true,
+          "race_id": "2026-HG-SC-5",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "SC-6",
+          "state": "SC",
+          "district": 6,
+          "up_for_election": true,
+          "race_id": "2026-HG-SC-6",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "SC-7",
+          "state": "SC",
+          "district": 7,
+          "up_for_election": true,
+          "race_id": "2026-HG-SC-7",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "SD-1",
+          "state": "SD",
+          "district": 1,
+          "up_for_election": true,
+          "race_id": "2026-HG-SD-1",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "TN-1",
+          "state": "TN",
+          "district": 1,
+          "up_for_election": true,
+          "race_id": "2026-HG-TN-1",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "TN-2",
+          "state": "TN",
+          "district": 2,
+          "up_for_election": true,
+          "race_id": "2026-HG-TN-2",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "TN-3",
+          "state": "TN",
+          "district": 3,
+          "up_for_election": true,
+          "race_id": "2026-HG-TN-3",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "TN-4",
+          "state": "TN",
+          "district": 4,
+          "up_for_election": true,
+          "race_id": "2026-HG-TN-4",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "TN-5",
+          "state": "TN",
+          "district": 5,
+          "up_for_election": true,
+          "race_id": "2026-HG-TN-5",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "TN-6",
+          "state": "TN",
+          "district": 6,
+          "up_for_election": true,
+          "race_id": "2026-HG-TN-6",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "TN-7",
+          "state": "TN",
+          "district": 7,
+          "up_for_election": true,
+          "race_id": "2026-HG-TN-7",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "TN-8",
+          "state": "TN",
+          "district": 8,
+          "up_for_election": true,
+          "race_id": "2026-HG-TN-8",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "TN-9",
+          "state": "TN",
+          "district": 9,
+          "up_for_election": true,
+          "race_id": "2026-HG-TN-9",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "TX-1",
+          "state": "TX",
+          "district": 1,
+          "up_for_election": true,
+          "race_id": "2026-HG-TX-1",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "TX-2",
+          "state": "TX",
+          "district": 2,
+          "up_for_election": true,
+          "race_id": "2026-HG-TX-2",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "TX-3",
+          "state": "TX",
+          "district": 3,
+          "up_for_election": true,
+          "race_id": "2026-HG-TX-3",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "TX-4",
+          "state": "TX",
+          "district": 4,
+          "up_for_election": true,
+          "race_id": "2026-HG-TX-4",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "TX-5",
+          "state": "TX",
+          "district": 5,
+          "up_for_election": true,
+          "race_id": "2026-HG-TX-5",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "TX-6",
+          "state": "TX",
+          "district": 6,
+          "up_for_election": true,
+          "race_id": "2026-HG-TX-6",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "TX-7",
+          "state": "TX",
+          "district": 7,
+          "up_for_election": true,
+          "race_id": "2026-HG-TX-7",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "TX-8",
+          "state": "TX",
+          "district": 8,
+          "up_for_election": true,
+          "race_id": "2026-HG-TX-8",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "TX-9",
+          "state": "TX",
+          "district": 9,
+          "up_for_election": true,
+          "race_id": "2026-HG-TX-9",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "TX-10",
+          "state": "TX",
+          "district": 10,
+          "up_for_election": true,
+          "race_id": "2026-HG-TX-10",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "TX-11",
+          "state": "TX",
+          "district": 11,
+          "up_for_election": true,
+          "race_id": "2026-HG-TX-11",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "TX-12",
+          "state": "TX",
+          "district": 12,
+          "up_for_election": true,
+          "race_id": "2026-HG-TX-12",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "TX-13",
+          "state": "TX",
+          "district": 13,
+          "up_for_election": true,
+          "race_id": "2026-HG-TX-13",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "TX-14",
+          "state": "TX",
+          "district": 14,
+          "up_for_election": true,
+          "race_id": "2026-HG-TX-14",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "TX-15",
+          "state": "TX",
+          "district": 15,
+          "up_for_election": true,
+          "race_id": "2026-HG-TX-15",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "TX-16",
+          "state": "TX",
+          "district": 16,
+          "up_for_election": true,
+          "race_id": "2026-HG-TX-16",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "TX-17",
+          "state": "TX",
+          "district": 17,
+          "up_for_election": true,
+          "race_id": "2026-HG-TX-17",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "TX-18",
+          "state": "TX",
+          "district": 18,
+          "up_for_election": true,
+          "race_id": "2026-HG-TX-18",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "TX-19",
+          "state": "TX",
+          "district": 19,
+          "up_for_election": true,
+          "race_id": "2026-HG-TX-19",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "TX-20",
+          "state": "TX",
+          "district": 20,
+          "up_for_election": true,
+          "race_id": "2026-HG-TX-20",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "TX-21",
+          "state": "TX",
+          "district": 21,
+          "up_for_election": true,
+          "race_id": "2026-HG-TX-21",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "TX-22",
+          "state": "TX",
+          "district": 22,
+          "up_for_election": true,
+          "race_id": "2026-HG-TX-22",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "TX-23",
+          "state": "TX",
+          "district": 23,
+          "up_for_election": true,
+          "race_id": "2026-HG-TX-23",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "TX-24",
+          "state": "TX",
+          "district": 24,
+          "up_for_election": true,
+          "race_id": "2026-HG-TX-24",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "TX-25",
+          "state": "TX",
+          "district": 25,
+          "up_for_election": true,
+          "race_id": "2026-HG-TX-25",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "TX-26",
+          "state": "TX",
+          "district": 26,
+          "up_for_election": true,
+          "race_id": "2026-HG-TX-26",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "TX-27",
+          "state": "TX",
+          "district": 27,
+          "up_for_election": true,
+          "race_id": "2026-HG-TX-27",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "TX-28",
+          "state": "TX",
+          "district": 28,
+          "up_for_election": true,
+          "race_id": "2026-HG-TX-28",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "TX-29",
+          "state": "TX",
+          "district": 29,
+          "up_for_election": true,
+          "race_id": "2026-HG-TX-29",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "TX-30",
+          "state": "TX",
+          "district": 30,
+          "up_for_election": true,
+          "race_id": "2026-HG-TX-30",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "TX-31",
+          "state": "TX",
+          "district": 31,
+          "up_for_election": true,
+          "race_id": "2026-HG-TX-31",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "TX-32",
+          "state": "TX",
+          "district": 32,
+          "up_for_election": true,
+          "race_id": "2026-HG-TX-32",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "TX-33",
+          "state": "TX",
+          "district": 33,
+          "up_for_election": true,
+          "race_id": "2026-HG-TX-33",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "TX-34",
+          "state": "TX",
+          "district": 34,
+          "up_for_election": true,
+          "race_id": "2026-HG-TX-34",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "TX-35",
+          "state": "TX",
+          "district": 35,
+          "up_for_election": true,
+          "race_id": "2026-HG-TX-35",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "TX-36",
+          "state": "TX",
+          "district": 36,
+          "up_for_election": true,
+          "race_id": "2026-HG-TX-36",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "TX-37",
+          "state": "TX",
+          "district": 37,
+          "up_for_election": true,
+          "race_id": "2026-HG-TX-37",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "TX-38",
+          "state": "TX",
+          "district": 38,
+          "up_for_election": true,
+          "race_id": "2026-HG-TX-38",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "UT-1",
+          "state": "UT",
+          "district": 1,
+          "up_for_election": true,
+          "race_id": "2026-HG-UT-1",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "UT-2",
+          "state": "UT",
+          "district": 2,
+          "up_for_election": true,
+          "race_id": "2026-HG-UT-2",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "UT-3",
+          "state": "UT",
+          "district": 3,
+          "up_for_election": true,
+          "race_id": "2026-HG-UT-3",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "UT-4",
+          "state": "UT",
+          "district": 4,
+          "up_for_election": true,
+          "race_id": "2026-HG-UT-4",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "VT-1",
+          "state": "VT",
+          "district": 1,
+          "up_for_election": true,
+          "race_id": "2026-HG-VT-1",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "VA-1",
+          "state": "VA",
+          "district": 1,
+          "up_for_election": true,
+          "race_id": "2026-HG-VA-1",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "VA-2",
+          "state": "VA",
+          "district": 2,
+          "up_for_election": true,
+          "race_id": "2026-HG-VA-2",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "VA-3",
+          "state": "VA",
+          "district": 3,
+          "up_for_election": true,
+          "race_id": "2026-HG-VA-3",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "VA-4",
+          "state": "VA",
+          "district": 4,
+          "up_for_election": true,
+          "race_id": "2026-HG-VA-4",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "VA-5",
+          "state": "VA",
+          "district": 5,
+          "up_for_election": true,
+          "race_id": "2026-HG-VA-5",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "VA-6",
+          "state": "VA",
+          "district": 6,
+          "up_for_election": true,
+          "race_id": "2026-HG-VA-6",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "VA-7",
+          "state": "VA",
+          "district": 7,
+          "up_for_election": true,
+          "race_id": "2026-HG-VA-7",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "VA-8",
+          "state": "VA",
+          "district": 8,
+          "up_for_election": true,
+          "race_id": "2026-HG-VA-8",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "VA-9",
+          "state": "VA",
+          "district": 9,
+          "up_for_election": true,
+          "race_id": "2026-HG-VA-9",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "VA-10",
+          "state": "VA",
+          "district": 10,
+          "up_for_election": true,
+          "race_id": "2026-HG-VA-10",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "VA-11",
+          "state": "VA",
+          "district": 11,
+          "up_for_election": true,
+          "race_id": "2026-HG-VA-11",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "WA-1",
+          "state": "WA",
+          "district": 1,
+          "up_for_election": true,
+          "race_id": "2026-HG-WA-1",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "WA-2",
+          "state": "WA",
+          "district": 2,
+          "up_for_election": true,
+          "race_id": "2026-HG-WA-2",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "WA-3",
+          "state": "WA",
+          "district": 3,
+          "up_for_election": true,
+          "race_id": "2026-HG-WA-3",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "WA-4",
+          "state": "WA",
+          "district": 4,
+          "up_for_election": true,
+          "race_id": "2026-HG-WA-4",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "WA-5",
+          "state": "WA",
+          "district": 5,
+          "up_for_election": true,
+          "race_id": "2026-HG-WA-5",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "WA-6",
+          "state": "WA",
+          "district": 6,
+          "up_for_election": true,
+          "race_id": "2026-HG-WA-6",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "WA-7",
+          "state": "WA",
+          "district": 7,
+          "up_for_election": true,
+          "race_id": "2026-HG-WA-7",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "WA-8",
+          "state": "WA",
+          "district": 8,
+          "up_for_election": true,
+          "race_id": "2026-HG-WA-8",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "WA-9",
+          "state": "WA",
+          "district": 9,
+          "up_for_election": true,
+          "race_id": "2026-HG-WA-9",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "WA-10",
+          "state": "WA",
+          "district": 10,
+          "up_for_election": true,
+          "race_id": "2026-HG-WA-10",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "WV-1",
+          "state": "WV",
+          "district": 1,
+          "up_for_election": true,
+          "race_id": "2026-HG-WV-1",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "WV-2",
+          "state": "WV",
+          "district": 2,
+          "up_for_election": true,
+          "race_id": "2026-HG-WV-2",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "WI-1",
+          "state": "WI",
+          "district": 1,
+          "up_for_election": true,
+          "race_id": "2026-HG-WI-1",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "WI-2",
+          "state": "WI",
+          "district": 2,
+          "up_for_election": true,
+          "race_id": "2026-HG-WI-2",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "WI-3",
+          "state": "WI",
+          "district": 3,
+          "up_for_election": true,
+          "race_id": "2026-HG-WI-3",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "WI-4",
+          "state": "WI",
+          "district": 4,
+          "up_for_election": true,
+          "race_id": "2026-HG-WI-4",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "WI-5",
+          "state": "WI",
+          "district": 5,
+          "up_for_election": true,
+          "race_id": "2026-HG-WI-5",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "WI-6",
+          "state": "WI",
+          "district": 6,
+          "up_for_election": true,
+          "race_id": "2026-HG-WI-6",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "WI-7",
+          "state": "WI",
+          "district": 7,
+          "up_for_election": true,
+          "race_id": "2026-HG-WI-7",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "WI-8",
+          "state": "WI",
+          "district": 8,
+          "up_for_election": true,
+          "race_id": "2026-HG-WI-8",
+          "source_id": "house-2026-geography"
+        },
+        {
+          "seat_id": "WY-1",
+          "state": "WY",
+          "district": 1,
+          "up_for_election": true,
+          "race_id": "2026-HG-WY-1",
+          "source_id": "house-2026-geography"
+        }
+      ]
+    },
+    "governor": {
+      "total": 50,
+      "seats": [
+        {
+          "seat_id": "AK",
+          "state": "AK",
+          "up_for_election": true,
+          "race_id": "2026-GG-AK",
+          "source_id": "governor-2026-ballotpedia"
+        },
+        {
+          "seat_id": "AL",
+          "state": "AL",
+          "up_for_election": true,
+          "race_id": "2026-GG-AL",
+          "source_id": "governor-2026-ballotpedia"
+        },
+        {
+          "seat_id": "AR",
+          "state": "AR",
+          "up_for_election": true,
+          "race_id": "2026-GG-AR",
+          "source_id": "governor-2026-ballotpedia"
+        },
+        {
+          "seat_id": "AZ",
+          "state": "AZ",
+          "up_for_election": true,
+          "race_id": "2026-GG-AZ",
+          "source_id": "governor-2026-ballotpedia"
+        },
+        {
+          "seat_id": "CA",
+          "state": "CA",
+          "up_for_election": true,
+          "race_id": "2026-GG-CA",
+          "source_id": "governor-2026-ballotpedia"
+        },
+        {
+          "seat_id": "CO",
+          "state": "CO",
+          "up_for_election": true,
+          "race_id": "2026-GG-CO",
+          "source_id": "governor-2026-ballotpedia"
+        },
+        {
+          "seat_id": "CT",
+          "state": "CT",
+          "up_for_election": true,
+          "race_id": "2026-GG-CT",
+          "source_id": "governor-2026-ballotpedia"
+        },
+        {
+          "seat_id": "DE",
+          "state": "DE",
+          "up_for_election": false,
+          "name": "Matt Meyer",
+          "party": "DEM",
+          "source_id": "nga-roster",
+          "source_url": "https://www.nga.org/wp-content/uploads/2024/12/Governors-Roster.pdf",
+          "source_sha256": "4d71f8d1d0d5028db4a50e0fa57d420630bad3eac86702caef90990cb6ff9ae1"
+        },
+        {
+          "seat_id": "FL",
+          "state": "FL",
+          "up_for_election": true,
+          "race_id": "2026-GG-FL",
+          "source_id": "governor-2026-ballotpedia"
+        },
+        {
+          "seat_id": "GA",
+          "state": "GA",
+          "up_for_election": true,
+          "race_id": "2026-GG-GA",
+          "source_id": "governor-2026-ballotpedia"
+        },
+        {
+          "seat_id": "HI",
+          "state": "HI",
+          "up_for_election": true,
+          "race_id": "2026-GG-HI",
+          "source_id": "governor-2026-ballotpedia"
+        },
+        {
+          "seat_id": "IA",
+          "state": "IA",
+          "up_for_election": true,
+          "race_id": "2026-GG-IA",
+          "source_id": "governor-2026-ballotpedia"
+        },
+        {
+          "seat_id": "ID",
+          "state": "ID",
+          "up_for_election": true,
+          "race_id": "2026-GG-ID",
+          "source_id": "governor-2026-ballotpedia"
+        },
+        {
+          "seat_id": "IL",
+          "state": "IL",
+          "up_for_election": true,
+          "race_id": "2026-GG-IL",
+          "source_id": "governor-2026-ballotpedia"
+        },
+        {
+          "seat_id": "IN",
+          "state": "IN",
+          "up_for_election": false,
+          "name": "Mike Braun",
+          "party": "REP",
+          "source_id": "nga-roster",
+          "source_url": "https://www.nga.org/wp-content/uploads/2024/12/Governors-Roster.pdf",
+          "source_sha256": "4d71f8d1d0d5028db4a50e0fa57d420630bad3eac86702caef90990cb6ff9ae1"
+        },
+        {
+          "seat_id": "KS",
+          "state": "KS",
+          "up_for_election": true,
+          "race_id": "2026-GG-KS",
+          "source_id": "governor-2026-ballotpedia"
+        },
+        {
+          "seat_id": "KY",
+          "state": "KY",
+          "up_for_election": false,
+          "name": "Andy Beshear",
+          "party": "DEM",
+          "source_id": "nga-roster",
+          "source_url": "https://www.nga.org/wp-content/uploads/2024/12/Governors-Roster.pdf",
+          "source_sha256": "4d71f8d1d0d5028db4a50e0fa57d420630bad3eac86702caef90990cb6ff9ae1"
+        },
+        {
+          "seat_id": "LA",
+          "state": "LA",
+          "up_for_election": false,
+          "name": "Jeff Landry",
+          "party": "REP",
+          "source_id": "nga-roster",
+          "source_url": "https://www.nga.org/wp-content/uploads/2024/12/Governors-Roster.pdf",
+          "source_sha256": "4d71f8d1d0d5028db4a50e0fa57d420630bad3eac86702caef90990cb6ff9ae1"
+        },
+        {
+          "seat_id": "MA",
+          "state": "MA",
+          "up_for_election": true,
+          "race_id": "2026-GG-MA",
+          "source_id": "governor-2026-ballotpedia"
+        },
+        {
+          "seat_id": "MD",
+          "state": "MD",
+          "up_for_election": true,
+          "race_id": "2026-GG-MD",
+          "source_id": "governor-2026-ballotpedia"
+        },
+        {
+          "seat_id": "ME",
+          "state": "ME",
+          "up_for_election": true,
+          "race_id": "2026-GG-ME",
+          "source_id": "governor-2026-ballotpedia"
+        },
+        {
+          "seat_id": "MI",
+          "state": "MI",
+          "up_for_election": true,
+          "race_id": "2026-GG-MI",
+          "source_id": "governor-2026-ballotpedia"
+        },
+        {
+          "seat_id": "MN",
+          "state": "MN",
+          "up_for_election": true,
+          "race_id": "2026-GG-MN",
+          "source_id": "governor-2026-ballotpedia"
+        },
+        {
+          "seat_id": "MO",
+          "state": "MO",
+          "up_for_election": false,
+          "name": "Mike Kehoe",
+          "party": "REP",
+          "source_id": "nga-roster",
+          "source_url": "https://www.nga.org/wp-content/uploads/2024/12/Governors-Roster.pdf",
+          "source_sha256": "4d71f8d1d0d5028db4a50e0fa57d420630bad3eac86702caef90990cb6ff9ae1"
+        },
+        {
+          "seat_id": "MS",
+          "state": "MS",
+          "up_for_election": false,
+          "name": "Tate Reeves",
+          "party": "REP",
+          "source_id": "nga-roster",
+          "source_url": "https://www.nga.org/wp-content/uploads/2024/12/Governors-Roster.pdf",
+          "source_sha256": "4d71f8d1d0d5028db4a50e0fa57d420630bad3eac86702caef90990cb6ff9ae1"
+        },
+        {
+          "seat_id": "MT",
+          "state": "MT",
+          "up_for_election": false,
+          "name": "Greg Gianforte",
+          "party": "REP",
+          "source_id": "nga-roster",
+          "source_url": "https://www.nga.org/wp-content/uploads/2024/12/Governors-Roster.pdf",
+          "source_sha256": "4d71f8d1d0d5028db4a50e0fa57d420630bad3eac86702caef90990cb6ff9ae1"
+        },
+        {
+          "seat_id": "NC",
+          "state": "NC",
+          "up_for_election": false,
+          "name": "Josh Stein",
+          "party": "DEM",
+          "source_id": "nga-roster",
+          "source_url": "https://www.nga.org/wp-content/uploads/2024/12/Governors-Roster.pdf",
+          "source_sha256": "4d71f8d1d0d5028db4a50e0fa57d420630bad3eac86702caef90990cb6ff9ae1"
+        },
+        {
+          "seat_id": "ND",
+          "state": "ND",
+          "up_for_election": false,
+          "name": "Kelly Armstrong",
+          "party": "REP",
+          "source_id": "nga-roster",
+          "source_url": "https://www.nga.org/wp-content/uploads/2024/12/Governors-Roster.pdf",
+          "source_sha256": "4d71f8d1d0d5028db4a50e0fa57d420630bad3eac86702caef90990cb6ff9ae1"
+        },
+        {
+          "seat_id": "NE",
+          "state": "NE",
+          "up_for_election": true,
+          "race_id": "2026-GG-NE",
+          "source_id": "governor-2026-ballotpedia"
+        },
+        {
+          "seat_id": "NH",
+          "state": "NH",
+          "up_for_election": true,
+          "race_id": "2026-GG-NH",
+          "source_id": "governor-2026-ballotpedia"
+        },
+        {
+          "seat_id": "NJ",
+          "state": "NJ",
+          "up_for_election": false,
+          "name": "Mikie Sherrill",
+          "party": "DEM",
+          "source_id": "nga-roster",
+          "source_url": "https://www.nga.org/wp-content/uploads/2024/12/Governors-Roster.pdf",
+          "source_sha256": "4d71f8d1d0d5028db4a50e0fa57d420630bad3eac86702caef90990cb6ff9ae1"
+        },
+        {
+          "seat_id": "NM",
+          "state": "NM",
+          "up_for_election": true,
+          "race_id": "2026-GG-NM",
+          "source_id": "governor-2026-ballotpedia"
+        },
+        {
+          "seat_id": "NV",
+          "state": "NV",
+          "up_for_election": true,
+          "race_id": "2026-GG-NV",
+          "source_id": "governor-2026-ballotpedia"
+        },
+        {
+          "seat_id": "NY",
+          "state": "NY",
+          "up_for_election": true,
+          "race_id": "2026-GG-NY",
+          "source_id": "governor-2026-ballotpedia"
+        },
+        {
+          "seat_id": "OH",
+          "state": "OH",
+          "up_for_election": true,
+          "race_id": "2026-GG-OH",
+          "source_id": "governor-2026-ballotpedia"
+        },
+        {
+          "seat_id": "OK",
+          "state": "OK",
+          "up_for_election": true,
+          "race_id": "2026-GG-OK",
+          "source_id": "governor-2026-ballotpedia"
+        },
+        {
+          "seat_id": "OR",
+          "state": "OR",
+          "up_for_election": true,
+          "race_id": "2026-GG-OR",
+          "source_id": "governor-2026-ballotpedia"
+        },
+        {
+          "seat_id": "PA",
+          "state": "PA",
+          "up_for_election": true,
+          "race_id": "2026-GG-PA",
+          "source_id": "governor-2026-ballotpedia"
+        },
+        {
+          "seat_id": "RI",
+          "state": "RI",
+          "up_for_election": true,
+          "race_id": "2026-GG-RI",
+          "source_id": "governor-2026-ballotpedia"
+        },
+        {
+          "seat_id": "SC",
+          "state": "SC",
+          "up_for_election": true,
+          "race_id": "2026-GG-SC",
+          "source_id": "governor-2026-ballotpedia"
+        },
+        {
+          "seat_id": "SD",
+          "state": "SD",
+          "up_for_election": true,
+          "race_id": "2026-GG-SD",
+          "source_id": "governor-2026-ballotpedia"
+        },
+        {
+          "seat_id": "TN",
+          "state": "TN",
+          "up_for_election": true,
+          "race_id": "2026-GG-TN",
+          "source_id": "governor-2026-ballotpedia"
+        },
+        {
+          "seat_id": "TX",
+          "state": "TX",
+          "up_for_election": true,
+          "race_id": "2026-GG-TX",
+          "source_id": "governor-2026-ballotpedia"
+        },
+        {
+          "seat_id": "UT",
+          "state": "UT",
+          "up_for_election": false,
+          "name": "Spencer Cox",
+          "party": "REP",
+          "source_id": "nga-roster",
+          "source_url": "https://www.nga.org/wp-content/uploads/2024/12/Governors-Roster.pdf",
+          "source_sha256": "4d71f8d1d0d5028db4a50e0fa57d420630bad3eac86702caef90990cb6ff9ae1"
+        },
+        {
+          "seat_id": "VA",
+          "state": "VA",
+          "up_for_election": false,
+          "name": "Abigail Spanberger",
+          "party": "DEM",
+          "source_id": "nga-roster",
+          "source_url": "https://www.nga.org/wp-content/uploads/2024/12/Governors-Roster.pdf",
+          "source_sha256": "4d71f8d1d0d5028db4a50e0fa57d420630bad3eac86702caef90990cb6ff9ae1"
+        },
+        {
+          "seat_id": "VT",
+          "state": "VT",
+          "up_for_election": true,
+          "race_id": "2026-GG-VT",
+          "source_id": "governor-2026-ballotpedia"
+        },
+        {
+          "seat_id": "WA",
+          "state": "WA",
+          "up_for_election": false,
+          "name": "Bob Ferguson",
+          "party": "DEM",
+          "source_id": "nga-roster",
+          "source_url": "https://www.nga.org/wp-content/uploads/2024/12/Governors-Roster.pdf",
+          "source_sha256": "4d71f8d1d0d5028db4a50e0fa57d420630bad3eac86702caef90990cb6ff9ae1"
+        },
+        {
+          "seat_id": "WI",
+          "state": "WI",
+          "up_for_election": true,
+          "race_id": "2026-GG-WI",
+          "source_id": "governor-2026-ballotpedia"
+        },
+        {
+          "seat_id": "WV",
+          "state": "WV",
+          "up_for_election": false,
+          "name": "Patrick Morrisey",
+          "party": "REP",
+          "source_id": "nga-roster",
+          "source_url": "https://www.nga.org/wp-content/uploads/2024/12/Governors-Roster.pdf",
+          "source_sha256": "4d71f8d1d0d5028db4a50e0fa57d420630bad3eac86702caef90990cb6ff9ae1"
+        },
+        {
+          "seat_id": "WY",
+          "state": "WY",
+          "up_for_election": true,
+          "race_id": "2026-GG-WY",
+          "source_id": "governor-2026-ballotpedia"
+        }
+      ]
+    }
+  }
+}
