@@ -1,0 +1,2132 @@
+{
+  "schema_version": "ma_town_county_crosswalk_v1",
+  "state": "MA",
+  "source": {
+    "name": "MassGIS Massachusetts Municipalities Areas",
+    "url": "https://services1.arcgis.com/hGdibHYSPO59RG1h/ArcGIS/rest/services/Massachusetts_Municipalities/FeatureServer/1/query?where=1%3D1&outFields=TOWN%2CTOWN_ID%2CCOUNTY%2CFIPS_STCO&returnGeometry=false&returnDistinctValues=true&orderByFields=TOWN_ID&f=json",
+    "documentation_url": "https://www.mass.gov/info-details/massgis-data-municipalities",
+    "retrieved_at": "2026-11-04T22:21:23.069350+00:00",
+    "sha256": "706c1c63e38c08d2667861bbdc3cfd21323c256a65d072b652546de8799a6250",
+    "fields": [
+      "TOWN",
+      "TOWN_ID",
+      "COUNTY",
+      "FIPS_STCO"
+    ],
+    "capture_format": "original_response_bytes"
+  },
+  "towns": [
+    {
+      "name": "ABINGTON",
+      "massgis_town_id": 1,
+      "county_fips": "25023",
+      "county_name": "Plymouth County"
+    },
+    {
+      "name": "ACTON",
+      "massgis_town_id": 2,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "ACUSHNET",
+      "massgis_town_id": 3,
+      "county_fips": "25005",
+      "county_name": "Bristol County"
+    },
+    {
+      "name": "ADAMS",
+      "massgis_town_id": 4,
+      "county_fips": "25003",
+      "county_name": "Berkshire County"
+    },
+    {
+      "name": "AGAWAM",
+      "massgis_town_id": 5,
+      "county_fips": "25013",
+      "county_name": "Hampden County"
+    },
+    {
+      "name": "ALFORD",
+      "massgis_town_id": 6,
+      "county_fips": "25003",
+      "county_name": "Berkshire County"
+    },
+    {
+      "name": "AMESBURY",
+      "massgis_town_id": 7,
+      "county_fips": "25009",
+      "county_name": "Essex County"
+    },
+    {
+      "name": "AMHERST",
+      "massgis_town_id": 8,
+      "county_fips": "25015",
+      "county_name": "Hampshire County"
+    },
+    {
+      "name": "ANDOVER",
+      "massgis_town_id": 9,
+      "county_fips": "25009",
+      "county_name": "Essex County"
+    },
+    {
+      "name": "ARLINGTON",
+      "massgis_town_id": 10,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "ASHBURNHAM",
+      "massgis_town_id": 11,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "ASHBY",
+      "massgis_town_id": 12,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "ASHFIELD",
+      "massgis_town_id": 13,
+      "county_fips": "25011",
+      "county_name": "Franklin County"
+    },
+    {
+      "name": "ASHLAND",
+      "massgis_town_id": 14,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "ATHOL",
+      "massgis_town_id": 15,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "ATTLEBORO",
+      "massgis_town_id": 16,
+      "county_fips": "25005",
+      "county_name": "Bristol County"
+    },
+    {
+      "name": "AUBURN",
+      "massgis_town_id": 17,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "AVON",
+      "massgis_town_id": 18,
+      "county_fips": "25021",
+      "county_name": "Norfolk County"
+    },
+    {
+      "name": "AYER",
+      "massgis_town_id": 19,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "BARNSTABLE",
+      "massgis_town_id": 20,
+      "county_fips": "25001",
+      "county_name": "Barnstable County"
+    },
+    {
+      "name": "BARRE",
+      "massgis_town_id": 21,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "BECKET",
+      "massgis_town_id": 22,
+      "county_fips": "25003",
+      "county_name": "Berkshire County"
+    },
+    {
+      "name": "BEDFORD",
+      "massgis_town_id": 23,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "BELCHERTOWN",
+      "massgis_town_id": 24,
+      "county_fips": "25015",
+      "county_name": "Hampshire County"
+    },
+    {
+      "name": "BELLINGHAM",
+      "massgis_town_id": 25,
+      "county_fips": "25021",
+      "county_name": "Norfolk County"
+    },
+    {
+      "name": "BELMONT",
+      "massgis_town_id": 26,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "BERKLEY",
+      "massgis_town_id": 27,
+      "county_fips": "25005",
+      "county_name": "Bristol County"
+    },
+    {
+      "name": "BERLIN",
+      "massgis_town_id": 28,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "BERNARDSTON",
+      "massgis_town_id": 29,
+      "county_fips": "25011",
+      "county_name": "Franklin County"
+    },
+    {
+      "name": "BEVERLY",
+      "massgis_town_id": 30,
+      "county_fips": "25009",
+      "county_name": "Essex County"
+    },
+    {
+      "name": "BILLERICA",
+      "massgis_town_id": 31,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "BLACKSTONE",
+      "massgis_town_id": 32,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "BLANDFORD",
+      "massgis_town_id": 33,
+      "county_fips": "25013",
+      "county_name": "Hampden County"
+    },
+    {
+      "name": "BOLTON",
+      "massgis_town_id": 34,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "BOSTON",
+      "massgis_town_id": 35,
+      "county_fips": "25025",
+      "county_name": "Suffolk County"
+    },
+    {
+      "name": "BOURNE",
+      "massgis_town_id": 36,
+      "county_fips": "25001",
+      "county_name": "Barnstable County"
+    },
+    {
+      "name": "BOXBOROUGH",
+      "massgis_town_id": 37,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "BOXFORD",
+      "massgis_town_id": 38,
+      "county_fips": "25009",
+      "county_name": "Essex County"
+    },
+    {
+      "name": "BOYLSTON",
+      "massgis_town_id": 39,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "BRAINTREE",
+      "massgis_town_id": 40,
+      "county_fips": "25021",
+      "county_name": "Norfolk County"
+    },
+    {
+      "name": "BREWSTER",
+      "massgis_town_id": 41,
+      "county_fips": "25001",
+      "county_name": "Barnstable County"
+    },
+    {
+      "name": "BRIDGEWATER",
+      "massgis_town_id": 42,
+      "county_fips": "25023",
+      "county_name": "Plymouth County"
+    },
+    {
+      "name": "BRIMFIELD",
+      "massgis_town_id": 43,
+      "county_fips": "25013",
+      "county_name": "Hampden County"
+    },
+    {
+      "name": "BROCKTON",
+      "massgis_town_id": 44,
+      "county_fips": "25023",
+      "county_name": "Plymouth County"
+    },
+    {
+      "name": "BROOKFIELD",
+      "massgis_town_id": 45,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "BROOKLINE",
+      "massgis_town_id": 46,
+      "county_fips": "25021",
+      "county_name": "Norfolk County"
+    },
+    {
+      "name": "BUCKLAND",
+      "massgis_town_id": 47,
+      "county_fips": "25011",
+      "county_name": "Franklin County"
+    },
+    {
+      "name": "BURLINGTON",
+      "massgis_town_id": 48,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "CAMBRIDGE",
+      "massgis_town_id": 49,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "CANTON",
+      "massgis_town_id": 50,
+      "county_fips": "25021",
+      "county_name": "Norfolk County"
+    },
+    {
+      "name": "CARLISLE",
+      "massgis_town_id": 51,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "CARVER",
+      "massgis_town_id": 52,
+      "county_fips": "25023",
+      "county_name": "Plymouth County"
+    },
+    {
+      "name": "CHARLEMONT",
+      "massgis_town_id": 53,
+      "county_fips": "25011",
+      "county_name": "Franklin County"
+    },
+    {
+      "name": "CHARLTON",
+      "massgis_town_id": 54,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "CHATHAM",
+      "massgis_town_id": 55,
+      "county_fips": "25001",
+      "county_name": "Barnstable County"
+    },
+    {
+      "name": "CHELMSFORD",
+      "massgis_town_id": 56,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "CHELSEA",
+      "massgis_town_id": 57,
+      "county_fips": "25025",
+      "county_name": "Suffolk County"
+    },
+    {
+      "name": "CHESHIRE",
+      "massgis_town_id": 58,
+      "county_fips": "25003",
+      "county_name": "Berkshire County"
+    },
+    {
+      "name": "CHESTER",
+      "massgis_town_id": 59,
+      "county_fips": "25013",
+      "county_name": "Hampden County"
+    },
+    {
+      "name": "CHESTERFIELD",
+      "massgis_town_id": 60,
+      "county_fips": "25015",
+      "county_name": "Hampshire County"
+    },
+    {
+      "name": "CHICOPEE",
+      "massgis_town_id": 61,
+      "county_fips": "25013",
+      "county_name": "Hampden County"
+    },
+    {
+      "name": "CHILMARK",
+      "massgis_town_id": 62,
+      "county_fips": "25007",
+      "county_name": "Dukes County"
+    },
+    {
+      "name": "CLARKSBURG",
+      "massgis_town_id": 63,
+      "county_fips": "25003",
+      "county_name": "Berkshire County"
+    },
+    {
+      "name": "CLINTON",
+      "massgis_town_id": 64,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "COHASSET",
+      "massgis_town_id": 65,
+      "county_fips": "25021",
+      "county_name": "Norfolk County"
+    },
+    {
+      "name": "COLRAIN",
+      "massgis_town_id": 66,
+      "county_fips": "25011",
+      "county_name": "Franklin County"
+    },
+    {
+      "name": "CONCORD",
+      "massgis_town_id": 67,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "CONWAY",
+      "massgis_town_id": 68,
+      "county_fips": "25011",
+      "county_name": "Franklin County"
+    },
+    {
+      "name": "CUMMINGTON",
+      "massgis_town_id": 69,
+      "county_fips": "25015",
+      "county_name": "Hampshire County"
+    },
+    {
+      "name": "DALTON",
+      "massgis_town_id": 70,
+      "county_fips": "25003",
+      "county_name": "Berkshire County"
+    },
+    {
+      "name": "DANVERS",
+      "massgis_town_id": 71,
+      "county_fips": "25009",
+      "county_name": "Essex County"
+    },
+    {
+      "name": "DARTMOUTH",
+      "massgis_town_id": 72,
+      "county_fips": "25005",
+      "county_name": "Bristol County"
+    },
+    {
+      "name": "DEDHAM",
+      "massgis_town_id": 73,
+      "county_fips": "25021",
+      "county_name": "Norfolk County"
+    },
+    {
+      "name": "DEERFIELD",
+      "massgis_town_id": 74,
+      "county_fips": "25011",
+      "county_name": "Franklin County"
+    },
+    {
+      "name": "DENNIS",
+      "massgis_town_id": 75,
+      "county_fips": "25001",
+      "county_name": "Barnstable County"
+    },
+    {
+      "name": "DIGHTON",
+      "massgis_town_id": 76,
+      "county_fips": "25005",
+      "county_name": "Bristol County"
+    },
+    {
+      "name": "DOUGLAS",
+      "massgis_town_id": 77,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "DOVER",
+      "massgis_town_id": 78,
+      "county_fips": "25021",
+      "county_name": "Norfolk County"
+    },
+    {
+      "name": "DRACUT",
+      "massgis_town_id": 79,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "DUDLEY",
+      "massgis_town_id": 80,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "DUNSTABLE",
+      "massgis_town_id": 81,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "DUXBURY",
+      "massgis_town_id": 82,
+      "county_fips": "25023",
+      "county_name": "Plymouth County"
+    },
+    {
+      "name": "EAST BRIDGEWATER",
+      "massgis_town_id": 83,
+      "county_fips": "25023",
+      "county_name": "Plymouth County"
+    },
+    {
+      "name": "EAST BROOKFIELD",
+      "massgis_town_id": 84,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "EAST LONGMEADOW",
+      "massgis_town_id": 85,
+      "county_fips": "25013",
+      "county_name": "Hampden County"
+    },
+    {
+      "name": "EASTHAM",
+      "massgis_town_id": 86,
+      "county_fips": "25001",
+      "county_name": "Barnstable County"
+    },
+    {
+      "name": "EASTHAMPTON",
+      "massgis_town_id": 87,
+      "county_fips": "25015",
+      "county_name": "Hampshire County"
+    },
+    {
+      "name": "EASTON",
+      "massgis_town_id": 88,
+      "county_fips": "25005",
+      "county_name": "Bristol County"
+    },
+    {
+      "name": "EDGARTOWN",
+      "massgis_town_id": 89,
+      "county_fips": "25007",
+      "county_name": "Dukes County"
+    },
+    {
+      "name": "EGREMONT",
+      "massgis_town_id": 90,
+      "county_fips": "25003",
+      "county_name": "Berkshire County"
+    },
+    {
+      "name": "ERVING",
+      "massgis_town_id": 91,
+      "county_fips": "25011",
+      "county_name": "Franklin County"
+    },
+    {
+      "name": "ESSEX",
+      "massgis_town_id": 92,
+      "county_fips": "25009",
+      "county_name": "Essex County"
+    },
+    {
+      "name": "EVERETT",
+      "massgis_town_id": 93,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "FAIRHAVEN",
+      "massgis_town_id": 94,
+      "county_fips": "25005",
+      "county_name": "Bristol County"
+    },
+    {
+      "name": "FALL RIVER",
+      "massgis_town_id": 95,
+      "county_fips": "25005",
+      "county_name": "Bristol County"
+    },
+    {
+      "name": "FALMOUTH",
+      "massgis_town_id": 96,
+      "county_fips": "25001",
+      "county_name": "Barnstable County"
+    },
+    {
+      "name": "FITCHBURG",
+      "massgis_town_id": 97,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "FLORIDA",
+      "massgis_town_id": 98,
+      "county_fips": "25003",
+      "county_name": "Berkshire County"
+    },
+    {
+      "name": "FOXBOROUGH",
+      "massgis_town_id": 99,
+      "county_fips": "25021",
+      "county_name": "Norfolk County"
+    },
+    {
+      "name": "FRAMINGHAM",
+      "massgis_town_id": 100,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "FRANKLIN",
+      "massgis_town_id": 101,
+      "county_fips": "25021",
+      "county_name": "Norfolk County"
+    },
+    {
+      "name": "FREETOWN",
+      "massgis_town_id": 102,
+      "county_fips": "25005",
+      "county_name": "Bristol County"
+    },
+    {
+      "name": "GARDNER",
+      "massgis_town_id": 103,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "AQUINNAH",
+      "massgis_town_id": 104,
+      "county_fips": "25007",
+      "county_name": "Dukes County"
+    },
+    {
+      "name": "GEORGETOWN",
+      "massgis_town_id": 105,
+      "county_fips": "25009",
+      "county_name": "Essex County"
+    },
+    {
+      "name": "GILL",
+      "massgis_town_id": 106,
+      "county_fips": "25011",
+      "county_name": "Franklin County"
+    },
+    {
+      "name": "GLOUCESTER",
+      "massgis_town_id": 107,
+      "county_fips": "25009",
+      "county_name": "Essex County"
+    },
+    {
+      "name": "GOSHEN",
+      "massgis_town_id": 108,
+      "county_fips": "25015",
+      "county_name": "Hampshire County"
+    },
+    {
+      "name": "GOSNOLD",
+      "massgis_town_id": 109,
+      "county_fips": "25007",
+      "county_name": "Dukes County"
+    },
+    {
+      "name": "GRAFTON",
+      "massgis_town_id": 110,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "GRANBY",
+      "massgis_town_id": 111,
+      "county_fips": "25015",
+      "county_name": "Hampshire County"
+    },
+    {
+      "name": "GRANVILLE",
+      "massgis_town_id": 112,
+      "county_fips": "25013",
+      "county_name": "Hampden County"
+    },
+    {
+      "name": "GREAT BARRINGTON",
+      "massgis_town_id": 113,
+      "county_fips": "25003",
+      "county_name": "Berkshire County"
+    },
+    {
+      "name": "GREENFIELD",
+      "massgis_town_id": 114,
+      "county_fips": "25011",
+      "county_name": "Franklin County"
+    },
+    {
+      "name": "GROTON",
+      "massgis_town_id": 115,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "GROVELAND",
+      "massgis_town_id": 116,
+      "county_fips": "25009",
+      "county_name": "Essex County"
+    },
+    {
+      "name": "HADLEY",
+      "massgis_town_id": 117,
+      "county_fips": "25015",
+      "county_name": "Hampshire County"
+    },
+    {
+      "name": "HALIFAX",
+      "massgis_town_id": 118,
+      "county_fips": "25023",
+      "county_name": "Plymouth County"
+    },
+    {
+      "name": "HAMILTON",
+      "massgis_town_id": 119,
+      "county_fips": "25009",
+      "county_name": "Essex County"
+    },
+    {
+      "name": "HAMPDEN",
+      "massgis_town_id": 120,
+      "county_fips": "25013",
+      "county_name": "Hampden County"
+    },
+    {
+      "name": "HANCOCK",
+      "massgis_town_id": 121,
+      "county_fips": "25003",
+      "county_name": "Berkshire County"
+    },
+    {
+      "name": "HANOVER",
+      "massgis_town_id": 122,
+      "county_fips": "25023",
+      "county_name": "Plymouth County"
+    },
+    {
+      "name": "HANSON",
+      "massgis_town_id": 123,
+      "county_fips": "25023",
+      "county_name": "Plymouth County"
+    },
+    {
+      "name": "HARDWICK",
+      "massgis_town_id": 124,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "HARVARD",
+      "massgis_town_id": 125,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "HARWICH",
+      "massgis_town_id": 126,
+      "county_fips": "25001",
+      "county_name": "Barnstable County"
+    },
+    {
+      "name": "HATFIELD",
+      "massgis_town_id": 127,
+      "county_fips": "25015",
+      "county_name": "Hampshire County"
+    },
+    {
+      "name": "HAVERHILL",
+      "massgis_town_id": 128,
+      "county_fips": "25009",
+      "county_name": "Essex County"
+    },
+    {
+      "name": "HAWLEY",
+      "massgis_town_id": 129,
+      "county_fips": "25011",
+      "county_name": "Franklin County"
+    },
+    {
+      "name": "HEATH",
+      "massgis_town_id": 130,
+      "county_fips": "25011",
+      "county_name": "Franklin County"
+    },
+    {
+      "name": "HINGHAM",
+      "massgis_town_id": 131,
+      "county_fips": "25023",
+      "county_name": "Plymouth County"
+    },
+    {
+      "name": "HINSDALE",
+      "massgis_town_id": 132,
+      "county_fips": "25003",
+      "county_name": "Berkshire County"
+    },
+    {
+      "name": "HOLBROOK",
+      "massgis_town_id": 133,
+      "county_fips": "25021",
+      "county_name": "Norfolk County"
+    },
+    {
+      "name": "HOLDEN",
+      "massgis_town_id": 134,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "HOLLAND",
+      "massgis_town_id": 135,
+      "county_fips": "25013",
+      "county_name": "Hampden County"
+    },
+    {
+      "name": "HOLLISTON",
+      "massgis_town_id": 136,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "HOLYOKE",
+      "massgis_town_id": 137,
+      "county_fips": "25013",
+      "county_name": "Hampden County"
+    },
+    {
+      "name": "HOPEDALE",
+      "massgis_town_id": 138,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "HOPKINTON",
+      "massgis_town_id": 139,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "HUBBARDSTON",
+      "massgis_town_id": 140,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "HUDSON",
+      "massgis_town_id": 141,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "HULL",
+      "massgis_town_id": 142,
+      "county_fips": "25023",
+      "county_name": "Plymouth County"
+    },
+    {
+      "name": "HUNTINGTON",
+      "massgis_town_id": 143,
+      "county_fips": "25015",
+      "county_name": "Hampshire County"
+    },
+    {
+      "name": "IPSWICH",
+      "massgis_town_id": 144,
+      "county_fips": "25009",
+      "county_name": "Essex County"
+    },
+    {
+      "name": "KINGSTON",
+      "massgis_town_id": 145,
+      "county_fips": "25023",
+      "county_name": "Plymouth County"
+    },
+    {
+      "name": "LAKEVILLE",
+      "massgis_town_id": 146,
+      "county_fips": "25023",
+      "county_name": "Plymouth County"
+    },
+    {
+      "name": "LANCASTER",
+      "massgis_town_id": 147,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "LANESBOROUGH",
+      "massgis_town_id": 148,
+      "county_fips": "25003",
+      "county_name": "Berkshire County"
+    },
+    {
+      "name": "LAWRENCE",
+      "massgis_town_id": 149,
+      "county_fips": "25009",
+      "county_name": "Essex County"
+    },
+    {
+      "name": "LEE",
+      "massgis_town_id": 150,
+      "county_fips": "25003",
+      "county_name": "Berkshire County"
+    },
+    {
+      "name": "LEICESTER",
+      "massgis_town_id": 151,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "LENOX",
+      "massgis_town_id": 152,
+      "county_fips": "25003",
+      "county_name": "Berkshire County"
+    },
+    {
+      "name": "LEOMINSTER",
+      "massgis_town_id": 153,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "LEVERETT",
+      "massgis_town_id": 154,
+      "county_fips": "25011",
+      "county_name": "Franklin County"
+    },
+    {
+      "name": "LEXINGTON",
+      "massgis_town_id": 155,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "LEYDEN",
+      "massgis_town_id": 156,
+      "county_fips": "25011",
+      "county_name": "Franklin County"
+    },
+    {
+      "name": "LINCOLN",
+      "massgis_town_id": 157,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "LITTLETON",
+      "massgis_town_id": 158,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "LONGMEADOW",
+      "massgis_town_id": 159,
+      "county_fips": "25013",
+      "county_name": "Hampden County"
+    },
+    {
+      "name": "LOWELL",
+      "massgis_town_id": 160,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "LUDLOW",
+      "massgis_town_id": 161,
+      "county_fips": "25013",
+      "county_name": "Hampden County"
+    },
+    {
+      "name": "LUNENBURG",
+      "massgis_town_id": 162,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "LYNN",
+      "massgis_town_id": 163,
+      "county_fips": "25009",
+      "county_name": "Essex County"
+    },
+    {
+      "name": "LYNNFIELD",
+      "massgis_town_id": 164,
+      "county_fips": "25009",
+      "county_name": "Essex County"
+    },
+    {
+      "name": "MALDEN",
+      "massgis_town_id": 165,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "MANCHESTER-BY-THE-SEA",
+      "massgis_town_id": 166,
+      "county_fips": "25009",
+      "county_name": "Essex County"
+    },
+    {
+      "name": "MANSFIELD",
+      "massgis_town_id": 167,
+      "county_fips": "25005",
+      "county_name": "Bristol County"
+    },
+    {
+      "name": "MARBLEHEAD",
+      "massgis_town_id": 168,
+      "county_fips": "25009",
+      "county_name": "Essex County"
+    },
+    {
+      "name": "MARION",
+      "massgis_town_id": 169,
+      "county_fips": "25023",
+      "county_name": "Plymouth County"
+    },
+    {
+      "name": "MARLBOROUGH",
+      "massgis_town_id": 170,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "MARSHFIELD",
+      "massgis_town_id": 171,
+      "county_fips": "25023",
+      "county_name": "Plymouth County"
+    },
+    {
+      "name": "MASHPEE",
+      "massgis_town_id": 172,
+      "county_fips": "25001",
+      "county_name": "Barnstable County"
+    },
+    {
+      "name": "MATTAPOISETT",
+      "massgis_town_id": 173,
+      "county_fips": "25023",
+      "county_name": "Plymouth County"
+    },
+    {
+      "name": "MAYNARD",
+      "massgis_town_id": 174,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "MEDFIELD",
+      "massgis_town_id": 175,
+      "county_fips": "25021",
+      "county_name": "Norfolk County"
+    },
+    {
+      "name": "MEDFORD",
+      "massgis_town_id": 176,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "MEDWAY",
+      "massgis_town_id": 177,
+      "county_fips": "25021",
+      "county_name": "Norfolk County"
+    },
+    {
+      "name": "MELROSE",
+      "massgis_town_id": 178,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "MENDON",
+      "massgis_town_id": 179,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "MERRIMAC",
+      "massgis_town_id": 180,
+      "county_fips": "25009",
+      "county_name": "Essex County"
+    },
+    {
+      "name": "METHUEN",
+      "massgis_town_id": 181,
+      "county_fips": "25009",
+      "county_name": "Essex County"
+    },
+    {
+      "name": "MIDDLEBOROUGH",
+      "massgis_town_id": 182,
+      "county_fips": "25023",
+      "county_name": "Plymouth County"
+    },
+    {
+      "name": "MIDDLEFIELD",
+      "massgis_town_id": 183,
+      "county_fips": "25015",
+      "county_name": "Hampshire County"
+    },
+    {
+      "name": "MIDDLETON",
+      "massgis_town_id": 184,
+      "county_fips": "25009",
+      "county_name": "Essex County"
+    },
+    {
+      "name": "MILFORD",
+      "massgis_town_id": 185,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "MILLBURY",
+      "massgis_town_id": 186,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "MILLIS",
+      "massgis_town_id": 187,
+      "county_fips": "25021",
+      "county_name": "Norfolk County"
+    },
+    {
+      "name": "MILLVILLE",
+      "massgis_town_id": 188,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "MILTON",
+      "massgis_town_id": 189,
+      "county_fips": "25021",
+      "county_name": "Norfolk County"
+    },
+    {
+      "name": "MONROE",
+      "massgis_town_id": 190,
+      "county_fips": "25011",
+      "county_name": "Franklin County"
+    },
+    {
+      "name": "MONSON",
+      "massgis_town_id": 191,
+      "county_fips": "25013",
+      "county_name": "Hampden County"
+    },
+    {
+      "name": "MONTAGUE",
+      "massgis_town_id": 192,
+      "county_fips": "25011",
+      "county_name": "Franklin County"
+    },
+    {
+      "name": "MONTEREY",
+      "massgis_town_id": 193,
+      "county_fips": "25003",
+      "county_name": "Berkshire County"
+    },
+    {
+      "name": "MONTGOMERY",
+      "massgis_town_id": 194,
+      "county_fips": "25013",
+      "county_name": "Hampden County"
+    },
+    {
+      "name": "MOUNT WASHINGTON",
+      "massgis_town_id": 195,
+      "county_fips": "25003",
+      "county_name": "Berkshire County"
+    },
+    {
+      "name": "NAHANT",
+      "massgis_town_id": 196,
+      "county_fips": "25009",
+      "county_name": "Essex County"
+    },
+    {
+      "name": "NANTUCKET",
+      "massgis_town_id": 197,
+      "county_fips": "25019",
+      "county_name": "Nantucket County"
+    },
+    {
+      "name": "NATICK",
+      "massgis_town_id": 198,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "NEEDHAM",
+      "massgis_town_id": 199,
+      "county_fips": "25021",
+      "county_name": "Norfolk County"
+    },
+    {
+      "name": "NEW ASHFORD",
+      "massgis_town_id": 200,
+      "county_fips": "25003",
+      "county_name": "Berkshire County"
+    },
+    {
+      "name": "NEW BEDFORD",
+      "massgis_town_id": 201,
+      "county_fips": "25005",
+      "county_name": "Bristol County"
+    },
+    {
+      "name": "NEW BRAINTREE",
+      "massgis_town_id": 202,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "NEW MARLBOROUGH",
+      "massgis_town_id": 203,
+      "county_fips": "25003",
+      "county_name": "Berkshire County"
+    },
+    {
+      "name": "NEW SALEM",
+      "massgis_town_id": 204,
+      "county_fips": "25011",
+      "county_name": "Franklin County"
+    },
+    {
+      "name": "NEWBURY",
+      "massgis_town_id": 205,
+      "county_fips": "25009",
+      "county_name": "Essex County"
+    },
+    {
+      "name": "NEWBURYPORT",
+      "massgis_town_id": 206,
+      "county_fips": "25009",
+      "county_name": "Essex County"
+    },
+    {
+      "name": "NEWTON",
+      "massgis_town_id": 207,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "NORFOLK",
+      "massgis_town_id": 208,
+      "county_fips": "25021",
+      "county_name": "Norfolk County"
+    },
+    {
+      "name": "NORTH ADAMS",
+      "massgis_town_id": 209,
+      "county_fips": "25003",
+      "county_name": "Berkshire County"
+    },
+    {
+      "name": "NORTH ANDOVER",
+      "massgis_town_id": 210,
+      "county_fips": "25009",
+      "county_name": "Essex County"
+    },
+    {
+      "name": "NORTH ATTLEBOROUGH",
+      "massgis_town_id": 211,
+      "county_fips": "25005",
+      "county_name": "Bristol County"
+    },
+    {
+      "name": "NORTH BROOKFIELD",
+      "massgis_town_id": 212,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "NORTH READING",
+      "massgis_town_id": 213,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "NORTHAMPTON",
+      "massgis_town_id": 214,
+      "county_fips": "25015",
+      "county_name": "Hampshire County"
+    },
+    {
+      "name": "NORTHBOROUGH",
+      "massgis_town_id": 215,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "NORTHBRIDGE",
+      "massgis_town_id": 216,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "NORTHFIELD",
+      "massgis_town_id": 217,
+      "county_fips": "25011",
+      "county_name": "Franklin County"
+    },
+    {
+      "name": "NORTON",
+      "massgis_town_id": 218,
+      "county_fips": "25005",
+      "county_name": "Bristol County"
+    },
+    {
+      "name": "NORWELL",
+      "massgis_town_id": 219,
+      "county_fips": "25023",
+      "county_name": "Plymouth County"
+    },
+    {
+      "name": "NORWOOD",
+      "massgis_town_id": 220,
+      "county_fips": "25021",
+      "county_name": "Norfolk County"
+    },
+    {
+      "name": "OAK BLUFFS",
+      "massgis_town_id": 221,
+      "county_fips": "25007",
+      "county_name": "Dukes County"
+    },
+    {
+      "name": "OAKHAM",
+      "massgis_town_id": 222,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "ORANGE",
+      "massgis_town_id": 223,
+      "county_fips": "25011",
+      "county_name": "Franklin County"
+    },
+    {
+      "name": "ORLEANS",
+      "massgis_town_id": 224,
+      "county_fips": "25001",
+      "county_name": "Barnstable County"
+    },
+    {
+      "name": "OTIS",
+      "massgis_town_id": 225,
+      "county_fips": "25003",
+      "county_name": "Berkshire County"
+    },
+    {
+      "name": "OXFORD",
+      "massgis_town_id": 226,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "PALMER",
+      "massgis_town_id": 227,
+      "county_fips": "25013",
+      "county_name": "Hampden County"
+    },
+    {
+      "name": "PAXTON",
+      "massgis_town_id": 228,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "PEABODY",
+      "massgis_town_id": 229,
+      "county_fips": "25009",
+      "county_name": "Essex County"
+    },
+    {
+      "name": "PELHAM",
+      "massgis_town_id": 230,
+      "county_fips": "25015",
+      "county_name": "Hampshire County"
+    },
+    {
+      "name": "PEMBROKE",
+      "massgis_town_id": 231,
+      "county_fips": "25023",
+      "county_name": "Plymouth County"
+    },
+    {
+      "name": "PEPPERELL",
+      "massgis_town_id": 232,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "PERU",
+      "massgis_town_id": 233,
+      "county_fips": "25003",
+      "county_name": "Berkshire County"
+    },
+    {
+      "name": "PETERSHAM",
+      "massgis_town_id": 234,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "PHILLIPSTON",
+      "massgis_town_id": 235,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "PITTSFIELD",
+      "massgis_town_id": 236,
+      "county_fips": "25003",
+      "county_name": "Berkshire County"
+    },
+    {
+      "name": "PLAINFIELD",
+      "massgis_town_id": 237,
+      "county_fips": "25015",
+      "county_name": "Hampshire County"
+    },
+    {
+      "name": "PLAINVILLE",
+      "massgis_town_id": 238,
+      "county_fips": "25021",
+      "county_name": "Norfolk County"
+    },
+    {
+      "name": "PLYMOUTH",
+      "massgis_town_id": 239,
+      "county_fips": "25023",
+      "county_name": "Plymouth County"
+    },
+    {
+      "name": "PLYMPTON",
+      "massgis_town_id": 240,
+      "county_fips": "25023",
+      "county_name": "Plymouth County"
+    },
+    {
+      "name": "PRINCETON",
+      "massgis_town_id": 241,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "PROVINCETOWN",
+      "massgis_town_id": 242,
+      "county_fips": "25001",
+      "county_name": "Barnstable County"
+    },
+    {
+      "name": "QUINCY",
+      "massgis_town_id": 243,
+      "county_fips": "25021",
+      "county_name": "Norfolk County"
+    },
+    {
+      "name": "RANDOLPH",
+      "massgis_town_id": 244,
+      "county_fips": "25021",
+      "county_name": "Norfolk County"
+    },
+    {
+      "name": "RAYNHAM",
+      "massgis_town_id": 245,
+      "county_fips": "25005",
+      "county_name": "Bristol County"
+    },
+    {
+      "name": "READING",
+      "massgis_town_id": 246,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "REHOBOTH",
+      "massgis_town_id": 247,
+      "county_fips": "25005",
+      "county_name": "Bristol County"
+    },
+    {
+      "name": "REVERE",
+      "massgis_town_id": 248,
+      "county_fips": "25025",
+      "county_name": "Suffolk County"
+    },
+    {
+      "name": "RICHMOND",
+      "massgis_town_id": 249,
+      "county_fips": "25003",
+      "county_name": "Berkshire County"
+    },
+    {
+      "name": "ROCHESTER",
+      "massgis_town_id": 250,
+      "county_fips": "25023",
+      "county_name": "Plymouth County"
+    },
+    {
+      "name": "ROCKLAND",
+      "massgis_town_id": 251,
+      "county_fips": "25023",
+      "county_name": "Plymouth County"
+    },
+    {
+      "name": "ROCKPORT",
+      "massgis_town_id": 252,
+      "county_fips": "25009",
+      "county_name": "Essex County"
+    },
+    {
+      "name": "ROWE",
+      "massgis_town_id": 253,
+      "county_fips": "25011",
+      "county_name": "Franklin County"
+    },
+    {
+      "name": "ROWLEY",
+      "massgis_town_id": 254,
+      "county_fips": "25009",
+      "county_name": "Essex County"
+    },
+    {
+      "name": "ROYALSTON",
+      "massgis_town_id": 255,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "RUSSELL",
+      "massgis_town_id": 256,
+      "county_fips": "25013",
+      "county_name": "Hampden County"
+    },
+    {
+      "name": "RUTLAND",
+      "massgis_town_id": 257,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "SALEM",
+      "massgis_town_id": 258,
+      "county_fips": "25009",
+      "county_name": "Essex County"
+    },
+    {
+      "name": "SALISBURY",
+      "massgis_town_id": 259,
+      "county_fips": "25009",
+      "county_name": "Essex County"
+    },
+    {
+      "name": "SANDISFIELD",
+      "massgis_town_id": 260,
+      "county_fips": "25003",
+      "county_name": "Berkshire County"
+    },
+    {
+      "name": "SANDWICH",
+      "massgis_town_id": 261,
+      "county_fips": "25001",
+      "county_name": "Barnstable County"
+    },
+    {
+      "name": "SAUGUS",
+      "massgis_town_id": 262,
+      "county_fips": "25009",
+      "county_name": "Essex County"
+    },
+    {
+      "name": "SAVOY",
+      "massgis_town_id": 263,
+      "county_fips": "25003",
+      "county_name": "Berkshire County"
+    },
+    {
+      "name": "SCITUATE",
+      "massgis_town_id": 264,
+      "county_fips": "25023",
+      "county_name": "Plymouth County"
+    },
+    {
+      "name": "SEEKONK",
+      "massgis_town_id": 265,
+      "county_fips": "25005",
+      "county_name": "Bristol County"
+    },
+    {
+      "name": "SHARON",
+      "massgis_town_id": 266,
+      "county_fips": "25021",
+      "county_name": "Norfolk County"
+    },
+    {
+      "name": "SHEFFIELD",
+      "massgis_town_id": 267,
+      "county_fips": "25003",
+      "county_name": "Berkshire County"
+    },
+    {
+      "name": "SHELBURNE",
+      "massgis_town_id": 268,
+      "county_fips": "25011",
+      "county_name": "Franklin County"
+    },
+    {
+      "name": "SHERBORN",
+      "massgis_town_id": 269,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "SHIRLEY",
+      "massgis_town_id": 270,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "SHREWSBURY",
+      "massgis_town_id": 271,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "SHUTESBURY",
+      "massgis_town_id": 272,
+      "county_fips": "25011",
+      "county_name": "Franklin County"
+    },
+    {
+      "name": "SOMERSET",
+      "massgis_town_id": 273,
+      "county_fips": "25005",
+      "county_name": "Bristol County"
+    },
+    {
+      "name": "SOMERVILLE",
+      "massgis_town_id": 274,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "SOUTH HADLEY",
+      "massgis_town_id": 275,
+      "county_fips": "25015",
+      "county_name": "Hampshire County"
+    },
+    {
+      "name": "SOUTHAMPTON",
+      "massgis_town_id": 276,
+      "county_fips": "25015",
+      "county_name": "Hampshire County"
+    },
+    {
+      "name": "SOUTHBOROUGH",
+      "massgis_town_id": 277,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "SOUTHBRIDGE",
+      "massgis_town_id": 278,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "SOUTHWICK",
+      "massgis_town_id": 279,
+      "county_fips": "25013",
+      "county_name": "Hampden County"
+    },
+    {
+      "name": "SPENCER",
+      "massgis_town_id": 280,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "SPRINGFIELD",
+      "massgis_town_id": 281,
+      "county_fips": "25013",
+      "county_name": "Hampden County"
+    },
+    {
+      "name": "STERLING",
+      "massgis_town_id": 282,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "STOCKBRIDGE",
+      "massgis_town_id": 283,
+      "county_fips": "25003",
+      "county_name": "Berkshire County"
+    },
+    {
+      "name": "STONEHAM",
+      "massgis_town_id": 284,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "STOUGHTON",
+      "massgis_town_id": 285,
+      "county_fips": "25021",
+      "county_name": "Norfolk County"
+    },
+    {
+      "name": "STOW",
+      "massgis_town_id": 286,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "STURBRIDGE",
+      "massgis_town_id": 287,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "SUDBURY",
+      "massgis_town_id": 288,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "SUNDERLAND",
+      "massgis_town_id": 289,
+      "county_fips": "25011",
+      "county_name": "Franklin County"
+    },
+    {
+      "name": "SUTTON",
+      "massgis_town_id": 290,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "SWAMPSCOTT",
+      "massgis_town_id": 291,
+      "county_fips": "25009",
+      "county_name": "Essex County"
+    },
+    {
+      "name": "SWANSEA",
+      "massgis_town_id": 292,
+      "county_fips": "25005",
+      "county_name": "Bristol County"
+    },
+    {
+      "name": "TAUNTON",
+      "massgis_town_id": 293,
+      "county_fips": "25005",
+      "county_name": "Bristol County"
+    },
+    {
+      "name": "TEMPLETON",
+      "massgis_town_id": 294,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "TEWKSBURY",
+      "massgis_town_id": 295,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "TISBURY",
+      "massgis_town_id": 296,
+      "county_fips": "25007",
+      "county_name": "Dukes County"
+    },
+    {
+      "name": "TOLLAND",
+      "massgis_town_id": 297,
+      "county_fips": "25013",
+      "county_name": "Hampden County"
+    },
+    {
+      "name": "TOPSFIELD",
+      "massgis_town_id": 298,
+      "county_fips": "25009",
+      "county_name": "Essex County"
+    },
+    {
+      "name": "TOWNSEND",
+      "massgis_town_id": 299,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "TRURO",
+      "massgis_town_id": 300,
+      "county_fips": "25001",
+      "county_name": "Barnstable County"
+    },
+    {
+      "name": "TYNGSBOROUGH",
+      "massgis_town_id": 301,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "TYRINGHAM",
+      "massgis_town_id": 302,
+      "county_fips": "25003",
+      "county_name": "Berkshire County"
+    },
+    {
+      "name": "UPTON",
+      "massgis_town_id": 303,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "UXBRIDGE",
+      "massgis_town_id": 304,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "WAKEFIELD",
+      "massgis_town_id": 305,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "WALES",
+      "massgis_town_id": 306,
+      "county_fips": "25013",
+      "county_name": "Hampden County"
+    },
+    {
+      "name": "WALPOLE",
+      "massgis_town_id": 307,
+      "county_fips": "25021",
+      "county_name": "Norfolk County"
+    },
+    {
+      "name": "WALTHAM",
+      "massgis_town_id": 308,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "WARE",
+      "massgis_town_id": 309,
+      "county_fips": "25015",
+      "county_name": "Hampshire County"
+    },
+    {
+      "name": "WAREHAM",
+      "massgis_town_id": 310,
+      "county_fips": "25023",
+      "county_name": "Plymouth County"
+    },
+    {
+      "name": "WARREN",
+      "massgis_town_id": 311,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "WARWICK",
+      "massgis_town_id": 312,
+      "county_fips": "25011",
+      "county_name": "Franklin County"
+    },
+    {
+      "name": "WASHINGTON",
+      "massgis_town_id": 313,
+      "county_fips": "25003",
+      "county_name": "Berkshire County"
+    },
+    {
+      "name": "WATERTOWN",
+      "massgis_town_id": 314,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "WAYLAND",
+      "massgis_town_id": 315,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "WEBSTER",
+      "massgis_town_id": 316,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "WELLESLEY",
+      "massgis_town_id": 317,
+      "county_fips": "25021",
+      "county_name": "Norfolk County"
+    },
+    {
+      "name": "WELLFLEET",
+      "massgis_town_id": 318,
+      "county_fips": "25001",
+      "county_name": "Barnstable County"
+    },
+    {
+      "name": "WENDELL",
+      "massgis_town_id": 319,
+      "county_fips": "25011",
+      "county_name": "Franklin County"
+    },
+    {
+      "name": "WENHAM",
+      "massgis_town_id": 320,
+      "county_fips": "25009",
+      "county_name": "Essex County"
+    },
+    {
+      "name": "WEST BOYLSTON",
+      "massgis_town_id": 321,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "WEST BRIDGEWATER",
+      "massgis_town_id": 322,
+      "county_fips": "25023",
+      "county_name": "Plymouth County"
+    },
+    {
+      "name": "WEST BROOKFIELD",
+      "massgis_town_id": 323,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "WEST NEWBURY",
+      "massgis_town_id": 324,
+      "county_fips": "25009",
+      "county_name": "Essex County"
+    },
+    {
+      "name": "WEST SPRINGFIELD",
+      "massgis_town_id": 325,
+      "county_fips": "25013",
+      "county_name": "Hampden County"
+    },
+    {
+      "name": "WEST STOCKBRIDGE",
+      "massgis_town_id": 326,
+      "county_fips": "25003",
+      "county_name": "Berkshire County"
+    },
+    {
+      "name": "WEST TISBURY",
+      "massgis_town_id": 327,
+      "county_fips": "25007",
+      "county_name": "Dukes County"
+    },
+    {
+      "name": "WESTBOROUGH",
+      "massgis_town_id": 328,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "WESTFIELD",
+      "massgis_town_id": 329,
+      "county_fips": "25013",
+      "county_name": "Hampden County"
+    },
+    {
+      "name": "WESTFORD",
+      "massgis_town_id": 330,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "WESTHAMPTON",
+      "massgis_town_id": 331,
+      "county_fips": "25015",
+      "county_name": "Hampshire County"
+    },
+    {
+      "name": "WESTMINSTER",
+      "massgis_town_id": 332,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "WESTON",
+      "massgis_town_id": 333,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "WESTPORT",
+      "massgis_town_id": 334,
+      "county_fips": "25005",
+      "county_name": "Bristol County"
+    },
+    {
+      "name": "WESTWOOD",
+      "massgis_town_id": 335,
+      "county_fips": "25021",
+      "county_name": "Norfolk County"
+    },
+    {
+      "name": "WEYMOUTH",
+      "massgis_town_id": 336,
+      "county_fips": "25021",
+      "county_name": "Norfolk County"
+    },
+    {
+      "name": "WHATELY",
+      "massgis_town_id": 337,
+      "county_fips": "25011",
+      "county_name": "Franklin County"
+    },
+    {
+      "name": "WHITMAN",
+      "massgis_town_id": 338,
+      "county_fips": "25023",
+      "county_name": "Plymouth County"
+    },
+    {
+      "name": "WILBRAHAM",
+      "massgis_town_id": 339,
+      "county_fips": "25013",
+      "county_name": "Hampden County"
+    },
+    {
+      "name": "WILLIAMSBURG",
+      "massgis_town_id": 340,
+      "county_fips": "25015",
+      "county_name": "Hampshire County"
+    },
+    {
+      "name": "WILLIAMSTOWN",
+      "massgis_town_id": 341,
+      "county_fips": "25003",
+      "county_name": "Berkshire County"
+    },
+    {
+      "name": "WILMINGTON",
+      "massgis_town_id": 342,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "WINCHENDON",
+      "massgis_town_id": 343,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "WINCHESTER",
+      "massgis_town_id": 344,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "WINDSOR",
+      "massgis_town_id": 345,
+      "county_fips": "25003",
+      "county_name": "Berkshire County"
+    },
+    {
+      "name": "WINTHROP",
+      "massgis_town_id": 346,
+      "county_fips": "25025",
+      "county_name": "Suffolk County"
+    },
+    {
+      "name": "WOBURN",
+      "massgis_town_id": 347,
+      "county_fips": "25017",
+      "county_name": "Middlesex County"
+    },
+    {
+      "name": "WORCESTER",
+      "massgis_town_id": 348,
+      "county_fips": "25027",
+      "county_name": "Worcester County"
+    },
+    {
+      "name": "WORTHINGTON",
+      "massgis_town_id": 349,
+      "county_fips": "25015",
+      "county_name": "Hampshire County"
+    },
+    {
+      "name": "WRENTHAM",
+      "massgis_town_id": 350,
+      "county_fips": "25021",
+      "county_name": "Norfolk County"
+    },
+    {
+      "name": "YARMOUTH",
+      "massgis_town_id": 351,
+      "county_fips": "25001",
+      "county_name": "Barnstable County"
+    }
+  ],
+  "coverage": {
+    "municipalities": 351,
+    "counties": 14
+  },
+  "join": "Exact uppercase municipal name; CNN synthetic IDs are not MassGIS town IDs or county FIPS.",
+  "runtime_mapping": "Same generated rows embedded in the shared results normalizer; no external lookup at result time."
+}

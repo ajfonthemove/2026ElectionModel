@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { buildView, createResultsWorker, NATIONAL_URLS, STATES, parseQuery, raceParts, validateRows } from '../index.js';
+import { readFile } from 'node:fs/promises';
+import { buildView, createResultsWorker, MA_TOWN_COUNTY_CROSSWALK, MA_TOWN_CROSSWALK_SOURCE, NATIONAL_URLS, STATES, parseQuery, raceParts, validateRows } from '../index.js';
 
 function race(code = 'SG', state = 'NC', values = {}) {
   const fips = STATES[state].fips;
@@ -226,4 +227,131 @@ test('a malformed county refresh retains last good source unit counts and progre
   const stale = await (await fixture.request(path)).json();assert.equal(stale.county_coverage.stale, true);assert.equal(stale.county_coverage.checked_at, before.county_coverage.checked_at);
   assert.equal(stale.counties[0].county_fips, '37001');assert.equal(stale.counties[0].source_vote_progress.percent_votes_remaining, 10);
   assert.equal(stale.counties[0].reported_total, 100);assert.match(stale.county_coverage.error, /geography/);
+});
+
+function massachusettsTowns(code = 'GG') {
+  return Object.values(MA_TOWN_COUNTY_CROSSWALK).map((town, index) => countyRow(code, 'MA', '92522' + String(index + 1).padStart(3, '0'), town.name, {
+    totalVote: 20 + index,
+    candidates: [{ candidateId: 1, fullName: 'Candidate D', majorParty: 'DEM', voteNum: 10 + index },
+      { candidateId: 2, fullName: 'Candidate R', majorParty: 'REP', voteNum: 5 },
+      { candidateId: 3, fullName: 'Candidate I', majorParty: 'IND', voteNum: 2 }],
+    percentReporting: index % 2 ? 95 : 0,
+  }));
+}
+
+test('Massachusetts inline crosswalk exactly matches its 351-town authoritative public artifact', async () => {
+  const artifact = JSON.parse(await readFile(new URL('../../site/data/ma-town-county-crosswalk.json', import.meta.url), 'utf8'));
+  assert.equal(artifact.schema_version, 'ma_town_county_crosswalk_v1');assert.equal(artifact.towns.length, 351);
+  assert.deepEqual(artifact.source, MA_TOWN_CROSSWALK_SOURCE);
+  assert.deepEqual(Object.values(MA_TOWN_COUNTY_CROSSWALK), artifact.towns);
+  assert.equal(new Set(artifact.towns.map((town) => town.county_fips)).size, 14);
+  assert.equal(new Set(artifact.towns.map((town) => town.massgis_town_id)).size, 351);
+  // CNN's 92522087 is East Longmeadow while MassGIS town ID 85 is that town.
+  assert.equal(MA_TOWN_COUNTY_CROSSWALK['EAST LONGMEADOW'].massgis_town_id, 85);
+  assert.equal(MA_TOWN_COUNTY_CROSSWALK['EAST LONGMEADOW'].county_fips, '25013');
+});
+
+test('Massachusetts statewide 351 municipal rows become 14 county results without losing any candidate or unassigned votes', () => {
+  const rows = massachusettsTowns(), total = rows.reduce((sum, row) => sum + row.totalVote, 0);
+  const data = normalizedCountyFixture('GG', 'MA', rows, { totalVote: total });
+  assert.equal(data.counties.length, 14);assert.equal(data.supplemental_localities.length, 351);
+  assert.equal(data.county_coverage.aggregation_basis, 'verified_ma_town_to_county_rollup');
+  assert.equal(data.county_coverage.source_unit_count, 351);assert.equal(data.county_coverage.source_locality_count, 351);
+  assert.equal(data.county_coverage.source_canonical_county_count, 0);assert.equal(data.county_coverage.derived_county_count, 14);
+  assert.equal(data.county_coverage.reported_total, total);assert.equal(data.county_coverage.matches_national_snapshot, true);
+  assert.equal(data.counties.reduce((sum, row) => sum + row.reported_total, 0), total);
+  assert.equal(data.counties.reduce((sum, row) => sum + row.unattributed_source_votes, 0), 351 * 3);
+  for (const id of ['1', '2', '3']) {
+    const raw = rows.reduce((sum, row) => sum + row.candidates.find((candidate) => String(candidate.candidateId) === id).voteNum, 0);
+    assert.equal(data.counties.reduce((sum, row) => sum + row.candidates.find((candidate) => candidate.candidate_id === id).votes, 0), raw);
+  }
+  for (const county of data.counties) {
+    const sourceRows = rows.filter((row) => MA_TOWN_COUNTY_CROSSWALK[row.countyLongName].county_fips === county.county_fips);
+    assert.equal(county.reported_total, sourceRows.reduce((sum, row) => sum + row.totalVote, 0));
+    assert.equal(county.municipality_count, sourceRows.length);assert.equal(county.whole_county_coverage_verified, true);
+    assert.equal(county.unit_kind, 'county');assert.equal(county.geography_scope, 'whole_county');
+    assert.equal(county.our_model_race_call, null);assert.equal(county.win_probability, null);assert.equal(county.source_called_winner, null);
+  }
+});
+
+test('Massachusetts municipal progress is retained separately but never averaged into county remaining votes', () => {
+  const data = normalizedCountyFixture('SG', 'MA', massachusettsTowns('SG'));
+  assert(data.supplemental_localities.some((row) => row.source_vote_progress.percent_votes_counted === 0));
+  assert(data.supplemental_localities.some((row) => row.source_vote_progress.percent_votes_counted === 95));
+  for (const county of data.counties) {
+    assert.equal(county.source_percent_reporting, null);assert.equal(county.source_vote_progress.percent_votes_counted, null);
+    assert.equal(county.source_vote_progress.percent_votes_remaining, null);assert.equal(county.source_vote_progress.estimated_votes_remaining, null);
+    assert.equal(county.source_vote_progress.remaining_percentage_derived, false);
+  }
+});
+
+test('an unmatched, duplicated or incomplete Massachusetts town partition cannot create county totals', () => {
+  for (const mutate of [rows => { rows[0].countyLongName = 'Unknown Municipality'; }, rows => { rows[0].countyLongName = rows[1].countyLongName; }, rows => { rows.pop(); }]) {
+    const rows = massachusettsTowns();mutate(rows);const data = normalizedCountyFixture('GG', 'MA', rows);
+    assert.equal(data.county_coverage.derived_county_count, 0);assert.equal(data.county_coverage.reported_total, null);
+    assert.ok(data.county_coverage.aggregation_error);assert(data.counties.every((row) => row.county_fips === null));
+    assert.equal(data.counties.length, rows.length);
+  }
+});
+
+test('unknown Massachusetts municipal candidate counts remain null only in their affected county', () => {
+  const rows = massachusettsTowns(), affectedFips = MA_TOWN_COUNTY_CROSSWALK[rows[0].countyLongName].county_fips;
+  rows[0].candidates[0].voteNum = null;
+  const data = normalizedCountyFixture('GG', 'MA', rows), county = data.counties.find((row) => row.county_fips === affectedFips);
+  assert.equal(county.candidates.find((candidate) => candidate.candidate_id === '1').votes, null);
+  assert.equal(county.vote_counts_complete, false);assert.equal(county.unattributed_source_votes, null);
+  assert(county.candidates.find((candidate) => candidate.candidate_id === '2').votes > 0);
+  assert(data.counties.filter((row) => row.county_fips !== affectedFips).every((row) => row.vote_counts_complete));
+  assert.equal(data.supplemental_localities.find((row) => row.reporting_unit_id === rows[0].countyFipsCode).candidates[0].votes, null);
+});
+
+test('missing Massachusetts candidate identities are not interpreted as zero; inconsistent identities block rollup', () => {
+  const rows = massachusettsTowns(), affectedFips = MA_TOWN_COUNTY_CROSSWALK[rows[0].countyLongName].county_fips;
+  rows[0].candidates.shift();
+  const data = normalizedCountyFixture('GG', 'MA', rows);
+  assert.equal(data.counties.find((row) => row.county_fips === affectedFips).candidates.find((candidate) => candidate.candidate_id === '1').votes, null);
+  const mismatch = massachusettsTowns();mismatch[0].candidates[0].majorParty = 'REP';
+  const invalid = normalizedCountyFixture('GG', 'MA', mismatch);
+  assert.equal(invalid.county_coverage.derived_county_count, 0);assert.match(invalid.county_coverage.aggregation_error, /identities/);
+});
+
+test('a parent candidate absent from every Massachusetts municipality remains present with unknown county counts', () => {
+  const rows = massachusettsTowns();
+  for (const row of rows) row.candidates.shift();
+  const data = normalizedCountyFixture('GG', 'MA', rows);
+  assert.equal(data.counties.length, 14);
+  for (const county of data.counties) {
+    assert.equal(county.candidates.find((candidate) => candidate.candidate_id === '1').votes, null);
+    assert(county.candidates.find((candidate) => candidate.candidate_id === '2').votes > 0);
+    assert.equal(county.unattributed_source_votes, null);
+  }
+});
+
+test('unknown Massachusetts totals do not zero-fill county totals, and embargoes still withhold all votes', () => {
+  const rows = massachusettsTowns(), affectedFips = MA_TOWN_COUNTY_CROSSWALK[rows[0].countyLongName].county_fips;
+  rows[0].totalVote = null;
+  const data = normalizedCountyFixture('GG', 'MA', rows), county = data.counties.find((row) => row.county_fips === affectedFips);
+  assert.equal(county.reported_total, null);assert.equal(data.county_coverage.reported_total, null);
+  assert(county.candidates.find((candidate) => candidate.candidate_id === '1').votes > 0);
+  const embargoed = normalizedCountyFixture('GG', 'MA', massachusettsTowns(), { raceEmbargo: { assignedPollsClose: Date.parse('2026-11-04T00:30:00Z'), votesReleased: false } });
+  assert.equal(embargoed.counties.length, 14);assert(embargoed.counties.every((row) => row.reported_total === null && row.candidates.every((candidate) => candidate.votes === null)));
+});
+
+test('Massachusetts House county rollups remain district fragments and never claim whole-county coverage', () => {
+  const rows = massachusettsTowns('HG').slice(0, 83), data = normalizedCountyFixture('HG', 'MA', rows);
+  assert(data.counties.length > 1 && data.counties.length < 14);assert.equal(data.supplemental_localities.length, 83);
+  assert.equal(data.county_coverage.reported_total, rows.reduce((sum, row) => sum + row.totalVote, 0));
+  for (const county of data.counties) {
+    assert.equal(county.district, '1');assert.equal(county.race_id, '2026-HG-MA-1');assert.equal(county.geography_type, 'county_fragment');
+    assert.equal(county.geography_scope, 'house_district_county_portion');assert.equal(county.whole_county_coverage_verified, false);
+    assert.equal(county.geographic_join_supported, true);assert.match(county.county_fips, /^25\d{3}$/);
+  }
+});
+
+test('genuine Massachusetts county rows take precedence over overlapping municipal detail', () => {
+  const county = countyRow('GG', 'MA', '25025', 'Suffolk County'), town = countyRow('GG', 'MA', '92522035', 'Boston');
+  const data = normalizedCountyFixture('GG', 'MA', [county, town]);
+  assert.equal(data.counties.length, 1);assert.equal(data.counties[0].county_fips, '25025');
+  assert.equal(data.county_coverage.reported_total, 100);assert.equal(data.county_coverage.derived_county_count, 0);
+  assert.equal(data.county_coverage.aggregation_basis, 'canonical_county_rows_only');assert.equal(data.supplemental_localities.length, 1);
 });

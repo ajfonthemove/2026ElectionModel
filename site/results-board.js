@@ -24,7 +24,7 @@ function countyKey(row) { return String(row.county_fips || row.reporting_unit_id
 function invalidateCountyRequest() { state.countyRequest++; state.countyPending = false; state.countyMessage = ''; }
 function rememberCounty() { if (state.selected && state.selectedCounty) state.countySelections.set(state.selected, state.selectedCounty); }
 function cacheCounty(data) { state.countyCache.delete(data.race.race_id); state.countyCache.set(data.race.race_id, data); while (state.countyCache.size > 20) state.countyCache.delete(state.countyCache.keys().next().value); }
-function withCountyContext(row, race) { return { ...row, state: race.state, office: race.office, district: race.district, race_id: race.race_id, label: row.name, source_name: row.source_name || race.source_name, source_url: row.source_url || race.source_url, source_called_winner: null }; }
+function withCountyContext(row, race) { return { ...row, state: race.state, office: race.office, district: race.district, race_id: race.race_id, label: race.office === 'house' && race.district ? row.name + ' · House ' + race.district : row.name, source_name: row.source_name || race.source_name, source_url: row.source_url || race.source_url, source_called_winner: null }; }
 function shiftLabel(value) { return Math.abs(value) < 0.05 ? 'No margin shift' : (value > 0 ? 'D +' : 'R +') + Math.abs(value).toFixed(1) + ' pp'; }
 function marginLabel(value) { return Math.abs(value) < 0.05 ? 'Even' : (value > 0 ? 'D +' : 'R +') + Math.abs(value).toFixed(1) + ' pp'; }
 function shiftFill(value) { const amount = Math.min(1, Math.abs(value) / 15); const end = value >= 0 ? [45, 105, 179] : [191, 66, 86]; return 'rgb(' + end.map((v, i) => Math.round([242, 243, 246][i] + (v - [242, 243, 246][i]) * amount)).join(',') + ')'; }
@@ -660,7 +660,7 @@ function renderCountyTiles() {
     const focusedFips = document.activeElement?.closest('.map-county')?.dataset.countyFips;
     const coverage = drawCountyMap($('county-geographic-map'), { geography: data.geometry, stateFips: area.id, stateBounds: area.bounds, values, selected: state.selectedCounty, onSelect: chooseCounty });
     if (focusedFips) $('county-geographic-map').querySelector('[data-county-fips="' + focusedFips + '"]')?.focus({ preventScroll: true });
-    $('county-geometry-description').textContent = 'County outlines: ' + (data.geometry.state ? 'AP 2026' : 'Census 2017') + ' · ' + coverage.matched + ' matched units' + (coverage.matched < data.rows.length ? ' · Tiles includes all source units.' : '');
+    $('county-geometry-description').textContent = 'County outlines: ' + (data.geometry.state ? 'AP 2026' : 'Census 2017') + ' · ' + coverage.matched + ' matched units' + (data.coverage.aggregation_basis === 'verified_ma_town_to_county_rollup' ? ' · Town totals grouped by county' : '') + (coverage.matched < data.rows.length ? ' · Tiles includes all source units.' : '');
     if (typeof data.geometry.source === 'string') $('county-geometry-description').append(' · ', sourceLink(data.geometry.source, 'Map source'));
     return;
   }

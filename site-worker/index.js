@@ -52,6 +52,366 @@ WY|56|Wyoming`;
 export const STATES = Object.fromEntries(STATE_ROWS.split('\n').map((line) => {
   const [state, fips, name] = line.split('|'); return [state, { state, fips, name }];
 }));
+// Massachusetts CNN detail is municipal, not county geography. Generated from
+// the authoritative MassGIS351-municipality TOWN/FIPS_STCO table. Keep this
+// standalone normalizer usable in both Node and the built browser module.
+export const MA_TOWN_CROSSWALK_SOURCE = Object.freeze({"name":"MassGIS Massachusetts Municipalities Areas","url":"https://services1.arcgis.com/hGdibHYSPO59RG1h/ArcGIS/rest/services/Massachusetts_Municipalities/FeatureServer/1/query?where=1%3D1&outFields=TOWN%2CTOWN_ID%2CCOUNTY%2CFIPS_STCO&returnGeometry=false&returnDistinctValues=true&orderByFields=TOWN_ID&f=json","documentation_url":"https://www.mass.gov/info-details/massgis-data-municipalities","retrieved_at":"2026-11-04T22:21:23.069350+00:00","sha256":"706c1c63e38c08d2667861bbdc3cfd21323c256a65d072b652546de8799a6250","fields":["TOWN","TOWN_ID","COUNTY","FIPS_STCO"],"capture_format":"original_response_bytes"});
+const MA_TOWN_COUNTY_ROWS = `ABINGTON|1|25023|Plymouth County
+ACTON|2|25017|Middlesex County
+ACUSHNET|3|25005|Bristol County
+ADAMS|4|25003|Berkshire County
+AGAWAM|5|25013|Hampden County
+ALFORD|6|25003|Berkshire County
+AMESBURY|7|25009|Essex County
+AMHERST|8|25015|Hampshire County
+ANDOVER|9|25009|Essex County
+ARLINGTON|10|25017|Middlesex County
+ASHBURNHAM|11|25027|Worcester County
+ASHBY|12|25017|Middlesex County
+ASHFIELD|13|25011|Franklin County
+ASHLAND|14|25017|Middlesex County
+ATHOL|15|25027|Worcester County
+ATTLEBORO|16|25005|Bristol County
+AUBURN|17|25027|Worcester County
+AVON|18|25021|Norfolk County
+AYER|19|25017|Middlesex County
+BARNSTABLE|20|25001|Barnstable County
+BARRE|21|25027|Worcester County
+BECKET|22|25003|Berkshire County
+BEDFORD|23|25017|Middlesex County
+BELCHERTOWN|24|25015|Hampshire County
+BELLINGHAM|25|25021|Norfolk County
+BELMONT|26|25017|Middlesex County
+BERKLEY|27|25005|Bristol County
+BERLIN|28|25027|Worcester County
+BERNARDSTON|29|25011|Franklin County
+BEVERLY|30|25009|Essex County
+BILLERICA|31|25017|Middlesex County
+BLACKSTONE|32|25027|Worcester County
+BLANDFORD|33|25013|Hampden County
+BOLTON|34|25027|Worcester County
+BOSTON|35|25025|Suffolk County
+BOURNE|36|25001|Barnstable County
+BOXBOROUGH|37|25017|Middlesex County
+BOXFORD|38|25009|Essex County
+BOYLSTON|39|25027|Worcester County
+BRAINTREE|40|25021|Norfolk County
+BREWSTER|41|25001|Barnstable County
+BRIDGEWATER|42|25023|Plymouth County
+BRIMFIELD|43|25013|Hampden County
+BROCKTON|44|25023|Plymouth County
+BROOKFIELD|45|25027|Worcester County
+BROOKLINE|46|25021|Norfolk County
+BUCKLAND|47|25011|Franklin County
+BURLINGTON|48|25017|Middlesex County
+CAMBRIDGE|49|25017|Middlesex County
+CANTON|50|25021|Norfolk County
+CARLISLE|51|25017|Middlesex County
+CARVER|52|25023|Plymouth County
+CHARLEMONT|53|25011|Franklin County
+CHARLTON|54|25027|Worcester County
+CHATHAM|55|25001|Barnstable County
+CHELMSFORD|56|25017|Middlesex County
+CHELSEA|57|25025|Suffolk County
+CHESHIRE|58|25003|Berkshire County
+CHESTER|59|25013|Hampden County
+CHESTERFIELD|60|25015|Hampshire County
+CHICOPEE|61|25013|Hampden County
+CHILMARK|62|25007|Dukes County
+CLARKSBURG|63|25003|Berkshire County
+CLINTON|64|25027|Worcester County
+COHASSET|65|25021|Norfolk County
+COLRAIN|66|25011|Franklin County
+CONCORD|67|25017|Middlesex County
+CONWAY|68|25011|Franklin County
+CUMMINGTON|69|25015|Hampshire County
+DALTON|70|25003|Berkshire County
+DANVERS|71|25009|Essex County
+DARTMOUTH|72|25005|Bristol County
+DEDHAM|73|25021|Norfolk County
+DEERFIELD|74|25011|Franklin County
+DENNIS|75|25001|Barnstable County
+DIGHTON|76|25005|Bristol County
+DOUGLAS|77|25027|Worcester County
+DOVER|78|25021|Norfolk County
+DRACUT|79|25017|Middlesex County
+DUDLEY|80|25027|Worcester County
+DUNSTABLE|81|25017|Middlesex County
+DUXBURY|82|25023|Plymouth County
+EAST BRIDGEWATER|83|25023|Plymouth County
+EAST BROOKFIELD|84|25027|Worcester County
+EAST LONGMEADOW|85|25013|Hampden County
+EASTHAM|86|25001|Barnstable County
+EASTHAMPTON|87|25015|Hampshire County
+EASTON|88|25005|Bristol County
+EDGARTOWN|89|25007|Dukes County
+EGREMONT|90|25003|Berkshire County
+ERVING|91|25011|Franklin County
+ESSEX|92|25009|Essex County
+EVERETT|93|25017|Middlesex County
+FAIRHAVEN|94|25005|Bristol County
+FALL RIVER|95|25005|Bristol County
+FALMOUTH|96|25001|Barnstable County
+FITCHBURG|97|25027|Worcester County
+FLORIDA|98|25003|Berkshire County
+FOXBOROUGH|99|25021|Norfolk County
+FRAMINGHAM|100|25017|Middlesex County
+FRANKLIN|101|25021|Norfolk County
+FREETOWN|102|25005|Bristol County
+GARDNER|103|25027|Worcester County
+AQUINNAH|104|25007|Dukes County
+GEORGETOWN|105|25009|Essex County
+GILL|106|25011|Franklin County
+GLOUCESTER|107|25009|Essex County
+GOSHEN|108|25015|Hampshire County
+GOSNOLD|109|25007|Dukes County
+GRAFTON|110|25027|Worcester County
+GRANBY|111|25015|Hampshire County
+GRANVILLE|112|25013|Hampden County
+GREAT BARRINGTON|113|25003|Berkshire County
+GREENFIELD|114|25011|Franklin County
+GROTON|115|25017|Middlesex County
+GROVELAND|116|25009|Essex County
+HADLEY|117|25015|Hampshire County
+HALIFAX|118|25023|Plymouth County
+HAMILTON|119|25009|Essex County
+HAMPDEN|120|25013|Hampden County
+HANCOCK|121|25003|Berkshire County
+HANOVER|122|25023|Plymouth County
+HANSON|123|25023|Plymouth County
+HARDWICK|124|25027|Worcester County
+HARVARD|125|25027|Worcester County
+HARWICH|126|25001|Barnstable County
+HATFIELD|127|25015|Hampshire County
+HAVERHILL|128|25009|Essex County
+HAWLEY|129|25011|Franklin County
+HEATH|130|25011|Franklin County
+HINGHAM|131|25023|Plymouth County
+HINSDALE|132|25003|Berkshire County
+HOLBROOK|133|25021|Norfolk County
+HOLDEN|134|25027|Worcester County
+HOLLAND|135|25013|Hampden County
+HOLLISTON|136|25017|Middlesex County
+HOLYOKE|137|25013|Hampden County
+HOPEDALE|138|25027|Worcester County
+HOPKINTON|139|25017|Middlesex County
+HUBBARDSTON|140|25027|Worcester County
+HUDSON|141|25017|Middlesex County
+HULL|142|25023|Plymouth County
+HUNTINGTON|143|25015|Hampshire County
+IPSWICH|144|25009|Essex County
+KINGSTON|145|25023|Plymouth County
+LAKEVILLE|146|25023|Plymouth County
+LANCASTER|147|25027|Worcester County
+LANESBOROUGH|148|25003|Berkshire County
+LAWRENCE|149|25009|Essex County
+LEE|150|25003|Berkshire County
+LEICESTER|151|25027|Worcester County
+LENOX|152|25003|Berkshire County
+LEOMINSTER|153|25027|Worcester County
+LEVERETT|154|25011|Franklin County
+LEXINGTON|155|25017|Middlesex County
+LEYDEN|156|25011|Franklin County
+LINCOLN|157|25017|Middlesex County
+LITTLETON|158|25017|Middlesex County
+LONGMEADOW|159|25013|Hampden County
+LOWELL|160|25017|Middlesex County
+LUDLOW|161|25013|Hampden County
+LUNENBURG|162|25027|Worcester County
+LYNN|163|25009|Essex County
+LYNNFIELD|164|25009|Essex County
+MALDEN|165|25017|Middlesex County
+MANCHESTER-BY-THE-SEA|166|25009|Essex County
+MANSFIELD|167|25005|Bristol County
+MARBLEHEAD|168|25009|Essex County
+MARION|169|25023|Plymouth County
+MARLBOROUGH|170|25017|Middlesex County
+MARSHFIELD|171|25023|Plymouth County
+MASHPEE|172|25001|Barnstable County
+MATTAPOISETT|173|25023|Plymouth County
+MAYNARD|174|25017|Middlesex County
+MEDFIELD|175|25021|Norfolk County
+MEDFORD|176|25017|Middlesex County
+MEDWAY|177|25021|Norfolk County
+MELROSE|178|25017|Middlesex County
+MENDON|179|25027|Worcester County
+MERRIMAC|180|25009|Essex County
+METHUEN|181|25009|Essex County
+MIDDLEBOROUGH|182|25023|Plymouth County
+MIDDLEFIELD|183|25015|Hampshire County
+MIDDLETON|184|25009|Essex County
+MILFORD|185|25027|Worcester County
+MILLBURY|186|25027|Worcester County
+MILLIS|187|25021|Norfolk County
+MILLVILLE|188|25027|Worcester County
+MILTON|189|25021|Norfolk County
+MONROE|190|25011|Franklin County
+MONSON|191|25013|Hampden County
+MONTAGUE|192|25011|Franklin County
+MONTEREY|193|25003|Berkshire County
+MONTGOMERY|194|25013|Hampden County
+MOUNT WASHINGTON|195|25003|Berkshire County
+NAHANT|196|25009|Essex County
+NANTUCKET|197|25019|Nantucket County
+NATICK|198|25017|Middlesex County
+NEEDHAM|199|25021|Norfolk County
+NEW ASHFORD|200|25003|Berkshire County
+NEW BEDFORD|201|25005|Bristol County
+NEW BRAINTREE|202|25027|Worcester County
+NEW MARLBOROUGH|203|25003|Berkshire County
+NEW SALEM|204|25011|Franklin County
+NEWBURY|205|25009|Essex County
+NEWBURYPORT|206|25009|Essex County
+NEWTON|207|25017|Middlesex County
+NORFOLK|208|25021|Norfolk County
+NORTH ADAMS|209|25003|Berkshire County
+NORTH ANDOVER|210|25009|Essex County
+NORTH ATTLEBOROUGH|211|25005|Bristol County
+NORTH BROOKFIELD|212|25027|Worcester County
+NORTH READING|213|25017|Middlesex County
+NORTHAMPTON|214|25015|Hampshire County
+NORTHBOROUGH|215|25027|Worcester County
+NORTHBRIDGE|216|25027|Worcester County
+NORTHFIELD|217|25011|Franklin County
+NORTON|218|25005|Bristol County
+NORWELL|219|25023|Plymouth County
+NORWOOD|220|25021|Norfolk County
+OAK BLUFFS|221|25007|Dukes County
+OAKHAM|222|25027|Worcester County
+ORANGE|223|25011|Franklin County
+ORLEANS|224|25001|Barnstable County
+OTIS|225|25003|Berkshire County
+OXFORD|226|25027|Worcester County
+PALMER|227|25013|Hampden County
+PAXTON|228|25027|Worcester County
+PEABODY|229|25009|Essex County
+PELHAM|230|25015|Hampshire County
+PEMBROKE|231|25023|Plymouth County
+PEPPERELL|232|25017|Middlesex County
+PERU|233|25003|Berkshire County
+PETERSHAM|234|25027|Worcester County
+PHILLIPSTON|235|25027|Worcester County
+PITTSFIELD|236|25003|Berkshire County
+PLAINFIELD|237|25015|Hampshire County
+PLAINVILLE|238|25021|Norfolk County
+PLYMOUTH|239|25023|Plymouth County
+PLYMPTON|240|25023|Plymouth County
+PRINCETON|241|25027|Worcester County
+PROVINCETOWN|242|25001|Barnstable County
+QUINCY|243|25021|Norfolk County
+RANDOLPH|244|25021|Norfolk County
+RAYNHAM|245|25005|Bristol County
+READING|246|25017|Middlesex County
+REHOBOTH|247|25005|Bristol County
+REVERE|248|25025|Suffolk County
+RICHMOND|249|25003|Berkshire County
+ROCHESTER|250|25023|Plymouth County
+ROCKLAND|251|25023|Plymouth County
+ROCKPORT|252|25009|Essex County
+ROWE|253|25011|Franklin County
+ROWLEY|254|25009|Essex County
+ROYALSTON|255|25027|Worcester County
+RUSSELL|256|25013|Hampden County
+RUTLAND|257|25027|Worcester County
+SALEM|258|25009|Essex County
+SALISBURY|259|25009|Essex County
+SANDISFIELD|260|25003|Berkshire County
+SANDWICH|261|25001|Barnstable County
+SAUGUS|262|25009|Essex County
+SAVOY|263|25003|Berkshire County
+SCITUATE|264|25023|Plymouth County
+SEEKONK|265|25005|Bristol County
+SHARON|266|25021|Norfolk County
+SHEFFIELD|267|25003|Berkshire County
+SHELBURNE|268|25011|Franklin County
+SHERBORN|269|25017|Middlesex County
+SHIRLEY|270|25017|Middlesex County
+SHREWSBURY|271|25027|Worcester County
+SHUTESBURY|272|25011|Franklin County
+SOMERSET|273|25005|Bristol County
+SOMERVILLE|274|25017|Middlesex County
+SOUTH HADLEY|275|25015|Hampshire County
+SOUTHAMPTON|276|25015|Hampshire County
+SOUTHBOROUGH|277|25027|Worcester County
+SOUTHBRIDGE|278|25027|Worcester County
+SOUTHWICK|279|25013|Hampden County
+SPENCER|280|25027|Worcester County
+SPRINGFIELD|281|25013|Hampden County
+STERLING|282|25027|Worcester County
+STOCKBRIDGE|283|25003|Berkshire County
+STONEHAM|284|25017|Middlesex County
+STOUGHTON|285|25021|Norfolk County
+STOW|286|25017|Middlesex County
+STURBRIDGE|287|25027|Worcester County
+SUDBURY|288|25017|Middlesex County
+SUNDERLAND|289|25011|Franklin County
+SUTTON|290|25027|Worcester County
+SWAMPSCOTT|291|25009|Essex County
+SWANSEA|292|25005|Bristol County
+TAUNTON|293|25005|Bristol County
+TEMPLETON|294|25027|Worcester County
+TEWKSBURY|295|25017|Middlesex County
+TISBURY|296|25007|Dukes County
+TOLLAND|297|25013|Hampden County
+TOPSFIELD|298|25009|Essex County
+TOWNSEND|299|25017|Middlesex County
+TRURO|300|25001|Barnstable County
+TYNGSBOROUGH|301|25017|Middlesex County
+TYRINGHAM|302|25003|Berkshire County
+UPTON|303|25027|Worcester County
+UXBRIDGE|304|25027|Worcester County
+WAKEFIELD|305|25017|Middlesex County
+WALES|306|25013|Hampden County
+WALPOLE|307|25021|Norfolk County
+WALTHAM|308|25017|Middlesex County
+WARE|309|25015|Hampshire County
+WAREHAM|310|25023|Plymouth County
+WARREN|311|25027|Worcester County
+WARWICK|312|25011|Franklin County
+WASHINGTON|313|25003|Berkshire County
+WATERTOWN|314|25017|Middlesex County
+WAYLAND|315|25017|Middlesex County
+WEBSTER|316|25027|Worcester County
+WELLESLEY|317|25021|Norfolk County
+WELLFLEET|318|25001|Barnstable County
+WENDELL|319|25011|Franklin County
+WENHAM|320|25009|Essex County
+WEST BOYLSTON|321|25027|Worcester County
+WEST BRIDGEWATER|322|25023|Plymouth County
+WEST BROOKFIELD|323|25027|Worcester County
+WEST NEWBURY|324|25009|Essex County
+WEST SPRINGFIELD|325|25013|Hampden County
+WEST STOCKBRIDGE|326|25003|Berkshire County
+WEST TISBURY|327|25007|Dukes County
+WESTBOROUGH|328|25027|Worcester County
+WESTFIELD|329|25013|Hampden County
+WESTFORD|330|25017|Middlesex County
+WESTHAMPTON|331|25015|Hampshire County
+WESTMINSTER|332|25027|Worcester County
+WESTON|333|25017|Middlesex County
+WESTPORT|334|25005|Bristol County
+WESTWOOD|335|25021|Norfolk County
+WEYMOUTH|336|25021|Norfolk County
+WHATELY|337|25011|Franklin County
+WHITMAN|338|25023|Plymouth County
+WILBRAHAM|339|25013|Hampden County
+WILLIAMSBURG|340|25015|Hampshire County
+WILLIAMSTOWN|341|25003|Berkshire County
+WILMINGTON|342|25017|Middlesex County
+WINCHENDON|343|25027|Worcester County
+WINCHESTER|344|25017|Middlesex County
+WINDSOR|345|25003|Berkshire County
+WINTHROP|346|25025|Suffolk County
+WOBURN|347|25017|Middlesex County
+WORCESTER|348|25027|Worcester County
+WORTHINGTON|349|25015|Hampshire County
+WRENTHAM|350|25021|Norfolk County
+YARMOUTH|351|25001|Barnstable County`;
+export const MA_TOWN_COUNTY_CROSSWALK = Object.freeze(Object.fromEntries(MA_TOWN_COUNTY_ROWS.split('\n').map((line) => {
+  const [name, townId, countyFips, countyName] = line.split('|');
+  return [name, Object.freeze({ name, massgis_town_id: Number(townId), county_fips: countyFips, county_name: countyName })];
+})));
+
 export const NATIONAL_URLS = Object.freeze(Object.fromEntries(['SG', 'GG', 'HG'].map((code) => [code, `https://politics.api.cnn.io/results/national-races/2026-${code}.json`])));
 const OFFICE = { SG: 'senate', SP: 'senate', GG: 'governor', HG: 'house' };
 const OFFICES = ['senate', 'house', 'governor'];
@@ -128,15 +488,72 @@ function normalizedRace(row, source) {
   return { race_id: row.ecKey, state: parts.state, office: OFFICE[parts.code], district: parts.district, seat: null, stage: 'general', special: parts.code === 'SP', cycle: 2026, label: `${parts.state} ${OFFICE[parts.code][0].toUpperCase()}${OFFICE[parts.code].slice(1)}${parts.district ? ' ' + parts.district : ''}${parts.code === 'SP' ? ' Special' : ''}`, ...candidates(row.candidates, row.totalVote, released), source_name: 'CNN', source_url: source.source_url, checked_at: source.retrieved_at, source_updated_at: awareTime(row.voteTimestamp), source_extracted_at_raw: row.extractedAt ?? null, poll_close_at: new Date(embargo.assignedPollsClose).toISOString(), poll_status: embargo.pollsClosed === true ? 'closed' : embargo.pollsClosed === false ? 'open' : 'unknown', polls_closed: typeof embargo.pollsClosed === 'boolean' ? embargo.pollsClosed : null, votes_released: released, source_percent_reporting: progress.percent_votes_counted, source_vote_progress: progress, percent_reporting_definition: progress.definition, source_called_winner: called, historical_comparison: null, preforecast_comparison: null, our_model_race_call: null, win_probability: null };
 }
 
+const maTownName = (value) => typeof value === 'string' ? value.trim().replace(/\s+/g, ' ').toUpperCase() : '';
+function sourceUpdateRange(rows) {
+  const times = rows.map((row) => row.source_updated_at).filter(Boolean).sort((a, b) => Date.parse(a) - Date.parse(b));
+  return { oldest: times[0] || null, newest: times.at(-1) || null, unknown_count: rows.filter((row) => !row.source_updated_at).length };
+}
+
+/** Verified town partition; each retained vote enters exactly one county. */
+function massachusettsCounties(rows, parent, source) {
+  const failure = (reason) => ({ rows: null, reason });
+  if (!rows.length || rows.some((row) => row.unit_kind !== 'source_locality')) return failure('Massachusetts municipal rows are required for county aggregation.');
+  const isHouse = parent.office === 'house', seen = new Set(), groups = new Map(), roster = new Map(parent.candidates.map((candidate) => [candidate.candidate_id, candidate]));
+  for (const row of rows) {
+    const name = maTownName(row.name), place = MA_TOWN_COUNTY_CROSSWALK[name];
+    if (!place) return failure('A Massachusetts source municipality has no verified county match.');
+    if (seen.has(name)) return failure('A Massachusetts source municipality occurs more than once.');
+    seen.add(name);
+    if (!groups.has(place.county_fips)) groups.set(place.county_fips, { place, members: [] });
+    groups.get(place.county_fips).members.push(row);
+    for (const candidate of row.candidates) {
+      const old = roster.get(candidate.candidate_id);
+      if (old && (old.name !== candidate.name || old.party !== candidate.party)) return failure('Massachusetts candidate identities disagree between municipalities.');
+      if (!old) roster.set(candidate.candidate_id, candidate);
+    }
+  }
+  if (!isHouse && (seen.size !== 351 || Object.keys(MA_TOWN_COUNTY_CROSSWALK).some((name) => !seen.has(name)))) return failure('The statewide Massachusetts source does not contain all 351 verified municipalities.');
+  const output = [];
+  for (const [countyFips, { place, members }] of groups) {
+    const total = members.every((row) => count(row.reported_total)) ? members.reduce((sum, row) => sum + row.reported_total, 0) : null;
+    const rawCandidates = [...roster.values()].map((candidate) => {
+      const values = members.map((row) => row.candidates.find((value) => value.candidate_id === candidate.candidate_id));
+      return { candidateId: candidate.candidate_id, fullName: candidate.name, majorParty: candidate.party,
+        partyName: candidate.party_label, voteNum: values.every((value) => value && count(value.votes)) ? values.reduce((sum, value) => sum + value.votes, 0) : null };
+    });
+    const progress = { ...voteProgress({}, source, parent.votes_released === true), source_field: null, remaining_percentage_derived: false,
+      definition: 'No county vote-progress estimate is supplied; municipal percentages are not combined.',
+      unavailable_reason: 'CNN publishes municipal vote-progress estimates, not a county estimate; no percentage is derived.' };
+    const range = sourceUpdateRange(members), expected = Object.values(MA_TOWN_COUNTY_CROSSWALK).filter((town) => town.county_fips === countyFips).length;
+    output.push({ reporting_unit_id: countyFips, county_fips: countyFips,
+      geography_type: isHouse ? 'county_fragment' : 'county', unit_kind: isHouse ? 'county_fragment' : 'county',
+      geography_scope: isHouse ? 'house_district_county_portion' : 'whole_county', geographic_join_supported: true,
+      included_in_coverage_total: true, name: place.county_name,
+      race_id: parent.race_id, state: 'MA', district: parent.district,
+      ...candidates(rawCandidates, total, parent.votes_released === true),
+      source_percent_reporting: null, source_vote_progress: progress, percent_reporting_definition: progress.definition,
+      source_updated_at: range.unknown_count ? null : range.oldest, source_update_range: range,
+      source_url: source.source_url, checked_at: source.retrieved_at, source_name: 'CNN',
+      source_status: members.some((row) => row.source_stale) ? 'stale' : 'cached', source_stale: members.some((row) => row.source_stale),
+      result_kind: 'aggregated_municipal_results', aggregation_basis: 'verified_ma_town_to_county_rollup',
+      municipality_count: members.length, county_municipality_count: expected, whole_county_coverage_verified: !isHouse && members.length === expected,
+      source_reporting_unit_ids: members.map((row) => row.reporting_unit_id).sort(),
+      geography_source: MA_TOWN_CROSSWALK_SOURCE, historical_comparison: null, source_called_winner: null, our_model_race_call: null, win_probability: null });
+  }
+  return { rows: output.sort((a, b) => a.county_fips.localeCompare(b.county_fips)), reason: null };
+}
+
 function countyView(snapshot, parent) {
   const source = snapshot?.source, stale = Boolean(snapshot?.error || snapshot?.stale);
   const rows = (snapshot?.rows || []).map((row) => { const canonical = realCounty(row.countyFipsCode, parent.state), progress = voteProgress(row, source, parent.votes_released === true), geographyType = canonical ? 'county' : parent.state === 'AK' ? row.countyFipsCode === '9902099' ? 'source_reporting_category' : 'source_election_district' : 'source_locality';return { reporting_unit_id: row.countyFipsCode, county_fips: canonical ? row.countyFipsCode : null, geography_type: geographyType, unit_kind: geographyType, geographic_join_supported: canonical, included_in_coverage_total: canonical, name: row.countyLongName || row.countyName || row.countyFipsCode, race_id: parent.race_id, state: parent.state, district: parent.district, ...candidates(row.candidates, row.totalVote, parent.votes_released === true), source_percent_reporting: progress.percent_votes_counted, percent_reporting_definition: progress.definition, source_vote_progress: progress, source_updated_at: awareTime(row.voteTimestamp), source_url: source.source_url, checked_at: source.retrieved_at, source_name: 'CNN', source_status: stale ? 'stale' : 'cached', source_stale: stale, historical_comparison: null, our_model_race_call: null, win_probability: null }; }).sort((a, b) => a.reporting_unit_id.localeCompare(b.reporting_unit_id));
   // Municipal detail can duplicate its parent county (Michigan Wayne does).
   // Never sum all source rows or assume a town-only feed is an exhaustive partition.
-  const canonicalRows = rows.filter((r) => r.included_in_coverage_total);
+  const rawCanonicalRows = rows.filter((r) => r.included_in_coverage_total);
+  const rolled = parent.state === 'MA' && !rawCanonicalRows.length && rows.length ? massachusettsCounties(rows, parent, source) : null;
+  const canonicalRows = rolled?.rows || rawCanonicalRows, outputRows = canonicalRows.length ? canonicalRows : rows;
+  const supplemental = canonicalRows.length ? rows.filter((r) => !r.included_in_coverage_total) : [];
   const total = canonicalRows.length && canonicalRows.every((r) => r.reported_total !== null) ? canonicalRows.reduce((sum, r) => sum + r.reported_total, 0) : null;
-  const times = rows.map((r) => r.source_updated_at).filter(Boolean).sort((a, b) => Date.parse(a) - Date.parse(b));
-  return { rows: canonicalRows.length ? canonicalRows : rows, supplemental_localities: canonicalRows.length ? rows.filter((r) => !r.included_in_coverage_total) : [], coverage: { status: rows.length ? stale ? 'stale' : 'available' : 'unavailable', source_status: rows.length ? stale ? 'stale' : 'cached' : 'unavailable', error: snapshot?.error || null, stale, checked_at: source?.retrieved_at || null, snapshot_id: source?.sha256 || null, refresh_checked_at: snapshot?.last_attempt_at || null, last_refresh_attempt_at: snapshot?.last_attempt_at || null, source_url: source?.source_url || null, reported_total: total, aggregation_basis: canonicalRows.length ? 'canonical_county_rows_only' : rows.length ? 'unverified_source_locality_partition' : null, source_unit_count: rows.length, canonical_county_count: canonicalRows.length, source_locality_count: rows.length - canonicalRows.length, aggregation_excludes_source_localities: rows.length > canonicalRows.length, matches_national_snapshot: total !== null && parent.reported_total !== null ? total === parent.reported_total : null, source_update_range: { oldest: times[0] || null, newest: times.at(-1) || null, unknown_count: rows.filter((r) => !r.source_updated_at).length }, note: 'County and national feeds are independently timed snapshots. Only canonical county rows enter coverage totals; source-locality detail may overlap counties and is never added. Town-only partition completeness is unverified.' } };
+  return { rows: outputRows, supplemental_localities: supplemental, coverage: { status: rows.length ? stale ? 'stale' : 'available' : 'unavailable', source_status: rows.length ? stale ? 'stale' : 'cached' : 'unavailable', error: snapshot?.error || null, stale, checked_at: source?.retrieved_at || null, snapshot_id: source?.sha256 || null, refresh_checked_at: snapshot?.last_attempt_at || null, last_refresh_attempt_at: snapshot?.last_attempt_at || null, source_url: source?.source_url || null, reported_total: total, aggregation_basis: rolled?.rows ? 'verified_ma_town_to_county_rollup' : canonicalRows.length ? 'canonical_county_rows_only' : rows.length ? 'unverified_source_locality_partition' : null, aggregation_error: rolled?.reason || null, source_unit_count: rows.length, source_canonical_county_count: rawCanonicalRows.length, derived_county_count: rolled?.rows?.length || 0, canonical_county_count: canonicalRows.length, source_locality_count: rows.length - rawCanonicalRows.length, aggregation_excludes_source_localities: supplemental.length > 0, matches_national_snapshot: total !== null && parent.reported_total !== null ? total === parent.reported_total : null, source_update_range: sourceUpdateRange(rows), note: rolled?.rows ? 'Massachusetts source municipalities are joined to authoritative MassGIS county assignments and summed exactly once. Original municipal rows remain separate; House aggregates cover district portions only. No county vote-progress percentage is inferred.' : 'County and national feeds are independently timed snapshots. Only canonical county rows enter coverage totals; source-locality detail may overlap counties and is never added. Town-only partition completeness is unverified.' } };
 }
 
 export function buildView(snapshot, query = {}, county = null, now = Date.now()) {
