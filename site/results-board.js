@@ -5,6 +5,7 @@ const $ = (id) => document.getElementById(id);
 const OFFICE = { senate: 'U.S. Senate', house: 'U.S. House', governor: 'Governor' };
 const state = { office: 'senate', selected: '', raceId: '', data: null, map: null, houseGeometry: null, pendingHouseKey: '', initialized: false, pending: false, countyRace: '', countyData: null, countyView: false, countyLayer: 'geographic', countyPreferredLayer: 'geographic', selectedCounty: '', focused: false, countyPending: false, countyMessage: '', countyRequest: 0, countyCache: new Map(), countySelections: new Map(), countyFilter: '', countySort: 'votes_desc', displayMode: 'results', baselineYear: 2024, baseline: null, baselinePending: false, baselineError: '', historyModule: null, historyRequest: 0 };
 state.mapMetric = 'dem_ratio';
+Object.assign(state, { registration: null, registrationModule: null, registrationPending: false, registrationError: '', registrationFilter: '', registrationSort: 'name' });
 const count = (value) => Number.isFinite(value) ? value.toLocaleString('en-US') : '—';
 function el(tag, text, className) { const node = document.createElement(tag); if (text !== undefined && text !== null) node.textContent = String(text); if (className) node.className = className; return node; }
 function party(value) { const code = String(value || '').toUpperCase(); return ['DEM', 'DEMOCRATIC', 'D'].includes(code) ? 'dem' : ['REP', 'REPUBLICAN', 'R'].includes(code) ? 'rep' : 'other'; }
@@ -66,6 +67,93 @@ async function loadBaseline() {
   catch { if (request === state.historyRequest) state.baselineError = 'Presidential results could not load. Select the year again to retry.'; }
   finally { if (request === state.historyRequest) { state.baselinePending = false; render(); } }
 }
+async function loadRegistration() {
+  if (state.registrationPending) return;
+  state.registrationPending = true; state.registrationError = ''; render();
+  try { const module = await import('./voter-registration.js'); const data = await module.loadVoterRegistration(); state.registrationModule = module; state.registration = data; }
+  catch { state.registrationError = 'Registration references could not load.'; }
+  finally { state.registrationPending = false; render(); }
+}
+function registrationRow(code = state.selected) { return state.registration?.states.get(code) || null; }
+function registrationDisplay(race, geography = 'state') {
+  const row = registrationRow(race?.state);
+  return row && state.registrationModule ? state.registrationModule.compareRegistrationVotes(race, row, { office: race?.office, geography }) : null;
+}
+function registrationUnavailable(row) {
+  if (row?.registration_status === 'no_registration' || row?.state === 'ND') return 'No voter registration';
+  return row?.party_registration_supported === false ? 'Not recorded by state' : row?.party_registration_supported === true ? 'Party counts unavailable' : 'Party coverage unverified';
+}
+function registrationCount(row, key) { return Number.isFinite(row?.[key]) ? count(row[key]) : key === 'dem' || key === 'rep' ? registrationUnavailable(row) : 'Unavailable'; }
+function signedCount(value) { return Number.isFinite(value) ? (value > 0 ? '+' : value < 0 ? '−' : '') + count(Math.abs(value)) : '—'; }
+function snapshotDate(value) {
+  if (!value) return 'Snapshot date unavailable';
+  if (/^\d{4}$/.test(value)) return value;
+  if (/^\d{4}-\d{2}$/.test(value)) { const month = new Date(value + '-01T12:00:00Z'); return Number.isFinite(month.getTime()) ? new Intl.DateTimeFormat('en-US', { timeZone: 'UTC', year: 'numeric', month: 'short' }).format(month) : String(value); }
+  const date = new Date(value + (String(value).length === 10 ? 'T12:00:00Z' : ''));
+  return Number.isFinite(date.getTime()) ? new Intl.DateTimeFormat('en-US', { timeZone: 'UTC', year: 'numeric', month: 'short', day: 'numeric' }).format(date) : String(value);
+}
+function registrationCheckLabel(row) {
+  return row?.latest_checked === true ? 'Latest source checked' : row?.as_of || registrationObservation(row) ? 'Most recent verified reference' : 'Snapshot date unverified';
+}
+function registrationObservation(row) { return row?.observation_period && !/compil(?:ation|ed)/i.test(row.observation_period) ? row.observation_period : null; }
+function registrationSnapshot(row) { return row?.as_of ? snapshotDate(row.as_of) : registrationObservation(row) || 'Snapshot date unverified'; }
+function registrationCompilation(row) {
+  const period = row?.source_compilation_period || row?.source_compilation_date || row?.compilation_period || row?.compilation_date;
+  return period ? 'Compilation: ' + snapshotDate(period) : /compil(?:ation|ed)/i.test(row?.observation_period || '') ? row.observation_period : null;
+}
+function registrationSourceLabel(row) { return row?.source_tier === 'secondary' ? 'Secondary reference' : row?.source_tier === 'official' ? 'Official source' : 'Source tier unverified'; }
+function registrationWarning(row) {
+  const notes = (Array.isArray(row?.notes) ? row.notes : row?.notes ? [row.notes] : []).filter((note) => typeof note === 'string' && note.trim());
+  const accountingConflict = row?.accounting_status === 'conflict' || [row?.source_residual, row?.unallocated_accounting_difference].some((value) => Number.isFinite(value) && value < 0);
+  const conflictNote = notes.find((note) => /categories.*(?:fall|exceed)|do not reconcile|discrep|conflict|gap not assigned/i.test(note));
+  if (accountingConflict) return conflictNote || 'Published registration categories do not reconcile. Counts are source context only.';
+  if (row?.comparison_supported === false) return row?.comparison_note || notes.find((note) => /unverified|scope|denominator|population|latest/i.test(note)) || 'Registration population is unverified; counts are reference only.';
+  return conflictNote || notes.find((note) => /unverified|not verified|not available|no newer|latest|optional/i.test(note)) || notes[0] || null;
+}
+function renderRegistration(race, target, geography = 'state') {
+  if (state.displayMode !== 'president' || !state.selected) return;
+  const row = registrationRow(), box = el('section', null, 'registration-reference'); box.id = 'state-registration-reference';
+  const stateName = state.map?.states.find((area) => area.state === state.selected)?.name || state.selected;
+  box.setAttribute('aria-label', stateName + ' statewide voter registration reference');
+  const header = el('div', null, 'registration-reference-heading'); header.append(el('h4', stateName + ' registration'), el('span', 'Statewide', 'registration-scope')); box.append(header);
+  if (!row) {
+    box.append(el('p', state.registrationPending ? 'Loading registration counts…' : state.registrationError || 'A verified registration snapshot is unavailable.', 'registration-status'));
+    if (state.registrationError) { const retry = el('button', 'Retry registration references', 'comparison-retry'); retry.type = 'button'; retry.addEventListener('click', loadRegistration); box.append(retry); }
+    target.append(box); return;
+  }
+  const display = race ? registrationDisplay(race, geography) : null;
+  const metrics = el('dl', null, 'registration-count-grid');
+  for (const [key, label] of [['dem', 'Democratic'], ['rep', 'Republican'], ['unaffiliated', 'Unaffiliated'], ['other', 'Other parties'], ['total', 'Total registered']]) {
+    const item = el('div', null, key); item.append(el('dt', label), el('dd', registrationCount(row, key))); metrics.append(item);
+  }
+  box.append(metrics);
+  const warning = registrationWarning(row);
+  if (warning) box.append(el('p', warning, 'registration-source-warning'));
+  if (Number.isFinite(row.unclassified)) box.append(el('small', count(row.unclassified) + ' unclassified by source', 'registration-unclassified'));
+  if (geography !== 'state' || race?.office === 'house') box.append(el('p', 'Statewide context; no county or district comparison to this denominator.', 'registration-context-note'));
+  else if (display?.state_reference_only) box.append(el('p', row.office_eligibility_note || display.reason || 'Statewide reference only; this office’s electorate is not comparable.', 'registration-context-note'));
+  else if (display && !display.state_reference_only && !comparisonDisplay(race).current) renderRegistrationPerformance(display, box);
+  const meta = el('div', null, 'registration-reference-meta');
+  meta.append(el('strong', registrationSnapshot(row)), el('span', row.definition || 'Registration definition unavailable'));
+  if (row.report_generated_at) meta.append(el('small', 'Report generated ' + snapshotDate(String(row.report_generated_at).slice(0, 10))));
+  meta.append(el('span', registrationSourceLabel(row), 'registration-source-tier'));
+  const compilation = registrationCompilation(row); if (compilation) meta.append(el('small', compilation));
+  if (row.source_url) meta.append(sourceLink(row.source_url, row.source_name || 'Registration source'));
+  const checked = row.checked_at ? snapshotDate(String(row.checked_at).slice(0, 10)) : null;
+  meta.append(el('small', registrationCheckLabel(row) + (checked ? ' · checked ' + checked : '')));
+  box.append(meta, el('p', 'Registration is a reference, not how registrants voted.', 'registration-caveat'));
+  target.append(box);
+}
+function renderRegistrationPerformance(display, target) {
+  const grid = el('div', null, 'registration-performance-grid');
+  for (const code of ['dem', 'rep']) {
+    const result = display.ratios?.[code], item = el('div', null, code);
+    item.append(el('span', (code === 'dem' ? 'D' : 'R') + ' counted − registered'), el('strong', signedCount(result?.difference_votes ?? result?.difference)));
+    if (Number.isFinite(result?.percent)) item.append(el('small', percent(result.percent) + ' counted / registered'));
+    grid.append(item);
+  }
+  target.append(grid);
+}
 function renderProgress(race, target) {
   const progress = race.source_vote_progress;
   const box = el('div', null, 'source-vote-progress');
@@ -85,6 +173,12 @@ function renderComparison(race, target, geography = 'state') {
   const result = comparisonDisplay(race, geography), box = el('section', null, 'presidential-comparison comparison-panel');
   box.setAttribute('aria-label', 'Counted votes compared with the ' + state.baselineYear + ' presidential vote');
   box.append(el('h4', 'Counted votes vs ' + state.baselineYear + ' President'));
+  if (geography === 'state' && race.office !== 'house') {
+    const registered = registrationRow(race.state), caption = el('p', null, 'comparison-registration-caption');
+    caption.textContent = registered ? (registered.as_of || registrationObservation(registered) ? 'Registrations: ' + registrationSnapshot(registered) : 'Registration date unverified') + ' · ' + (registered.source_tier === 'official' ? 'Official' : registered.source_tier === 'secondary' ? 'Secondary' : 'Source unverified') : state.registrationPending ? 'Loading registration reference…' : 'Registration reference unavailable';
+    if (registered) caption.title = (registered.source_name || 'Registration source') + ' · ' + (registered.definition || 'Definition unavailable');
+    box.append(caption);
+  }
   if (!result.current || !result.historical) {
     box.append(el('p', result.reason || 'Comparison unavailable for these reported votes.'));
     if (state.baselineError) { const retry = el('button', 'Retry presidential results', 'comparison-retry'); retry.type = 'button'; retry.addEventListener('click', loadBaseline); box.append(retry); }
@@ -108,6 +202,17 @@ function renderComparison(race, target, geography = 'state') {
         const tracks = el('div', null, 'comparison-count-bars'); tracks.setAttribute('aria-hidden', 'true');
         for (const [kind, votes] of [['current', current], ['historical', historical]]) { const track = el('div', null, 'comparison-bar'); const bar = el('span', null, code + ' ' + kind); bar.style.width = votes / Math.max(current, historical) * 100 + '%'; track.append(bar); tracks.append(track); }
         card.append(tracks);
+      }
+      if (geography === 'state' && race.office !== 'house') {
+        const registered = registrationRow(race.state), registration = registrationDisplay(race, geography), comparison = registration?.ratios?.[code];
+        const benchmark = el('div', null, 'registration-party-benchmark'); benchmark.dataset.party = code;
+        const registeredCount = el('div'); registeredCount.append(el('span', (code === 'dem' ? 'D' : 'R') + ' registered'), el('strong', registered ? registrationCount(registered, code) : '—')); benchmark.append(registeredCount);
+        if (registered && Number.isFinite(registered[code]) && !registration?.state_reference_only) {
+          const difference = comparison?.difference_votes ?? comparison?.difference;
+          const gap = el('div', null, 'registration-vote-difference'); gap.append(el('span', 'Counted − registered'), el('strong', signedCount(difference))); benchmark.append(gap);
+          if (Number.isFinite(comparison?.percent)) benchmark.append(el('small', percent(comparison.percent) + ' counted / registered'));
+        }
+        card.append(benchmark);
       }
       if (ratio?.is_lower_bound) card.append(el('small', 'At least this share; some current votes are unassigned.', 'comparison-lower-bound'));
       else if (!Number.isFinite(ratio?.percent)) card.append(el('small', ratio?.reason || 'A matched party count is unavailable.', 'comparison-unavailable'));
@@ -181,6 +286,7 @@ function renderInspector() {
   const area = state.map?.states.find((item) => item.state === state.selected);
   const stateHeading = el('h2', area?.name || 'Explore a race'); stateHeading.id = 'race-inspector-title'; target.append(stateHeading);
   if (!race) {
+    renderRegistration(null, target);
     target.append(el('p', state.selected ? 'No connected ' + OFFICE[state.office].toLowerCase() + ' results for this state yet.' : 'Select a state on the map to explore its races.', 'inspector-empty'));
     target.append(el('p', 'Gray means no reported votes or no connected source. It does not mean the race is tied.', 'inspector-disclaimer'));
   } else {
@@ -190,6 +296,7 @@ function renderInspector() {
     header.append(el('span', call ? 'Source call' : hasVotes(race) ? 'Reported results' : 'Awaiting returns', call ? 'race-status source-call' : 'race-status'));
     target.append(header);
     renderComparison(race, target, selectedCounty ? 'county' : 'state');
+    renderRegistration(race, target, selectedCounty ? 'county' : 'state');
     if (selectedCounty) { const back = el('button', 'Back to state totals', 'county-toggle'); back.type = 'button'; back.addEventListener('click', () => { state.selectedCounty = ''; render(); }); target.append(back); }
     if (call) target.append(el('p', (race.source_name || 'Source') + ' calls this race for ' + call + '.', 'source-call-note'));
     else if (lead) target.append(el('p', lead.name + ' leads the reported vote. No race call shown.', 'inspector-lead'));
@@ -306,6 +413,111 @@ function renderCountyTable() {
   if (focusedKey && document.activeElement === document.body) [...body.children].find((row) => row.dataset.unitKey === focusedKey)?.querySelector('button')?.focus({ preventScroll: true });
 }
 
+function stateOfficeRace(code) {
+  if (state.office === 'house') return null;
+  if (code === state.selected && currentRace()) return currentRace();
+  return allRaces().filter((race) => race.state === code && race.office === state.office).sort((a, b) => Number(Boolean(a.special)) - Number(Boolean(b.special)))[0] || null;
+}
+function registrationOverviewRecords() {
+  const query = state.registrationFilter.trim().toLocaleLowerCase();
+  const records = [...(state.registration?.states.values() || [])].map((row) => {
+    const name = state.map?.states.find((area) => area.state === row.state)?.name || row.state, race = stateOfficeRace(row.state);
+    return { row, name, race, presidential: race ? comparisonDisplay(race) : null, registration: race ? registrationDisplay(race) : null };
+  }).filter((record) => !query || (record.name + ' ' + record.row.state).toLocaleLowerCase().includes(query));
+  const byNumber = (a, b, get) => { const av = get(a), bv = get(b); return Number.isFinite(av) ? Number.isFinite(bv) ? bv - av : -1 : Number.isFinite(bv) ? 1 : 0; };
+  return records.sort((a, b) => {
+    const difference = state.registrationSort === 'total' ? byNumber(a, b, (item) => item.row.total) : state.registrationSort === 'dem' ? byNumber(a, b, (item) => item.row.dem) : state.registrationSort === 'rep' ? byNumber(a, b, (item) => item.row.rep) : state.registrationSort === 'shift' ? byNumber(a, b, (item) => item.presidential?.shift_pp) : 0;
+    return difference || a.name.localeCompare(b.name);
+  });
+}
+function renderRegistrationSnapshotCell(cell, row) {
+  const previousOpen = cell.querySelector('details')?.open || false;
+  const summaryFocused = document.activeElement === cell.querySelector('summary');
+  const date = el('strong', registrationSnapshot(row)), tier = el('span', registrationSourceLabel(row), 'registration-source-tier');
+  const headline = el('div', null, 'registration-snapshot-headline'); headline.append(date, tier);
+  const definition = el('small', row.definition || 'Definition unavailable', 'registration-definition-preview'); definition.title = row.definition || 'Definition unavailable';
+  const warning = registrationWarning(row);
+  const residual = row.source_residual ?? row.unallocated_accounting_difference;
+  const preview = row.accounting_status === 'conflict' || Number.isFinite(residual) && residual < 0 ? 'Conflicting source totals' : Number.isFinite(residual) && residual > 0 ? 'Unallocated source gap: ' + count(residual) : row.comparison_supported === false ? 'Reference only; population unverified' : !row.as_of && !registrationObservation(row) ? 'Underlying snapshot date unverified' : warning;
+  const note = warning ? el('small', preview, 'registration-source-warning registration-warning-preview') : null;
+  if (note) note.title = warning;
+  const details = el('details', null, 'registration-source-details'); details.open = previousOpen;
+  details.append(el('summary', 'Source details'));
+  const full = el('div', null, 'registration-source-details-content'); full.append(el('p', row.definition || 'Definition unavailable'));
+  if (row.source_url) full.append(sourceLink(row.source_url, row.source_name || 'Registration source'));
+  const compilation = registrationCompilation(row); if (compilation) full.append(el('p', compilation));
+  if (row.report_generated_at) full.append(el('p', 'Report generated ' + snapshotDate(String(row.report_generated_at).slice(0, 10))));
+  full.append(el('p', registrationCheckLabel(row) + (row.checked_at ? ' · checked ' + snapshotDate(String(row.checked_at).slice(0, 10)) : '')));
+  for (const value of Array.isArray(row.notes) ? row.notes : row.notes ? [row.notes] : []) if (typeof value === 'string' && value) full.append(el('p', value));
+  details.append(full); cell.replaceChildren(headline, definition);
+  if (note) cell.append(note);
+  cell.append(details);
+  if (summaryFocused) details.querySelector('summary').focus({ preventScroll: true });
+}
+function renderRegistrationOverview() {
+  const panel = $('registration-overview-panel'), target = $('registration-overview-content');
+  if (!panel || !target) return;
+  panel.hidden = state.displayMode !== 'president'; if (panel.hidden) return;
+  $('registration-overview-context').textContent = OFFICE[state.office] + ' · ' + state.baselineYear + ' presidential comparison · state registration snapshots';
+  panel.setAttribute('aria-busy', String(state.registrationPending));
+  if (!$('registration-state-filter')) {
+    const controls = el('div', null, 'county-table-controls registration-overview-controls');
+    const label = el('label', 'Find a state'), filter = el('input'); filter.type = 'search'; filter.id = 'registration-state-filter'; filter.placeholder = 'State name or abbreviation'; filter.autocomplete = 'off'; filter.value = state.registrationFilter;
+    filter.addEventListener('input', () => { state.registrationFilter = filter.value; renderRegistrationOverview(); }); label.append(filter);
+    const sorting = el('label', 'Sort'), sort = el('select'); sort.id = 'registration-state-sort';
+    for (const [value, text] of [['name', 'State A–Z'], ['total', 'Most registered'], ['dem', 'Most D registered'], ['rep', 'Most R registered'], ['shift', 'Largest shift toward D']]) { const option = el('option', text); option.value = value; sort.append(option); }
+    sort.value = state.registrationSort; sort.addEventListener('change', () => { state.registrationSort = sort.value; renderRegistrationOverview(); }); sorting.append(sort);
+    const reset = el('button', 'Clear search', 'county-filter-clear'); reset.type = 'button'; reset.addEventListener('click', () => { state.registrationFilter = ''; filter.value = ''; renderRegistrationOverview(); filter.focus({ preventScroll: true }); });
+    controls.append(label, sorting, reset);
+    const status = el('p', null, 'county-table-status'); status.id = 'registration-overview-status'; status.setAttribute('role', 'status');
+    const wrap = el('div', null, 'county-table-wrap registration-overview-wrap'); wrap.tabIndex = 0; wrap.setAttribute('role', 'region'); wrap.setAttribute('aria-label', 'Scrollable statewide registration and presidential comparison');
+    const table = el('table', null, 'county-table registration-overview-table'); table.id = 'registration-overview-table';
+    const caption = el('caption', 'Statewide registration counts alongside the selected office’s current presidential comparison. Registration is a reference, not how registrants voted.'); caption.className = 'visually-hidden';
+    const head = el('thead'), tr = el('tr');
+    for (const [key, text] of [['state', 'State'], ['dem', 'D registered'], ['rep', 'R registered'], ['unaffiliated', 'Unaffiliated'], ['total', 'Total registered'], ['dem_pres', 'D / Harris'], ['rep_pres', 'R / Trump'], ['shift', 'Presidential margin shift'], ['snapshot', 'Snapshot / source']]) { const th = el('th', text); th.scope = 'col'; th.dataset.column = key; tr.append(th); }
+    const body = el('tbody'); body.id = 'registration-state-rows'; head.append(tr); table.append(caption, head, body); wrap.append(table);
+    const caveat = el('p', 'Registration is a reference, not how registrants voted. Dates and active/all-voter definitions vary by state.', 'registration-overview-caveat');
+    target.append(controls, status, wrap, caveat);
+  }
+  const records = registrationOverviewRecords(), status = $('registration-overview-status');
+  const note = state.registrationPending ? 'Loading registration references…' : state.registrationError || (state.registration ? records.length + ' of ' + state.registration.states.size + ' states / DC' : 'Registration references unavailable.');
+  status.replaceChildren(el('span', note + (state.office === 'house' ? ' · House district comparisons are unavailable; registrations remain statewide context.' : '')));
+  if (state.registrationError) { const retry = el('button', 'Retry', 'comparison-retry'); retry.type = 'button'; retry.addEventListener('click', loadRegistration); status.append(retry); }
+  $('registration-overview-table').querySelector('[data-column="dem_pres"]').textContent = 'D / ' + (state.baselineYear === 2024 ? 'Harris' : 'Biden') + ' ' + state.baselineYear;
+  $('registration-overview-table').querySelector('[data-column="rep_pres"]').textContent = 'R / Trump ' + state.baselineYear;
+  const body = $('registration-state-rows'), existing = new Map([...body.children].map((row) => [row.dataset.state, row]));
+  const focused = document.activeElement?.closest('#registration-state-rows tr')?.dataset.state;
+  for (const [position, record] of records.entries()) {
+    const { row, name, race, presidential, registration } = record;
+    let tr = existing.get(row.state); existing.delete(row.state);
+    if (!tr) {
+      tr = el('tr'); tr.dataset.state = row.state; const heading = el('th'); heading.scope = 'row';
+      const button = el('button'); button.type = 'button'; button.addEventListener('click', () => { showStateView(false); selectState(row.state); }); heading.append(button); tr.append(heading);
+      for (let index = 0; index < 8; index++) tr.append(el('td'));
+    }
+    tr.classList.toggle('selected', row.state === state.selected);
+    const button = tr.querySelector('button'); button.textContent = name; button.setAttribute('aria-pressed', String(row.state === state.selected));
+    const cells = [...tr.querySelectorAll('td')];
+    for (const [index, key] of ['dem', 'rep', 'unaffiliated', 'total'].entries()) {
+      const cell = cells[index]; cell.className = 'registration-overview-count ' + key; cell.replaceChildren(el('strong', registrationCount(row, key)));
+      if (key === 'dem' || key === 'rep') {
+        const difference = registration?.ratios?.[key]?.difference_votes ?? registration?.ratios?.[key]?.difference;
+        if (Number.isFinite(difference)) cell.append(el('small', 'Counted − reg: ' + signedCount(difference)));
+      }
+    }
+    for (const [index, code] of ['dem', 'rep'].entries()) {
+      const value = presidential?.ratios?.[code]?.percent; cells[index + 4].className = 'county-count-comparison ' + code; cells[index + 4].replaceChildren(el('strong', percent(value)));
+      if (race) cells[index + 4].append(el('small', raceLabel(race)));
+      cells[index + 4].title = presidential?.ratios?.[code]?.reason || presidential?.reason || 'Current party count divided by the historical presidential nominee count.';
+    }
+    cells[6].textContent = Number.isFinite(presidential?.shift_pp) ? shiftLabel(presidential.shift_pp) : '—'; cells[6].className = Number.isFinite(presidential?.shift_pp) ? presidential.shift_pp >= 0 ? 'shift-dem' : 'shift-rep' : '';
+    cells[7].className = 'registration-snapshot-cell'; renderRegistrationSnapshotCell(cells[7], row);
+    if (body.children[position] !== tr) body.insertBefore(tr, body.children[position] || null);
+  }
+  existing.forEach((row) => row.remove());
+  if (focused && document.activeElement === document.body) [...body.children].find((row) => row.dataset.state === focused)?.querySelector('button')?.focus({ preventScroll: true });
+}
+
 function renderBreadcrumbs() {
   const target = $('results-breadcrumbs'); if (!target) return;
   const us = el('button', 'U.S.'); us.type = 'button'; us.addEventListener('click', () => showStateView(true));
@@ -410,7 +622,7 @@ function render() {
   $('map-view-label').textContent = state.focused ? area?.name || 'Selected state' : 'National overview · select a state';
   $('map-geography-note').textContent = compare ? state.office === 'house' ? 'Presidential comparison unavailable for House district boundaries.' : ratioMode ? 'Map color: ' + ratioMapLabel() + '. Count ratios may exceed 100%; they are not counting completion.' : 'Map colors: D−R margin shift. Party count ratios appear in the cards and table.' : 'Colors show a current reported leader, not a race call. Select a state for candidates and source details.';
   $('results-lead-legend').classList.toggle('house-state-mode', state.office === 'house');
-  renderInspector(); renderAvailableRaces(); renderCountyTiles(); renderCountyTable(); renderBreadcrumbs();
+  renderInspector(); renderAvailableRaces(); renderCountyTiles(); renderCountyTable(); renderRegistrationOverview(); renderBreadcrumbs();
 }
 
 function chooseCounty(key) { state.selectedCounty = key; rememberCounty(); render(); if (innerWidth <= 800) document.querySelector('.race-inspector').scrollIntoView({ block: 'start', behavior: 'smooth' }); }
@@ -537,7 +749,7 @@ export function ensureResultsBoard() {
   syncPage(); if (state.initialized) { fetchResults(); return; } state.initialized = true;
   updateClock(); setInterval(updateClock, 1000); window.addEventListener('hashchange', syncPage);
   document.querySelectorAll('[data-results-office]').forEach((button) => button.addEventListener('click', () => { state.office = button.dataset.resultsOffice; selectState(state.selected); }));
-  document.querySelectorAll('[data-results-display]').forEach((button) => button.addEventListener('click', () => { state.displayMode = button.dataset.resultsDisplay; if (state.displayMode === 'president' && !state.baseline && !state.baselinePending) loadBaseline(); else render(); }));
+  document.querySelectorAll('[data-results-display]').forEach((button) => button.addEventListener('click', () => { state.displayMode = button.dataset.resultsDisplay; if (state.displayMode === 'president' && !state.registration && !state.registrationPending) loadRegistration(); if (state.displayMode === 'president' && !state.baseline && !state.baselinePending) loadBaseline(); else render(); }));
   $('results-baseline-year').addEventListener('change', (event) => { state.baselineYear = Number(event.target.value); loadBaseline(); });
   $('results-map-metric')?.addEventListener('change', (event) => { state.mapMetric = event.target.value; render(); });
   $('results-state').addEventListener('change', (event) => selectState(event.target.value));

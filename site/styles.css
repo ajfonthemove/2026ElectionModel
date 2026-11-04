@@ -432,3 +432,84 @@ body.results-mode{background:#f1f4f8;font-size:16px;color:#1a2940}
   .available-race small{font-size:10px}
   .results-mode footer{font-size:11px;line-height:1.5}
 }
+
+.registration-party-benchmark{border-top:1px solid #dce5ef;margin-top:9px;padding-top:8px;color:#425d79;font-size:11px}
+.registration-party-benchmark>div{display:flex;justify-content:space-between;align-items:baseline;gap:5px;margin-top:5px;flex-wrap:wrap}
+.registration-party-benchmark strong{font-size:15px;color:var(--dem);font-variant-numeric:tabular-nums;white-space:nowrap}
+.rep .registration-party-benchmark strong{color:var(--rep)}
+.registration-party-benchmark .registration-vote-difference{font-size:10px;color:#6b7d93}
+.registration-party-benchmark .registration-vote-difference strong{font-size:12px;font-weight:600;color:#486582}
+.registration-party-benchmark>small{display:block;margin-top:4px;color:#6b7d93;font-size:10px}
+.registration-reference{clear:both;padding:12px;margin:11px 0;background:#f7f9fc;border:1px solid #d5dfeb;border-radius:5px}
+.registration-reference-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
+.registration-reference h4{font-size:13px;font-weight:700;line-height:1.4;color:#315474;margin:0}
+.registration-scope{padding:3px 6px;background:#e9eef5;border-radius:3px;color:#536f8d;font-size:10px;white-space:nowrap}
+.registration-count-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px 14px;margin:0 0 9px}
+.registration-count-grid>div{min-width:0}
+.registration-count-grid dt{font-size:11px;line-height:1.35;color:#607890;margin-bottom:4px}
+.registration-count-grid dd{font-size:17px;font-weight:700;line-height:1.3;margin:0;color:#385777;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.registration-count-grid .dem dd{color:var(--dem)}
+.registration-count-grid .rep dd{color:var(--rep)}
+.registration-count-grid .total{grid-column:1/-1;display:flex;align-items:baseline;justify-content:space-between;border-top:1px solid #dce5ee;padding-top:9px}
+.registration-count-grid .total dt{margin:0}
+.registration-count-grid .total dd{font-size:17px}
+.registration-reference-meta{display:flex;flex-wrap:wrap;gap:4px 8px;font-size:11px;color:#5b728c;line-height:1.45;border-top:1px solid #dce5ee;padding-top:9px}
+.registration-reference-meta>span,.registration-reference-meta>small{flex-basis:100%;font-size:11px}
+.registration-reference-meta a{font-size:11px;overflow-wrap:anywhere}
+.registration-reference-meta strong{font-weight:600;color:#405e7c}
+.registration-reference-meta .registration-source-tier{flex-basis:auto;font-size:10px;font-weight:600;border-radius:3px;background:#e8eef6;padding:2px 5px;color:#496681}
+.registration-source-warning{font-size:11px;line-height:1.4;color:#77551d;background:#fff5df;padding:7px 8px;border-radius:3px;margin:7px 0}
+.registration-snapshot-cell .registration-source-warning{font-size:10px;color:#77551d;margin-top:6px;padding:5px 6px}
+.registration-snapshot-cell .registration-source-tier{font-weight:600;color:#496681}
+.comparison-panel .comparison-registration-caption{font-size:10px;line-height:1.4;color:#647b92;margin:-3px 0 9px}
+.registration-caveat,.registration-context-note,.registration-status{font-size:11px;line-height:1.45;color:#60768c;margin:8px 0 0}
+.registration-context-note{background:#edf2f8;padding:7px 8px;border-radius:3px;margin:8px 0;color:#4c6680}
+.registration-reference .registration-unclassified{display:block;font-size:10px;color:#65798f;margin-bottom:7px}
+.registration-performance-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;border-top:1px solid #dce5ee;padding:9px 0}
+.registration-performance-grid>div{display:flex;flex-direction:column;gap:4px;font-size:11px;color:#56718b}
+.registration-performance-grid strong{font-size:16px;font-variant-numeric:tabular-nums}
+.registration-performance-grid small{font-size:10px}
+.registration-overview #registration-overview-content{padding:15px 21px 18px}
+#registration-overview-context{font-size:12px;line-height:1.45;color:#5a718c;text-align:right;max-width:500px}
+.registration-overview-table .registration-overview-count strong{font-size:15px;color:#365674;display:block;white-space:normal;overflow-wrap:break-word;max-width:120px;margin-left:auto;line-height:1.3}
+.registration-overview-table .registration-overview-count.dem strong{color:var(--dem)}
+.registration-overview-table .registration-overview-count.rep strong{color:var(--rep)}
+.registration-overview-table .registration-overview-count small{font-size:10px;color:#6b7e93;white-space:nowrap}
+.registration-overview-table .registration-snapshot-cell{text-align:left;min-width:270px;width:270px;max-width:290px;white-space:normal;font-size:11px;line-height:1.3;padding-top:7px;padding-bottom:7px}
+.registration-snapshot-headline{display:flex;align-items:baseline;justify-content:space-between;gap:7px}
+.registration-snapshot-headline>strong{font-size:11px!important;line-height:1.35}
+.registration-snapshot-headline>.registration-source-tier{font-size:9px!important;white-space:nowrap}
+.registration-snapshot-cell>.registration-definition-preview{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px;max-width:265px;line-height:1.3;margin-top:2px}
+.registration-snapshot-cell>.registration-warning-preview{font-size:10px;line-height:1.3;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:265px;padding:3px 5px;margin:3px 0}
+.registration-source-details{margin-top:2px;font-size:10px;line-height:1.3}
+.registration-source-details>summary{min-height:24px;line-height:24px;color:#426b94;font-weight:600;cursor:pointer;width:max-content}
+.registration-source-details>summary:focus-visible{outline:2px solid #2868a7;outline-offset:2px}
+.registration-source-details-content{padding:3px 0 6px;font-size:10px;line-height:1.45}
+.registration-source-details-content p{margin:5px 0}
+.registration-source-details-content a{font-size:10px;margin-top:2px}
+.registration-snapshot-cell>strong{font-size:12px!important;display:block}
+.registration-snapshot-cell a{font-size:11px;display:inline-block;margin-top:4px}
+.registration-overview-caveat{font-size:11px;color:#61788f;line-height:1.45;margin:10px 0 0}
+.registration-overview-controls input{max-width:100%}
+#registration-overview-status .comparison-retry{margin-left:8px;font-size:11px}
+@media(max-width:800px){
+  .registration-reference{padding:11px}
+  .registration-reference-heading{margin-bottom:9px}
+  #registration-overview-context{text-align:left;max-width:none;font-size:11px}
+  .registration-overview>.county-breakdown-heading{display:block}
+  .registration-overview>.county-breakdown-heading h2{font-size:23px}
+  .registration-overview>.county-breakdown-heading p{margin-top:5px}
+  .registration-overview #registration-overview-content{padding:13px 15px 15px}
+}
+@media(max-width:520px){
+  .registration-party-benchmark strong{font-size:14px}
+  .registration-party-benchmark .registration-vote-difference{line-height:1.35}
+  .registration-count-grid dd{font-size:16px}
+  .registration-count-grid dt{font-size:10px}
+  .registration-reference{padding:10px;margin:9px 0}
+  .registration-reference-heading{align-items:start}
+  .registration-overview #registration-overview-content{padding:12px}
+  .registration-overview>.county-breakdown-heading h2{font-size:22px}
+  .registration-overview-table .registration-overview-count small{white-space:normal;max-width:110px}
+  .registration-overview-table .registration-overview-count.dem,.registration-overview-table .registration-overview-count.rep{min-width:120px!important}
+}

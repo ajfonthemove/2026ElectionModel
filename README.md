@@ -10,6 +10,8 @@ Select **Votes vs President**, then **2024** or **2020**, to see current Democra
 
 County controls open geographic outlines by default. The searchable county table shows current party counts, presidential count ratios and CNN's estimated share remaining. County selection, filters and sorting persist through refreshes. Overlapping Michigan town detail stays separate from county totals; town-only and Alaska election-district feeds remain usable as labeled tiles without invented county matches. The site does not publish a prediction model, win odds or its own race calls.
 
+The same presidential view shows state registration counts beside the current party vote and presidential benchmark, plus a searchable all-state table. Each snapshot retains its date, population definition and source; older or undated secondary references are labeled. Twelve states use an explicitly historical 2024 total while a newer total remains unverified. Missing party counts remain unavailable. County and House views show statewide context without applying a statewide denominator to their results; office-eligibility or accounting conflicts also suppress derived comparisons. Registration does not identify how registered voters voted.
+
 The browser reads CNN’s public CORS-enabled feeds directly, caches verified snapshots and retains them if the source is unavailable. The dashboard displays retrieval/source timestamps and errors; no AP credentials are required.
 
 ## Development

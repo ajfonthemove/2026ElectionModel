@@ -23,7 +23,7 @@
     <main id="main" tabindex="-1">
 <section id="page-results" class="page-view results-view" aria-labelledby="results-title">
           <div class="results-heading">
-            <div><h1 id="results-title">Election results</h1><p>Counted votes, with the presidential benchmark.</p></div>
+            <div><h1 id="results-title">Election results</h1><p>Counted votes, presidential results and state registration references.</p></div>
 
           </div>
           <div class="results-map-controls">
@@ -51,6 +51,10 @@
               <p class="desk-source-note">CNN counts &amp; source calls. A reported lead is not a race call.</p>
             </aside>
           </div>
+          <section id="registration-overview-panel" class="county-breakdown registration-overview" aria-labelledby="registration-overview-title" hidden>
+            <header class="county-breakdown-heading"><div><p class="section-eyebrow">STATE REFERENCE</p><h2 id="registration-overview-title">Registrations &amp; presidential comparison</h2></div><p id="registration-overview-context"></p></header>
+            <div id="registration-overview-content"></div>
+          </section>
           <section id="county-table-panel" class="county-breakdown" aria-labelledby="county-table-title" hidden>
             <header class="county-breakdown-heading"><div><p class="section-eyebrow">LOCAL RESULTS</p><h2 id="county-table-title">County comparison</h2></div><p id="county-table-context"></p></header>
             <div id="county-table-content" class="county-results"></div>
@@ -58,7 +62,7 @@
           <section class="results-race-strip" aria-labelledby="results-available-title"><div><h2 id="results-available-title">Connected races</h2><p id="results-coverage-note">Source coverage is loading.</p></div><div id="results-available-races" class="results-available-races"></div></section>
         </section>
     </main>
-    <footer><p>Election Desk 2026 · Public aggregate results</p><p>Reported results: <a href="https://www.cnn.com/election/2026" target="_blank" rel="noopener noreferrer">CNN</a> · <a href="./data/SOURCES.html">Map sources &amp; attribution</a></p></footer>
+    <footer><p>Election Desk 2026 · Public aggregate results</p><p>Reported results: <a href="https://www.cnn.com/election/2026" target="_blank" rel="noopener noreferrer">CNN</a> · <a href="./data/SOURCES.html">Map sources &amp; attribution</a> · <a href="./data/voter-registration-sources.html">Registration sources</a></p></footer>
   </div>
   <noscript><p class="noscript-notice">JavaScript is required to display reported results and interactive maps.</p></noscript>
 </body>
