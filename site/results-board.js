@@ -123,7 +123,7 @@ function renderRegistration(race, target, geography = 'state') {
   }
   const display = race ? registrationDisplay(race, geography) : null;
   const metrics = el('dl', null, 'registration-count-grid');
-  for (const [key, label] of [['dem', 'Democratic'], ['rep', 'Republican'], ['unaffiliated', 'Unaffiliated'], ['other', 'Other parties'], ['total', 'Total registered']]) {
+  for (const [key, label] of [['dem', 'Democratic'], ['rep', 'Republican'], ['unaffiliated', 'Unaffiliated'], ['other', 'Other registrations'], ['total', 'Total registered']]) {
     const item = el('div', null, key); item.append(el('dt', label), el('dd', registrationCount(row, key))); metrics.append(item);
   }
   box.append(metrics);
