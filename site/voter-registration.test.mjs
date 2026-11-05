@@ -1,11 +1,40 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
 import { parseVoterRegistration, loadVoterRegistration, compareRegistrationVotes } from './voter-registration.js';
 
 const CODES = 'AL AK AZ AR CA CO CT DE DC FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY'.split(' ');
 const row = (extra = {}) => ({ state: 'NC', registration_status: 'available', as_of: '2026-10-31', checked_at: '2026-11-04T00:00:00Z', total: 1000, dem: 200, rep: 400, unaffiliated: 350, other: 50, unclassified: null, definition: 'Active registered voters by recorded party affiliation.', party_registration_supported: true, source_name: 'Test official source', source_url: 'https://elections.example/registration', source_sha256: 'a'.repeat(64), latest_checked: true, ...extra });
 const dataset = () => ({ schema_version: 'voter_registration_v1', coverage: { states: 51 }, states: CODES.map((state) => row({ state })) });
 const current = (extra = {}) => ({ state: 'NC', office: 'senate', reported_total: 1000, unattributed_source_votes: 0, candidates: [{ candidate_id: 'D1', party: 'DEM', votes: 160 }, { candidate_id: 'R1', party: 'REP', votes: 200 }, { candidate_id: 'I1', party: 'IND', votes: 640 }], source_updated_at: '2026-11-04T01:00:00Z', ...extra });
+
+test('uploaded Montana county statuses conserve the explicit statewide total without inventing dates or party enrollment', async () => {
+  const raw = JSON.parse(await readFile(new URL('./data/voter-registration.json', import.meta.url), 'utf8'));
+  const registration = parseVoterRegistration(raw).states.get('MT');
+  const countyBytes = await readFile(new URL('./data/voter-registration-mt-counties.json', import.meta.url));
+  const countyData = JSON.parse(countyBytes);
+  const workbook = await readFile(new URL('./data/registration-mt-county-data.xlsx', import.meta.url));
+  assert.equal(registration.source_sha256, createHash('sha256').update(workbook).digest('hex'));
+  assert.equal(registration.county_reference_sha256, createHash('sha256').update(countyBytes).digest('hex'));
+  assert.equal(countyData.counties.length, 56);
+  assert.equal(new Set(countyData.counties.map((county) => county.county_fips)).size, 56);
+  assert(countyData.counties.every((county) => /^30\d{3}$/.test(county.county_fips)));
+  assert.deepEqual(countyData.grand_total, { active: 687663, inactive: 121026, provisional: 199, total: 808888 });
+  for (const field of ['active', 'inactive', 'provisional', 'total']) {
+    assert.equal(countyData.counties.reduce((sum, county) => sum + (county[field] ?? 0), 0), countyData.grand_total[field]);
+  }
+  assert(countyData.counties.some((county) => county.provisional_source_cell_blank && county.provisional === null));
+  assert.equal(registration.total, 808888);
+  assert.equal(registration.active_total + registration.inactive_total + registration.provisional_total, registration.total);
+  assert.equal(registration.source_tier, 'user_provided');
+  assert.equal(registration.as_of, null); assert.equal(registration.report_generated_at, null); assert.equal(registration.latest_checked, false);
+  assert.equal(countyData.as_of, null); assert.equal(countyData.report_generated_at, null);
+  for (const field of ['dem', 'rep', 'unaffiliated', 'other', 'unclassified']) assert.equal(registration[field], null);
+  const result = compareRegistrationVotes(current({ state: 'MT' }), registration);
+  assert.equal(result.registration.total, 808888);
+  assert.equal(result.ratios.dem.percent, null); assert.equal(result.ratios.rep.percent, null);
+});
 
 test('state rows preserve counts, snapshot definitions, unknown categories and actual source vintages', () => {
   const raw = dataset(); raw.states.find((item) => item.state === 'NC').unclassified = null;

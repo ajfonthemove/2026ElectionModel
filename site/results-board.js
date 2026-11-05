@@ -571,9 +571,13 @@ async function loadCounties(race, { layer = state.countyPreferredLayer, refresh 
 
 function render() {
   if (!state.map) return;
+  // House has no verified district presidential baseline. Every entry path
+  // (office tabs, search and race links) must retain its reported-result colors.
+  if (state.office === 'house') state.displayMode = 'results';
   const races = allRaces(), officeRaces = races.filter((race) => race.office === state.office), compare = state.displayMode === 'president';
   const area = state.map.states.find((item) => item.state === state.selected);
   document.body.classList.toggle('president-mode', compare);
+  document.querySelector('.results-display-controls').hidden = state.office === 'house';
   $('national-map-title').textContent = state.countyView && state.countyData ? (area?.name || state.selected) + ' local results' : OFFICE[state.office];
   document.querySelectorAll('[data-results-office]').forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.resultsOffice === state.office)));
   document.querySelectorAll('[data-results-display]').forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.resultsDisplay === state.displayMode)));
