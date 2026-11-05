@@ -76,7 +76,12 @@ export function loadPresidentialHistory(year, { fetcher = globalThis.fetch } = {
 }
 
 function comparisonGeographyReason(current, baseline, office, geography) {
-  if (office === 'house' || /^2026-HG-/.test(current?.race_id || '') || current?.district != null) return 'House districts require a matching historical district boundary; county and statewide votes are not allocated.';
+  if (office === 'house' || current?.office === 'house' || /^2026-HG-/.test(current?.race_id || '') || current?.district != null) {
+    const race = /^2026-HG-([A-Z]{2})-([1-9]\d?)$/.exec(current?.race_id || ''), district = Number(current?.district);
+    const fragment = ['reporting_unit_kind', 'geographic_unit_kind', 'unit_kind', 'geography_type'].some(key => current?.[key] != null && !['state', 'congressional_district'].includes(current[key]));
+    if (office !== 'house' || current?.office !== 'house' || geography !== 'district' || !race || current.cycle !== 2026 || current.boundary_cycle != null && current.boundary_cycle !== 2026 || current.stage !== 'general' || current.special !== false || !Number.isSafeInteger(district) || String(district) !== String(current.district) || race[1] !== current.state || Number(race[2]) !== district || current.county_fips != null || current.reporting_unit_id != null || fragment || current.geography_scope === 'house_district_county_portion' || !baseline || !YEARS.has(baseline.year) || baseline.unit_kind !== 'congressional_district' || baseline.boundary_cycle !== 2026 || baseline.source_declared_boundary_cycle !== 2026 || baseline.state !== current.state || baseline.state_fips !== undefined && current.state_fips !== undefined && baseline.state_fips !== current.state_fips || baseline.district !== district || baseline.district_key !== current.state + '-' + district || baseline.comparison_basis !== 'current_partial_reported_house_vs_historical_presidential_on_publisher_2026_lines') return 'House districts require a matching 2026-line historical district reference; county and statewide votes are not allocated.';
+    return null;
+  }
   if (!['governor', 'senate'].includes(office)) return 'A supported statewide office is required.';
   if (!['state', 'county'].includes(geography) || !current || !baseline || !YEARS.has(baseline.year)) return 'No matching historical geography is available.';
   if (!current.state || current.state !== baseline.state) return 'State geography does not match the historical reference.';

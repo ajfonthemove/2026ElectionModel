@@ -6,6 +6,7 @@ const OFFICE = { senate: 'U.S. Senate', house: 'U.S. House', governor: 'Governor
 const state = { office: 'senate', selected: '', raceId: '', data: null, map: null, houseGeometry: null, pendingHouseKey: '', initialized: false, pending: false, countyRace: '', countyData: null, countyView: false, countyLayer: 'geographic', countyPreferredLayer: 'geographic', selectedCounty: '', focused: false, countyPending: false, countyMessage: '', countyRequest: 0, countyCache: new Map(), countySelections: new Map(), countyFilter: '', countySort: 'votes_desc', displayMode: 'results', baselineYear: 2024, baseline: null, baselinePending: false, baselineError: '', historyModule: null, historyRequest: 0 };
 state.mapMetric = 'dem_ratio';
 Object.assign(state, { chamberReference: null, chamberModule: null, chamberPending: false, chamberError: '', registration: null, registrationModule: null, registrationPending: false, registrationError: '', registrationFilter: '', registrationSort: 'name' });
+Object.assign(state, { houseBaseline: null, houseBaselinePending: false, houseBaselineError: '', houseHistoryRequest: 0, houseBaselineRequestedYear: null });
 const count = (value) => Number.isFinite(value) ? value.toLocaleString('en-US') : '';
 function el(tag, text, className) { const node = document.createElement(tag); if (text !== undefined && text !== null) node.textContent = String(text); if (className) node.className = className; return node; }
 function party(value) { const code = String(value || '').toUpperCase(); return ['DEM', 'DEMOCRATIC', 'D'].includes(code) ? 'dem' : ['REP', 'REPUBLICAN', 'R'].includes(code) ? 'rep' : 'other'; }
@@ -30,16 +31,20 @@ function marginLabel(value) { return Math.abs(value) < 0.05 ? 'Even' : (value > 
 function shiftFill(value) { const amount = Math.min(1, Math.abs(value) / 15); const end = value >= 0 ? [45, 105, 179] : [191, 66, 86]; return 'rgb(' + end.map((v, i) => Math.round([242, 243, 246][i] + (v - [242, 243, 246][i]) * amount)).join(',') + ')'; }
 function ratioFill(value, code) { const amount = Math.max(0, Math.min(1, value / 150)), start = code === 'dem' ? [239, 245, 252] : [253, 241, 242], end = code === 'dem' ? [36, 91, 158] : [179, 46, 67]; return 'rgb(' + end.map((channel, index) => Math.round(start[index] + (channel - start[index]) * amount)).join(',') + ')'; }
 function ratioMapLabel() { return state.mapMetric === 'dem_ratio' ? 'Democratic votes / ' + (state.baselineYear === 2024 ? 'Harris' : 'Biden') : 'Republican votes / Trump'; }
+function comparisonGeography(race, geography) { return race?.office === 'house' && geography === 'state' ? 'district' : geography; }
 function comparison(race, geography = 'state') {
-  if (state.office === 'house' || race?.office === 'house') return { status: 'unavailable', reason: 'Presidential comparison unavailable for House district boundaries.' };
-  if (state.baselinePending) return { status: 'unavailable', reason: 'Loading presidential results…' };
-  if (!state.baseline || !state.historyModule) return { status: 'unavailable', reason: state.baselineError || 'Presidential results are not connected.' };
-  const baseline = geography === 'county' ? state.baseline.counties.get(String(race?.county_fips || '')) : state.baseline.states.get(race?.state);
+  geography = comparisonGeography(race, geography);
+  const house = race?.office === 'house';
+  if (house ? state.houseBaselinePending : state.baselinePending) return { status: 'unavailable', reason: 'Loading presidential results…' };
+  const history = house ? state.houseBaseline : state.baseline;
+  if (!history || history.year !== state.baselineYear || !state.historyModule) return { status: 'unavailable', reason: (house ? state.houseBaselineError : state.baselineError) || 'Presidential results are not connected.' };
+  const baseline = geography === 'district' ? history.districts?.get(race.state + '-' + Number(race.district)) : geography === 'county' ? history.counties?.get(String(race?.county_fips || '')) : history.states?.get(race?.state);
   if (!baseline) return { status: 'unavailable', reason: geography === 'county' ? 'No exact county presidential match for this reporting unit.' : 'Historical presidential results unavailable for this state.' };
   const result = state.historyModule.comparePresidentialMargin(race, baseline, { office: race.office, geography });
   return { ...result, baseline };
 }
 function comparisonDisplay(race, geography = 'state') {
+  geography = comparisonGeography(race, geography);
   const result = comparison(race, geography);
   if (!result.baseline || !state.historyModule?.presidentialComparisonDisplay) return result;
   return { ...state.historyModule.presidentialComparisonDisplay(race, result.baseline, { office: race.office, geography }), baseline: result.baseline };
@@ -66,6 +71,25 @@ async function loadBaseline() {
   try { const module = await import('./presidential-history.js'); const data = await module.loadPresidentialHistory(year); if (request !== state.historyRequest) return; state.historyModule = module; state.baseline = data; }
   catch { if (request === state.historyRequest) state.baselineError = 'Refresh failed.'; }
   finally { if (request === state.historyRequest) { state.baselinePending = false; render(); } }
+}
+async function loadHouseBaseline() {
+  const year = state.baselineYear;
+  if (state.houseBaselinePending && state.houseBaselineRequestedYear === year) return;
+  const request = ++state.houseHistoryRequest;
+  state.houseBaseline = null; state.houseBaselinePending = true; state.houseBaselineError = ''; state.houseBaselineRequestedYear = year; render();
+  try {
+    const [history, module] = await Promise.all([import('./presidential-history.js'), import('./house-presidential-history.js')]);
+    const data = await module.loadHousePresidentialHistory(year);
+    if (request !== state.houseHistoryRequest || year !== state.baselineYear) return;
+    state.historyModule = history; state.houseBaseline = data;
+  } catch { if (request === state.houseHistoryRequest) state.houseBaselineError = 'Refresh failed.'; }
+  finally { if (request === state.houseHistoryRequest) { state.houseBaselinePending = false; render(); } }
+}
+function ensureComparisonReferences() {
+  if (state.displayMode !== 'president') return;
+  if (!state.registration && !state.registrationPending) loadRegistration();
+  if (state.office === 'house') { if (!state.houseBaseline || state.houseBaseline.year !== state.baselineYear) loadHouseBaseline(); }
+  else if ((!state.baseline || state.baseline.year !== state.baselineYear) && !state.baselinePending) loadBaseline();
 }
 async function loadRegistration() {
   if (state.registrationPending) return;
@@ -149,12 +173,13 @@ function renderComparison(race, target, geography = 'state') {
   if (state.displayMode !== 'president') return;
   const result = comparisonDisplay(race, geography);
   if (!result.current || !result.historical) {
-    if (state.baselineError) { const retry = el('button', 'Retry presidential results', 'comparison-retry'); retry.type = 'button'; retry.addEventListener('click', loadBaseline); target.append(retry); }
+    if (race.office === 'house' ? state.houseBaselineError : state.baselineError) { const retry = el('button', 'Retry presidential results', 'comparison-retry'); retry.type = 'button'; retry.addEventListener('click', race.office === 'house' ? loadHouseBaseline : loadBaseline); target.append(retry); }
     return;
   }
   const box = el('section', null, 'presidential-comparison comparison-panel'), columns = el('div', null, 'comparison-columns');
   box.setAttribute('aria-label', 'Votes compared with the ' + state.baselineYear + ' presidential vote');
-  box.append(el('h4', 'Counted votes vs ' + state.baselineYear + ' President'));
+  box.append(el('h4', (race.office === 'house' ? 'House district votes vs ' : 'Counted votes vs ') + state.baselineYear + ' President'));
+  if (race.office === 'house') box.append(el('p', '2026 district lines', 'comparison-registration-caption'));
   const reg = registrationRow(race.state), regDate = reg && registrationSnapshot(reg);
   if (geography === 'state' && regDate && ['dem', 'rep'].some((code) => Number.isFinite(reg[code]))) box.append(el('p', 'Registrations: ' + regDate, 'comparison-registration-caption'));
   for (const code of ['dem', 'rep']) {
@@ -252,7 +277,11 @@ function selectState(code, raceId = '') {
   render();
   if (state.countyView && race) loadCounties(race, { layer: state.countyPreferredLayer, silent: Boolean(state.countyData) });
 }
-function selectRace(race) { state.office = race.office; selectState(race.state, race.race_id); }
+function setOffice(office) {
+  if (office === 'house' && state.displayMode === 'president') { rememberCounty(); invalidateCountyRequest(); state.countyView = false; state.selectedCounty = ''; }
+  state.office = office;
+}
+function selectRace(race) { setOffice(race.office); selectState(race.state, race.race_id); ensureComparisonReferences(); }
 
 function renderCandidates(race, target) {
   const total = race.reported_total, rows = candidates(race);
@@ -441,7 +470,7 @@ function renderRegistrationOverview() {
   const panel = $('registration-overview-panel'), target = $('registration-overview-content');
   if (!panel || !target) return;
   panel.hidden = state.displayMode !== 'president'; if (panel.hidden) return;
-  $('registration-overview-context').textContent = OFFICE[state.office] + ' · ' + state.baselineYear + ' presidential comparison · state registration snapshots';
+  $('registration-overview-context').textContent = state.office === 'house' ? 'State registration snapshots' : OFFICE[state.office] + ' · ' + state.baselineYear + ' presidential comparison · state registration snapshots';
   panel.setAttribute('aria-busy', String(state.registrationPending));
   if (!$('registration-state-filter')) {
     const controls = el('div', null, 'county-table-controls registration-overview-controls');
@@ -467,6 +496,7 @@ function renderRegistrationOverview() {
   if (state.registrationError) { const retry = el('button', 'Retry', 'comparison-retry'); retry.type = 'button'; retry.addEventListener('click', loadRegistration); status.append(retry); }
   $('registration-overview-table').querySelector('[data-column="dem_pres"]').textContent = 'D / ' + (state.baselineYear === 2024 ? 'Harris' : 'Biden') + ' ' + state.baselineYear;
   $('registration-overview-table').querySelector('[data-column="rep_pres"]').textContent = 'R / Trump ' + state.baselineYear;
+  for (const key of ['dem_pres', 'rep_pres', 'shift']) $('registration-overview-table').querySelector('[data-column="' + key + '"]').hidden = state.office === 'house';
   const body = $('registration-state-rows'), existing = new Map([...body.children].map((row) => [row.dataset.state, row]));
   const focused = document.activeElement?.closest('#registration-state-rows tr')?.dataset.state;
   for (const [position, record] of records.entries()) {
@@ -480,6 +510,7 @@ function renderRegistrationOverview() {
     tr.classList.toggle('selected', row.state === state.selected);
     const button = tr.querySelector('button'); button.textContent = name; button.setAttribute('aria-pressed', String(row.state === state.selected));
     const cells = [...tr.querySelectorAll('td')];
+    for (const index of [4, 5, 6]) cells[index].hidden = state.office === 'house';
     for (const [index, key] of ['dem', 'rep', 'unaffiliated', 'total'].entries()) {
       const cell = cells[index]; cell.className = 'registration-overview-count ' + key; cell.replaceChildren(el('strong', registrationCount(row, key)));
       if (key === 'dem' || key === 'rep') {
@@ -536,6 +567,7 @@ async function attachCountyGeometry(data, selected) {
 
 async function loadCounties(race, { layer = state.countyPreferredLayer, refresh = false, silent = false } = {}) {
   if (!race || state.countyPending) return;
+  if (race.office === 'house') state.displayMode = 'results';
   const selected = state.selected, request = ++state.countyRequest;
   const isCurrent = () => request === state.countyRequest && state.selected === selected && currentRace()?.race_id === race.race_id;
   state.countyRace = race.race_id; state.countyPending = true; state.countyMessage = ''; state.countyView = true; state.countyLayer = layer;
@@ -571,18 +603,15 @@ async function loadCounties(race, { layer = state.countyPreferredLayer, refresh 
 
 function render() {
   if (!state.map) return;
-  // House has no verified district presidential baseline. Every entry path
-  // (office tabs, search and race links) must retain its reported-result colors.
-  if (state.office === 'house') state.displayMode = 'results';
   const races = allRaces(), officeRaces = races.filter((race) => race.office === state.office), compare = state.displayMode === 'president';
   const area = state.map.states.find((item) => item.state === state.selected);
   document.body.classList.toggle('president-mode', compare);
-  document.querySelector('.results-display-controls').hidden = state.office === 'house';
+  document.querySelector('.results-display-controls').hidden = false;
   $('national-map-title').textContent = state.countyView && state.countyData ? (area?.name || state.selected) + ' local results' : OFFICE[state.office];
   document.querySelectorAll('[data-results-office]').forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.resultsOffice === state.office)));
   document.querySelectorAll('[data-results-display]').forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.resultsDisplay === state.displayMode)));
   $('results-baseline-year').disabled = !compare && !state.countyView;
-  $('results-comparison-status').textContent = compare ? state.baselineError || '' : '';
+  $('results-comparison-status').textContent = compare ? (state.office === 'house' ? state.houseBaselineError : state.baselineError) || '' : '';
   const ratioMode = compare && state.mapMetric !== 'margin_shift';
   $('results-lead-legend').hidden = compare; $('results-shift-legend').hidden = !compare || ratioMode;
   if ($('results-ratio-legend')) { $('results-ratio-legend').hidden = !ratioMode; $('results-ratio-legend').classList.toggle('rep', state.mapMetric === 'rep_ratio'); $('results-ratio-legend').classList.toggle('dem', state.mapMetric !== 'rep_ratio'); $('ratio-legend-label').textContent = ratioMapLabel() + ' ' + state.baselineYear; }
@@ -606,7 +635,7 @@ function render() {
   $('map-national-summary').hidden = !compare && !state.countyView || state.countyView && !state.countyData?.rows.length || compare && (!comparable || ratioMode && !Number.isFinite(selectedDisplay?.ratios?.dem?.percent) && !Number.isFinite(selectedDisplay?.ratios?.rep?.percent)) || !compare && state.countyView && !units.some((race) => Number.isFinite(race.reported_total));
   $('map-dem-label').textContent = ratioMode ? 'D / ' + (state.baselineYear === 2024 ? 'Harris' : 'Biden') : compare ? 'Shift toward D' : 'Democratic leads'; $('map-rep-label').textContent = ratioMode ? 'R / Trump' : compare ? 'Shift toward R' : 'Republican leads';
   $('map-summary-context').textContent = ratioMode ? comparable + ' mapped count ratios · ' + (selectedUnit?.name || area?.name || 'Selected race') : compare ? comparable + ' margin shifts · ' + state.baselineYear : state.countyView && state.countyData ? state.countyData.rows.length + ' local units · reported leads' : officeRaces.filter(hasVotes).length + ' races with reported votes';
-  $('map-view-label').textContent = state.focused ? area?.name || 'Selected state' : 'National overview · select a state';
+  $('map-view-label').textContent = state.focused ? area?.name || 'Selected state' : state.office === 'house' ? 'National overview · select a district' : 'National overview · select a state';
   $('map-geography-note').textContent = '';
   $('results-lead-legend').classList.toggle('house-state-mode', state.office === 'house');
   renderChamberSummary(); renderInspector(); renderAvailableRaces(); renderCountyTiles(); renderCountyTable(); renderRegistrationOverview(); renderBreadcrumbs();
@@ -640,7 +669,7 @@ function renderCountyTiles() {
     const credit = $('map-geometry-credit');
     if (state.office === 'house' && state.houseGeometry) {
       $('results-map').hidden = true; $('house-results-map').hidden = false;
-      const races = allRaces().filter((item) => item.office === 'house'), byKey = new Map(races.map((item) => [item.state + '-' + Number(item.district), item])), values = new Map();
+      const races = allRaces().filter((item) => item.office === 'house' && item.race_id === '2026-HG-' + item.state + '-' + Number(item.district) && item.cycle === 2026 && item.stage === 'general' && item.special !== true), byKey = new Map(races.map((item) => [item.state + '-' + Number(item.district), item])), values = new Map();
       byKey.forEach((item, key) => { const value = mapValue(item); values.set(key, { ...value, description: item.state + ' ' + raceLabel(item) + ' · ' + value.description }); });
       const selected = currentRace();
       const coverage = drawHouseMap($('house-results-map'), { geography: state.houseGeometry, values, selectedKey: selected ? selected.state + '-' + Number(selected.district) : '', focusState: state.focused ? state.selected : null, onSelect: (key, district) => { const item = byKey.get(key); if (item) selectRace(item); else { selectState(district.state); state.pendingHouseKey = key; } } });
@@ -732,9 +761,9 @@ function search(value) {
 export function ensureResultsBoard() {
   syncPage(); if (state.initialized) { fetchResults(); return; } state.initialized = true;
   updateClock(); setInterval(updateClock, 1000); window.addEventListener('hashchange', syncPage);
-  document.querySelectorAll('[data-results-office]').forEach((button) => button.addEventListener('click', () => { state.office = button.dataset.resultsOffice; selectState(state.selected); }));
-  document.querySelectorAll('[data-results-display]').forEach((button) => button.addEventListener('click', () => { state.displayMode = button.dataset.resultsDisplay; if (state.displayMode === 'president' && !state.registration && !state.registrationPending) loadRegistration(); if (state.displayMode === 'president' && !state.baseline && !state.baselinePending) loadBaseline(); else render(); }));
-  $('results-baseline-year').addEventListener('change', (event) => { state.baselineYear = Number(event.target.value); loadBaseline(); });
+  document.querySelectorAll('[data-results-office]').forEach((button) => button.addEventListener('click', () => { setOffice(button.dataset.resultsOffice); selectState(state.selected); ensureComparisonReferences(); }));
+  document.querySelectorAll('[data-results-display]').forEach((button) => button.addEventListener('click', () => { state.displayMode = button.dataset.resultsDisplay; if (state.office === 'house' && state.displayMode === 'president') { rememberCounty(); invalidateCountyRequest(); state.countyView = false; state.selectedCounty = ''; } ensureComparisonReferences(); render(); }));
+  $('results-baseline-year').addEventListener('change', (event) => { state.baselineYear = Number(event.target.value); if (state.office === 'house') loadHouseBaseline(); else loadBaseline(); });
   $('results-map-metric')?.addEventListener('change', (event) => { state.mapMetric = event.target.value; render(); });
   $('results-state').addEventListener('change', (event) => selectState(event.target.value));
   $('results-refresh').addEventListener('click', () => { if (!state.chamberReference && !state.chamberPending) loadChamberSummary(); fetchResults(true); });
@@ -744,7 +773,7 @@ export function ensureResultsBoard() {
   $('map-focus-state').addEventListener('click', () => { state.focused = true; state.map?.focusState(state.selected); render(); });
   $('map-reset').addEventListener('click', () => showStateView(true));
   $('map-show-states').addEventListener('click', () => showStateView(false));
-  const showCounties = (layer) => { const race = currentRace(); if (!race) return; state.countyPreferredLayer = layer; state.selectedCounty = state.selectedCounty || state.countySelections.get(state.selected) || ''; if (state.countyData?.race.race_id === race.race_id && state.countyData.rows.length) { state.countyView = true; state.countyLayer = state.countyData.geometryUnavailable ? 'tiles' : layer; if (!state.baseline && !state.baselinePending && state.office !== 'house') loadBaseline(); render(); if (!state.countyData.geometry && !state.countyData.geometryUnavailable && (layer === 'geographic' || !state.countyData.geometryError)) attachCountyGeometry(state.countyData, state.selected); } else loadCounties(race, { layer }); };
+  const showCounties = (layer) => { const race = currentRace(); if (!race) return; if (race.office === 'house') state.displayMode = 'results'; state.countyPreferredLayer = layer; state.selectedCounty = state.selectedCounty || state.countySelections.get(state.selected) || ''; if (state.countyData?.race.race_id === race.race_id && state.countyData.rows.length) { state.countyView = true; state.countyLayer = state.countyData.geometryUnavailable ? 'tiles' : layer; if (!state.baseline && !state.baselinePending && state.office !== 'house') loadBaseline(); render(); if (!state.countyData.geometry && !state.countyData.geometryUnavailable && (layer === 'geographic' || !state.countyData.geometryError)) attachCountyGeometry(state.countyData, state.selected); } else loadCounties(race, { layer }); };
   $('map-show-counties').addEventListener('click', () => showCounties('tiles'));
   $('map-show-county-geo').addEventListener('click', () => showCounties('geographic'));
   const fullscreen = $('results-fullscreen'); if (!document.fullscreenEnabled) fullscreen.hidden = true;

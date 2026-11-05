@@ -185,3 +185,40 @@ test('real Kentucky county fixture preserves a 134 percent observed Democratic c
   const result=comparePresidentialVotes(observed,historical,{geography:'county'});
   assert.equal(result.status,'available');assert.equal(result.ratios.dem.current_count,1221);assert.equal(result.ratios.dem.historical_count,909);assert.ok(Math.abs(result.ratios.dem.percent-134.3234323432)<1e-8);assert.equal(result.ratios.rep.percent,null);assert.equal(result.historical.dem_label,'Harris');assert.equal(result.shift_pp,null);
 });
+
+const houseCurrent = (extra = {}) => current({ office: 'house', state: 'NC', district: '1', race_id: '2026-HG-NC-1', cycle: 2026, stage: 'general', special: false,
+  reported_total: 200, candidates: [{ candidate_id: 'D', party: 'DEM', votes: 80 }, { candidate_id: 'R', party: 'REP', votes: 100 }, { candidate_id: 'I', party: 'IND', votes: 20 }], ...extra });
+const houseBaseline = (extra = {}) => baseline({ unit_kind: 'congressional_district', district: 1, district_key: 'NC-1', boundary_cycle: 2026, source_declared_boundary_cycle: 2026,
+  comparison_basis: 'current_partial_reported_house_vs_historical_presidential_on_publisher_2026_lines', dem_votes: 100, rep_votes: 200, other_votes: 5, reported_total: 305, ...extra });
+
+test('House comparisons require the same 2026 general district, retaining every state/county allocation guard', () => {
+  const good = comparePresidentialVotes(houseCurrent(), houseBaseline(), { geography: 'district' });
+  assert.equal(good.ratios.dem.percent, 80); assert.equal(good.ratios.rep.percent, 50);
+  assert.equal(good.current_margin_pp, -10); assert.equal(good.historical_margin_pp, -10000 / 305);
+  for (const value of [houseCurrent({ cycle: 2024 }), houseCurrent({ boundary_cycle: 2024 }), houseCurrent({ stage: 'primary' }), houseCurrent({ special: true }),
+    houseCurrent({ race_id: '2026-HQ-NC-1' }), houseCurrent({ race_id: '2026-HG-NC-2' }), houseCurrent({ state: 'SC' }), houseCurrent({ district: '2' }),
+    houseCurrent({ county_fips: '37001' }), houseCurrent({ reporting_unit_id: '37001' }),
+    houseCurrent({ unit_kind: 'state', geography_type: 'county_fragment' }), houseCurrent({ geography_scope: 'house_district_county_portion' })]) {
+    const result = comparePresidentialVotes(value, houseBaseline(), { geography: 'district' });
+    assert.equal(result.status, 'unavailable'); assert.equal(result.ratios.dem.percent, null); assert.equal(result.historical.dem_votes, null);
+  }
+  for (const value of [houseBaseline({ boundary_cycle: 2024 }), houseBaseline({ source_declared_boundary_cycle: 2024 }), houseBaseline({ year: 2026 }),
+    houseBaseline({ district: 2 }), houseBaseline({ state: 'SC' }), houseBaseline({ district_key: 'NC-2' }),
+    houseBaseline({ unit_kind: 'county' }), houseBaseline({ comparison_basis: 'same old district number' })]) {
+    assert.equal(comparePresidentialVotes(houseCurrent(), value, { geography: 'district' }).status, 'unavailable');
+  }
+  for (const geography of ['state', 'county']) assert.equal(comparePresidentialVotes(houseCurrent(), houseBaseline(), { geography }).status, 'unavailable');
+  assert.equal(comparePresidentialVotes(houseCurrent(), baseline(), { geography: 'district' }).status, 'unavailable');
+});
+
+test('House party ratios stay independent when another candidate is unknown or residual votes prevent a margin', () => {
+  const unknown = houseCurrent({ vote_counts_complete: false, unattributed_source_votes: null,
+    candidates: [{ party: 'DEM', votes: null }, { party: 'REP', votes: 100 }, { party: 'IND', votes: 20 }] });
+  const result = comparePresidentialVotes(unknown, houseBaseline(), { geography: 'district' });
+  assert.equal(result.ratios.dem.percent, null); assert.equal(result.ratios.rep.percent, 50);
+  assert.equal(result.shift_pp, null); assert.equal(result.data_quality.unassigned_votes_allocated, false);
+  const residual = comparePresidentialVotes(houseCurrent({ reported_total: 205, unattributed_source_votes: 5 }), houseBaseline(), { geography: 'district' });
+  assert.equal(residual.ratios.dem.percent, 80); assert.equal(residual.ratios.rep.percent, 50); assert.equal(residual.shift_pp, null);
+  const withheld = comparePresidentialVotes(houseCurrent({ votes_released: false }), houseBaseline(), { geography: 'district' });
+  assert.equal(withheld.ratios.dem.percent, null); assert.equal(withheld.ratios.rep.percent, null);
+});

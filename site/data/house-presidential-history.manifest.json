@@ -1,0 +1,135 @@
+{
+  "schema_version": "house_presidential_history_manifest_v1",
+  "generated_at": "2026-11-05T17:50:33.234894+00:00",
+  "boundary_cycle": 2026,
+  "provenance": {
+    "name": "The Downballot",
+    "url": "https://www.the-downballot.com/p/the-downballots-calculations-of-presidential",
+    "data_url": "https://docs.google.com/spreadsheets/d/1eZfaFI-c-PFOoKx1-zZA2MP0_dxRq_LVK0re3BOQqy0/export?format=csv&gid=1491069057",
+    "sha256": "cc1d51ab58dfbdeb0f7ddaa8daf9e15f32e15845f2c3cc6c28bd2c84c79d9348",
+    "retrieved_at": "2026-11-05T17:47:30.415194+00:00",
+    "archive_filename": "house-presidential-history-downballot.csv",
+    "release_url": "https://www.the-downballot.com/p/the-downballot-releases-presidential",
+    "release_published_date": "2026-07-09",
+    "methodology_url": "https://docs.google.com/document/d/1efGEHGAQGaDGnIrdedwxVg1uUrjZYz06IPLTHRCg9zM/",
+    "source_declared_boundary_cycle": 2026,
+    "snapshot_kind": "archived publisher-reconstructed historical presidential counts",
+    "source_total_definition": "Publisher total, generally excluding write-ins; Democratic, Republican and nonmajor/unlisted residual preserved.",
+    "license": null,
+    "license_note": "Factual election tallies with source attribution; no blanket license for publisher text, branding or software is asserted.",
+    "limitations": [
+      "Presidential counts reconstructed by The Downballot on district lines the publisher declares applicable to the 2026 midterms.",
+      "The publisher uses precinct-level returns, split-precinct estimates and allocation of unassigned votes; these are not independently certified district totals.",
+      "The publisher generally excludes write-in votes except unusually high cases; reported_total is not asserted to include every valid presidential vote.",
+      "other_votes is the source total minus Democratic and Republican tallies: a nonmajor/unlisted residual, not a named candidate roster.",
+      "All 435 source district identities match the AP-published 2026 layout. The AP geometry underlying boundary vintage has not been independently verified.",
+      "Missing 2020 district tallies stay absent; older district-number matches are not substituted."
+    ]
+  },
+  "datasets": [
+    {
+      "year": 2024,
+      "filename": "house-presidential-history-2024.json",
+      "sha256": "9080f68ce44b80253791cbbf770cac1c37c42d2771be5a7e69629dfcf49d2411",
+      "bytes": 152056,
+      "districts": 435,
+      "missing": 0
+    },
+    {
+      "year": 2020,
+      "filename": "house-presidential-history-2020.json",
+      "sha256": "6da5ca942740efdbcb98cc4b221d75eebb0eae963a4a85409dcd14b659c7748c",
+      "bytes": 93829,
+      "districts": 262,
+      "missing": 173
+    }
+  ],
+  "source_files": [
+    {
+      "url": "https://docs.google.com/spreadsheets/d/1eZfaFI-c-PFOoKx1-zZA2MP0_dxRq_LVK0re3BOQqy0/export?format=csv&gid=1491069057",
+      "final_url": "https://doc-0c-60-sheets.googleusercontent.com/export/3ropqptqom1b57lc45egbob1oo/surr9r60u718dkjllukebphj0k/1793900845000/105250506097979753968/*/1eZfaFI-c-PFOoKx1-zZA2MP0_dxRq_LVK0re3BOQqy0?format=csv&gid=1491069057",
+      "status": 200,
+      "retrieved_at": "2026-11-05T17:47:30.415194+00:00",
+      "sha256": "cc1d51ab58dfbdeb0f7ddaa8daf9e15f32e15845f2c3cc6c28bd2c84c79d9348",
+      "bytes": 48537
+    },
+    {
+      "url": "https://docs.google.com/spreadsheets/d/1eZfaFI-c-PFOoKx1-zZA2MP0_dxRq_LVK0re3BOQqy0/export?format=csv&gid=1856673469",
+      "final_url": "https://doc-0c-60-sheets.googleusercontent.com/export/3ropqptqom1b57lc45egbob1oo/to3mqeg9ujvfjlu3cbv2cbqmis/1793900850000/105250506097979753968/*/1eZfaFI-c-PFOoKx1-zZA2MP0_dxRq_LVK0re3BOQqy0?format=csv&gid=1856673469",
+      "status": 200,
+      "retrieved_at": "2026-11-05T17:47:35.649645+00:00",
+      "sha256": "1a3fa4e397591024bebf96d712b9253712332d5d33537280b447ac42be575c32",
+      "bytes": 640
+    },
+    {
+      "url": "https://www.the-downballot.com/p/the-downballots-calculations-of-presidential",
+      "retrieved_at": "2026-11-05T17:47:15.685043+00:00",
+      "status": 200,
+      "sha256": "46572fe4436a529dda35d75ab3ffe823a5108e3f727b438f83f71f4058ae90ea",
+      "bytes": 201932
+    },
+    {
+      "url": "https://docs.google.com/document/d/1efGEHGAQGaDGnIrdedwxVg1uUrjZYz06IPLTHRCg9zM/export?format=txt",
+      "status": 200,
+      "retrieved_at": "2026-11-05T17:49:31.788128+00:00",
+      "sha256": "85b2b8a65109ce9f8ef3f991d8416f014b4f23a7466ff46ff50231e4220402d7",
+      "bytes": 108102
+    },
+    {
+      "url": "https://www.the-downballot.com/p/the-downballot-releases-presidential",
+      "retrieved_at": "2026-11-05T17:47:15.881779+00:00",
+      "status": 200,
+      "sha256": "531a6d12464988fce02e48b0489a527f1ddc60e01613d4abebb6c624310b7fe7",
+      "bytes": 226534
+    },
+    {
+      "url": "https://docs.google.com/spreadsheets/d/1eZfaFI-c-PFOoKx1-zZA2MP0_dxRq_LVK0re3BOQqy0/export?format=csv&gid=620838163",
+      "final_url": "https://doc-0c-60-sheets.googleusercontent.com/export/3ropqptqom1b57lc45egbob1oo/to3mqeg9ujvfjlu3cbv2cbqmis/1793900850000/105250506097979753968/*/1eZfaFI-c-PFOoKx1-zZA2MP0_dxRq_LVK0re3BOQqy0?format=csv&gid=620838163",
+      "status": 200,
+      "retrieved_at": "2026-11-05T17:47:32.904745+00:00",
+      "sha256": "a3bffa0500b0827c56f66ea40320f3b145e8570864f9b14eee40a5ed3367671a",
+      "bytes": 17916
+    }
+  ],
+  "geography_check": {
+    "source_declared_cycle": 2026,
+    "AP_source_cycle": 2026,
+    "AP_geometry_sha256": "e81f8e22d5784db65b54c9888adc38f839f7af74389167f4840ffd18385fa0ee",
+    "exact_joined_district_keys": 435,
+    "missing_source_keys": [],
+    "missing_geometry_keys": [],
+    "at_large_mapping": "Source AL suffix maps only to AP at_large=true district 1",
+    "independently_verified_boundary_vintage": false
+  },
+  "publisher_release_changed_states": [
+    "AL",
+    "CA",
+    "FL",
+    "LA",
+    "MO",
+    "NC",
+    "OH",
+    "TN",
+    "TX",
+    "UT"
+  ],
+  "missing_2020_by_state": {
+    "AL": 7,
+    "CA": 52,
+    "FL": 28,
+    "LA": 6,
+    "NC": 14,
+    "OH": 15,
+    "TN": 9,
+    "TX": 38,
+    "UT": 4
+  },
+  "limitations": [
+    "Presidential counts reconstructed by The Downballot on district lines the publisher declares applicable to the 2026 midterms.",
+    "The publisher uses precinct-level returns, split-precinct estimates and allocation of unassigned votes; these are not independently certified district totals.",
+    "The publisher generally excludes write-in votes except unusually high cases; reported_total is not asserted to include every valid presidential vote.",
+    "other_votes is the source total minus Democratic and Republican tallies: a nonmajor/unlisted residual, not a named candidate roster.",
+    "All 435 source district identities match the AP-published 2026 layout. The AP geometry underlying boundary vintage has not been independently verified.",
+    "Missing 2020 district tallies stay absent; older district-number matches are not substituted."
+  ]
+}
