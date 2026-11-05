@@ -15,7 +15,10 @@ test('uploaded Montana county statuses conserve the explicit statewide total wit
   const countyBytes = await readFile(new URL('./data/voter-registration-mt-counties.json', import.meta.url));
   const countyData = JSON.parse(countyBytes);
   const workbook = await readFile(new URL('./data/registration-mt-county-data.xlsx', import.meta.url));
-  assert.equal(registration.source_sha256, createHash('sha256').update(workbook).digest('hex'));
+  const official = await readFile(new URL('./data/registration-mt-official-counties.csv', import.meta.url));
+  assert.equal(registration.uploaded_workbook_sha256, createHash('sha256').update(workbook).digest('hex'));
+  assert.equal(registration.source_sha256, createHash('sha256').update(official).digest('hex'));
+  assert.equal(registration.source_url, 'https://sosmt.gov/elections/regvotercounty/');
   assert.equal(registration.county_reference_sha256, createHash('sha256').update(countyBytes).digest('hex'));
   assert.equal(countyData.counties.length, 56);
   assert.equal(new Set(countyData.counties.map((county) => county.county_fips)).size, 56);
@@ -27,9 +30,12 @@ test('uploaded Montana county statuses conserve the explicit statewide total wit
   assert(countyData.counties.some((county) => county.provisional_source_cell_blank && county.provisional === null));
   assert.equal(registration.total, 808888);
   assert.equal(registration.active_total + registration.inactive_total + registration.provisional_total, registration.total);
-  assert.equal(registration.source_tier, 'user_provided');
-  assert.equal(registration.as_of, null); assert.equal(registration.report_generated_at, null); assert.equal(registration.latest_checked, false);
-  assert.equal(countyData.as_of, null); assert.equal(countyData.report_generated_at, null);
+  assert.equal(registration.source_tier, 'official');
+  assert.equal(registration.as_of, '2026-11-05'); assert.equal(registration.report_generated_at, null); assert.equal(registration.latest_checked, false);
+  assert.equal(registration.snapshot_time_local, '05:00'); assert.equal(registration.snapshot_time_approximate, true);
+  assert.equal(registration.snapshot_time_source, 'user_clarification'); assert.equal(registration.snapshot_time_zone, null);
+  assert.equal(countyData.as_of, registration.as_of); assert.equal(countyData.report_generated_at, null);
+  assert.equal(countyData.source.date_in_workbook, false); assert.equal(countyData.source.snapshot_time_source, 'user_clarification');
   for (const field of ['dem', 'rep', 'unaffiliated', 'other', 'unclassified']) assert.equal(registration[field], null);
   const result = compareRegistrationVotes(current({ state: 'MT' }), registration);
   assert.equal(result.registration.total, 808888);

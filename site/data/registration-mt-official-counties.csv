@@ -1,0 +1,189 @@
+County,Measure Names,Voter Status,Count of vrVoterReg
+Blaine,Status,Provisional,1
+Deer Lodge,Status,Provisional,1
+Phillips,Status,Provisional,1
+Glacier,Status,Provisional,2
+Hill,Status,Provisional,2
+Valley,Status,Provisional,2
+Broadwater,Status,Provisional,4
+Carbon,Status,Provisional,4
+Flathead,Status,Provisional,4
+Garfield,Status,Inactive,6
+Lewis & Clark,Status,Provisional,7
+Lake,Status,Provisional,9
+Petroleum,Status,Inactive,11
+Gallatin,Status,Provisional,17
+Missoula,Status,Provisional,19
+Treasure,Status,Inactive,29
+Golden Valley,Status,Inactive,35
+Yellowstone,Status,Provisional,35
+Big Horn,Status,Provisional,38
+Powder River,Status,Inactive,53
+Roosevelt,Status,Provisional,53
+Wibaux,Status,Inactive,79
+Prairie,Status,Inactive,81
+Carter,Status,Inactive,88
+Liberty,Status,Inactive,104
+McCone,Status,Inactive,106
+Daniels,Status,Inactive,107
+Judith Basin,Status,Inactive,128
+Fallon,Status,Inactive,139
+Meagher,Status,Inactive,150
+All,Status,Provisional,199
+Wheatland,Status,Inactive,225
+Phillips,Status,Inactive,227
+Sheridan,Status,Inactive,288
+Toole,Status,Inactive,303
+Granite,Status,Inactive,308
+Sweet Grass,Status,Inactive,323
+Chouteau,Status,Inactive,356
+Petroleum,Status,Active,361
+Petroleum,Status,All,372
+Teton,Status,Inactive,416
+Powell,Status,Inactive,434
+Musselshell,Status,Inactive,485
+Treasure,Status,Active,503
+Pondera,Status,Inactive,515
+Treasure,Status,All,532
+Blaine,Status,Inactive,564
+Golden Valley,Status,Active,578
+Golden Valley,Status,All,613
+Wibaux,Status,Active,628
+Madison,Status,Inactive,633
+Dawson,Status,Inactive,651
+Mineral,Status,Inactive,705
+Wibaux,Status,All,707
+Rosebud,Status,Inactive,713
+Stillwater,Status,Inactive,729
+Valley,Status,Inactive,734
+Prairie,Status,Active,746
+Deer Lodge,Status,Inactive,770
+Broadwater,Status,Inactive,822
+Prairie,Status,All,827
+Fergus,Status,Inactive,837
+Garfield,Status,Active,875
+Garfield,Status,All,881
+Jefferson,Status,Inactive,913
+Carter,Status,Active,915
+Beaverhead,Status,Inactive,934
+Carter,Status,All,"1,003"
+Daniels,Status,Active,"1,047"
+Roosevelt,Status,Inactive,"1,058"
+Liberty,Status,Active,"1,070"
+Custer,Status,Inactive,"1,087"
+Carbon,Status,Inactive,"1,098"
+Daniels,Status,All,"1,154"
+McCone,Status,Active,"1,158"
+Liberty,Status,All,"1,174"
+Powder River,Status,Active,"1,184"
+Powder River,Status,All,"1,237"
+Wheatland,Status,Active,"1,240"
+McCone,Status,All,"1,264"
+Lincoln,Status,Inactive,"1,266"
+Meagher,Status,Active,"1,304"
+Big Horn,Status,Inactive,"1,344"
+Richland,Status,Inactive,"1,431"
+Meagher,Status,All,"1,454"
+Wheatland,Status,All,"1,465"
+Sanders,Status,Inactive,"1,474"
+Judith Basin,Status,Active,"1,482"
+Hill,Status,Inactive,"1,555"
+Glacier,Status,Inactive,"1,586"
+Judith Basin,Status,All,"1,610"
+Fallon,Status,Active,"1,663"
+Fallon,Status,All,"1,802"
+Park,Status,Inactive,"1,981"
+Sheridan,Status,Active,"2,104"
+Toole,Status,Active,"2,358"
+Sheridan,Status,All,"2,392"
+Phillips,Status,Active,"2,419"
+Granite,Status,Active,"2,486"
+Sweet Grass,Status,Active,"2,612"
+Phillips,Status,All,"2,647"
+Toole,Status,All,"2,661"
+Granite,Status,All,"2,794"
+Sweet Grass,Status,All,"2,935"
+Pondera,Status,Active,"3,277"
+Chouteau,Status,Active,"3,342"
+Musselshell,Status,Active,"3,418"
+Mineral,Status,Active,"3,435"
+Blaine,Status,Active,"3,519"
+Powell,Status,Active,"3,656"
+Lake,Status,Inactive,"3,662"
+Silver Bow,Status,Inactive,"3,671"
+Chouteau,Status,All,"3,698"
+Pondera,Status,All,"3,792"
+Musselshell,Status,All,"3,903"
+Teton,Status,Active,"3,913"
+Blaine,Status,All,"4,084"
+Powell,Status,All,"4,090"
+Ravalli,Status,Inactive,"4,116"
+Mineral,Status,All,"4,140"
+Teton,Status,All,"4,329"
+Rosebud,Status,Active,"4,333"
+Valley,Status,Active,"4,516"
+Roosevelt,Status,Active,"4,927"
+Rosebud,Status,All,"5,046"
+Dawson,Status,Active,"5,059"
+Valley,Status,All,"5,252"
+Broadwater,Status,Active,"5,457"
+Deer Lodge,Status,Active,"5,483"
+Dawson,Status,All,"5,710"
+Roosevelt,Status,All,"6,038"
+Richland,Status,Active,"6,164"
+Big Horn,Status,Active,"6,183"
+Deer Lodge,Status,All,"6,254"
+Broadwater,Status,All,"6,283"
+Glacier,Status,Active,"6,370"
+Beaverhead,Status,Active,"6,397"
+Custer,Status,Active,"6,437"
+Stillwater,Status,Active,"6,559"
+Stillwater,Status,All,"7,288"
+Beaverhead,Status,All,"7,331"
+Madison,Status,Active,"7,343"
+Fergus,Status,Active,"7,351"
+Lewis & Clark,Status,Inactive,"7,376"
+Custer,Status,All,"7,524"
+Big Horn,Status,All,"7,565"
+Richland,Status,All,"7,595"
+Hill,Status,Active,"7,842"
+Glacier,Status,All,"7,958"
+Madison,Status,All,"7,976"
+Carbon,Status,Active,"8,180"
+Fergus,Status,All,"8,188"
+Cascade,Status,Inactive,"8,653"
+Carbon,Status,All,"9,282"
+Jefferson,Status,Active,"9,363"
+Hill,Status,All,"9,399"
+Sanders,Status,Active,"9,593"
+Jefferson,Status,All,"10,276"
+Sanders,Status,All,"11,067"
+Park,Status,Active,"12,779"
+Lincoln,Status,Active,"14,044"
+Missoula,Status,Inactive,"14,369"
+Park,Status,All,"14,760"
+Lincoln,Status,All,"15,310"
+Yellowstone,Status,Inactive,"16,287"
+Flathead,Status,Inactive,"16,501"
+Gallatin,Status,Inactive,"18,510"
+Lake,Status,Active,"19,330"
+Silver Bow,Status,Active,"20,542"
+Lake,Status,All,"23,001"
+Silver Bow,Status,All,"24,213"
+Ravalli,Status,Active,"32,872"
+Ravalli,Status,All,"36,988"
+Cascade,Status,Active,"44,004"
+Lewis & Clark,Status,Active,"46,794"
+Cascade,Status,All,"52,657"
+Lewis & Clark,Status,All,"54,177"
+Flathead,Status,Active,"71,542"
+Missoula,Status,Active,"79,478"
+Gallatin,Status,Active,"81,416"
+Flathead,Status,All,"88,047"
+Missoula,Status,All,"93,866"
+Yellowstone,Status,Active,"96,012"
+Gallatin,Status,All,"99,943"
+Yellowstone,Status,All,"112,334"
+All,Status,Inactive,"121,026"
+All,Status,Active,"687,663"
+All,Status,All,"808,888"

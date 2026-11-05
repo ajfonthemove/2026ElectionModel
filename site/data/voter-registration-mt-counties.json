@@ -2,20 +2,29 @@
   "schema_version": "mt_county_registration_v1",
   "state": "MT",
   "source": {
-    "name": "User-provided Montana county registration workbook",
-    "url": "https://ajfonthemove.github.io/2026ElectionModel/data/registration-mt-county-data.xlsx",
-    "file_name": "County Data.xlsx",
-    "sha256": "0f223097fb06aa5f6f03163f398d47349bfbc85509d9d6d75678a0ce50a1a967",
-    "upload_id": "file_00000000c9a881f5bb894e507e5473bb",
-    "checked_at": "2026-11-05T17:27:31.570831+00:00",
-    "as_of": null,
+    "name": "Montana Secretary of State",
+    "url": "https://sosmt.gov/elections/regvotercounty/",
+    "file_name": "RegVoterCounty.csv",
+    "sha256": "4fd8cbc03b7c55622321686ef2ec46e03f2513289a6737ffaf7eb3245cb6f798",
+    "checked_at": "2026-11-05T17:39:43.906700+00:00",
+    "as_of": "2026-11-05",
     "report_generated_at": null,
-    "source_tier": "user_provided",
-    "date_in_workbook": false
+    "source_tier": "official",
+    "date_in_workbook": false,
+    "snapshot_time_local": "05:00",
+    "snapshot_time_zone": null,
+    "snapshot_time_approximate": true,
+    "snapshot_time_source": "user_clarification",
+    "data_url": "https://tableau-ext.mt.gov/t/SOS/views/RegisteredVotersByCounty/RegVoterCounty.csv?:showVizHome=no",
+    "uploaded_workbook_url": "https://ajfonthemove.github.io/2026ElectionModel/data/registration-mt-county-data.xlsx",
+    "uploaded_workbook_sha256": "0f223097fb06aa5f6f03163f398d47349bfbc85509d9d6d75678a0ce50a1a967",
+    "date_source": "user_clarification",
+    "date_in_export": false,
+    "uploaded_workbook_upload_id": "file_00000000c9a881f5bb894e507e5473bb"
   },
-  "definition": "County registration totals by voter status in the supplied workbook: Active, Inactive and Provisional. The Total column includes all three statuses. Provisional is a registration-status category, not ballots cast.",
+  "definition": "County voter registration totals published by the Montana Secretary of State: Active, Inactive and Provisional. The Total column includes all three statuses. Provisional is a registration-status category, not ballots cast.",
   "party_registration_supported": false,
-  "as_of": null,
+  "as_of": "2026-11-05",
   "report_generated_at": null,
   "latest_checked": false,
   "grand_total": {
@@ -699,15 +708,18 @@
     }
   ],
   "notes": [
-    "The supplied workbook contains no observation date, author or publisher metadata; its upload/retrieval time is not a registration cutoff.",
-    "The user identifies this as Montana registration data; all 56 unique county names match the existing verified Montana county geography.",
     "Montana does not register voters by political party. Party, unaffiliated and other affiliation counts remain null.",
-    "Blank provisional cells remain null in the county artifact; no missing status value is replaced with zero."
+    "The official county export and supplied workbook agree for all 56 counties and every populated registration-status count.",
+    "Blank provisional county cells remain null."
   ],
   "geographic_match": {
     "source": "./us-counties-albers.v3.0.1.paths.json",
     "sha256": "4679aa272dea43aac4b5d3bec0b5b47a29d789dab55f2f10ff96a7cfb8ba6eaf",
     "county_name_matches": 56,
     "county_fips_unique": 56
-  }
+  },
+  "snapshot_time_local": "05:00",
+  "snapshot_time_zone": null,
+  "snapshot_time_approximate": true,
+  "snapshot_time_source": "user_clarification"
 }
