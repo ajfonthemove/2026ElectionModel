@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { MASSACHUSETTS_CONTESTS, parseMassachusettsBallotResults, parseMassachusettsGovernorResults,
-  compareBallotToGovernor, createMassachusettsResultsLoader } from './massachusetts-results.js';
+  compareBallotToGovernor, rankBallotGovernorVotes, createMassachusettsResultsLoader } from './massachusetts-results.js';
 
 const crosswalk = JSON.parse(await readFile(new URL('./data/ma-town-county-crosswalk.json', import.meta.url), 'utf8'));
 const source = { name: 'AP via WBUR', url: 'https://static.wbur.org/json/elections/2026/2026-11-03-map-questions-1.json', checked_at: '2026-11-07T18:00:00Z', status: 'available' };
@@ -121,6 +121,62 @@ test('Governor overlapping/wrong-office/mismatched-roster sources cannot create 
     raw => raw.states[0].races[0].office = 'senate', raw => raw.supplemental_localities[0].reported_total = 1]) {
     const raw = governorPayload(); mutate(raw); assert.throws(() => parseG(raw));
   }
+});
+
+test('top vote ranking sorts the four selected raw counts and retains independent source clocks', () => {
+  const question = parseQ(ballotRows()), governor = parseG(governorPayload());
+  const result = rankBallotGovernorVotes(question.towns.get('35'), governor.towns.get('35'), { candidates: governor.choices });
+  assert.equal(result.status, 'available'); assert.equal(result.geography_key, 'town:35'); assert.equal(result.max_votes, 60);
+  assert.deepEqual(result.entries.map(entry => [entry.id, entry.votes]), [['governor:d', 60], ['question:yes', 55], ['question:no', 45], ['governor:r', 30]]);
+  assert.deepEqual(result.leader_ids, ['governor:d']); assert.equal(result.tied, false);
+  assert.equal(result.entries[0].source.checked_at, '2026-11-07T18:00:01Z');
+  assert.equal(result.entries[1].source.checked_at, '2026-11-07T18:00:00Z');
+  assert.equal(governor.choices.length, 3); assert.equal(governor.towns.get('35').counts.i, 10);
+});
+
+test('positive two-way and four-way ties return every tied ID rather than an arbitrary leader', () => {
+  const governor = parseG(governorPayload()), question = parseQ(ballotRows(60, 40));
+  const result = rankBallotGovernorVotes(question.towns.get('35'), governor.towns.get('35'), { candidates: governor.choices });
+  assert.equal(result.tied, true); assert.deepEqual(result.leader_ids, ['question:yes', 'governor:d']);
+  const raw = governorPayload(); raw.supplemental_localities[34].candidates = choices(50, 50, 10); raw.supplemental_localities[34].reported_total = 110;
+  const tiedGovernor = parseG(raw), all = rankBallotGovernorVotes(parseQ(ballotRows(50, 50)).towns.get('35'), tiedGovernor.towns.get('35'), { candidates: tiedGovernor.choices });
+  assert.equal(all.tied, true); assert.equal(all.max_votes, 50);
+  assert.deepEqual(all.leader_ids, ['question:yes', 'question:no', 'governor:d', 'governor:r']);
+});
+
+test('all known zero counts have no leader, while any unknown selected count prevents a premature leader', () => {
+  const raw = governorPayload(); raw.supplemental_localities[34].candidates = choices(0, 0, 0); raw.supplemental_localities[34].reported_total = 0;
+  const emptyGovernor = parseG(raw), empty = rankBallotGovernorVotes(parseQ(ballotRows(0, 0)).towns.get('35'), emptyGovernor.towns.get('35'), { candidates: emptyGovernor.choices });
+  assert.equal(empty.status, 'no_votes'); assert.equal(empty.max_votes, 0); assert.equal(empty.tied, false);
+  assert.deepEqual(empty.leader_ids, []); assert(empty.entries.every(entry => entry.votes === 0));
+  const missing = ballotRows(); missing.find(row => row.level === 'township' && row.reportingunitname === 'BOSTON' && row.last === 'Yes').votecount = null;
+  const governor = parseG(governorPayload()), partial = rankBallotGovernorVotes(parseQ(missing).towns.get('35'), governor.towns.get('35'), { candidates: governor.choices });
+  assert.equal(partial.status, 'incomplete'); assert.equal(partial.max_votes, null); assert.deepEqual(partial.leader_ids, []);
+  assert.equal(partial.entries.at(-1).id, 'question:yes'); assert.equal(partial.entries.at(-1).votes, null);
+  const missingGovernor = governorPayload(); missingGovernor.supplemental_localities[34].candidates[0].votes = null;
+  const incompleteGovernor = parseG(missingGovernor), unknown = rankBallotGovernorVotes(parseQ(ballotRows()).towns.get('35'), incompleteGovernor.towns.get('35'), { candidates: incompleteGovernor.choices });
+  assert.equal(unknown.status, 'incomplete'); assert.deepEqual(unknown.leader_ids, []);
+});
+
+test('rankings reuse matching state and county geography but reject cross-geography units and ambiguous main rosters', () => {
+  const q = parseQ(ballotRows()), g = parseG(governorPayload());
+  assert.equal(rankBallotGovernorVotes(q.state, g.state, { candidates: g.choices }).geography_key, 'state:MA');
+  assert.equal(rankBallotGovernorVotes(q.counties.get('25025'), g.counties.get('25025'), { candidates: g.choices }).geography_key, 'county:25025');
+  for (const other of [g.towns.get('1'), g.state, { ...g.towns.get('35'), county_fips: '25001' }]) {
+    const result = rankBallotGovernorVotes(q.towns.get('35'), other, { candidates: g.choices });
+    assert.equal(result.status, 'unavailable'); assert.deepEqual(result.entries, []); assert.deepEqual(result.leader_ids, []);
+  }
+  for (const roster of [[], [g.choices[0], g.choices[0]], g.choices.map(choice => ({ ...choice, main: true })), g.choices.map(choice => ({ ...choice, id: choice.id + '-wrong' }))]) {
+    assert.equal(rankBallotGovernorVotes(q.towns.get('35'), g.towns.get('35'), { candidates: roster }).status, 'unavailable');
+  }
+});
+
+test('the ranking scope is Yes/No and the two main Governor candidates; other Governor votes remain intact', () => {
+  const raw = governorPayload(); raw.supplemental_localities[34].candidates = choices(60, 30, 300); raw.supplemental_localities[34].reported_total = 390;
+  const g = parseG(raw), q = parseQ(ballotRows()), result = rankBallotGovernorVotes(q.towns.get('35'), g.towns.get('35'), { candidates: g.choices });
+  assert.equal(g.towns.get('35').counts.i, 300); assert.equal(g.towns.get('35').reported_total, 390);
+  assert.equal(result.entries.length, 4); assert(!result.entries.some(entry => entry.candidate_id === 'i'));
+  assert.deepEqual(result.leader_ids, ['governor:d']);
 });
 
 test('question requests coalesce and failed refreshes preserve last-good counts with their original source clock', async () => {

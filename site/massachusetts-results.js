@@ -184,13 +184,19 @@ export function parseMassachusettsGovernorResults(payload, { crosswalk, source: 
     published_state: build(parent, 'MA', 'state', 'Massachusetts', null, nationalSource) });
 }
 
+function sameBallotGovernorGeography(question, governor) {
+  if (!/^question-[1-9]$/.test(question?.contest || '') || governor?.contest !== 'governor' || !['state', 'county', 'town'].includes(question?.level) || question.state !== 'MA' || governor.state !== 'MA' || question.level !== governor.level || question.id !== governor.id || question.geography_key !== question.level + ':' + question.id || question.geography_key !== governor.geography_key) return false;
+  if (question.level === 'state') return question.id === 'MA';
+  if (question.level === 'county') return /^25\d{3}$/.test(question.id) && question.county_fips === question.id && governor.county_fips === question.id;
+  return /^[1-9]\d{0,2}$/.test(question.id) && Number(question.id) <= 351 && /^25\d{3}$/.test(question.county_fips || '') && question.county_fips === governor.county_fips;
+}
+
 /** Same geography: Governor/response ratio; response minus Governor vote and share gaps. */
 export function compareBallotToGovernor(question, governor, { response = 'yes', candidate } = {}) {
   const output = { question_votes: null, governor_votes: null, vote_difference: null, count_ratio_percent: null,
     question_share_percent: null, governor_share_percent: null, share_gap_pp: null,
     question_source: question?.source || null, governor_source: governor?.source || null };
-  if (!/^question-[1-9]$/.test(question?.contest || '') || governor?.contest !== 'governor' || !['yes', 'no'].includes(response) || !['state', 'county', 'town'].includes(question?.level) || question.state !== 'MA' || governor.state !== 'MA' || question.level !== governor.level || question.id !== governor.id || question.geography_key !== question.level + ':' + question.id || question.geography_key !== governor.geography_key || !governor.main_candidate_ids?.includes(candidate)) return frozen(output);
-  if (question.level === 'state' ? question.id !== 'MA' : question.level === 'county' ? !/^25\d{3}$/.test(question.id) || question.county_fips !== question.id || governor.county_fips !== question.id : !/^[1-9]\d{0,2}$/.test(question.id) || Number(question.id) > 351 || !/^25\d{3}$/.test(question.county_fips || '') || question.county_fips !== governor.county_fips) return frozen(output);
+  if (!sameBallotGovernorGeography(question, governor) || !['yes', 'no'].includes(response) || !governor.main_candidate_ids?.includes(candidate)) return frozen(output);
   const q = question.counts?.[response], g = governor.counts?.[candidate];
   output.question_votes = count(q) ? q : null; output.governor_votes = count(g) ? g : null;
   if (output.question_votes !== null && output.governor_votes !== null) output.vote_difference = q - g;
@@ -199,6 +205,31 @@ export function compareBallotToGovernor(question, governor, { response = 'yes', 
   if (count(g) && governor.accounting_complete === true && governor.reported_total > 0) output.governor_share_percent = 100 * g / governor.reported_total;
   if (output.question_share_percent !== null && output.governor_share_percent !== null) output.share_gap_pp = output.question_share_percent - output.governor_share_percent;
   return frozen(output);
+}
+
+/** Rank four observed counts; ties stay explicit and incomplete counts never name a leader. */
+export function rankBallotGovernorVotes(question, governor, { candidates = [] } = {}) {
+  const unavailable = () => frozen({ status: 'unavailable', entries: frozen([]), leader_ids: frozen([]), tied: false,
+    max_votes: null, geography_key: null });
+  if (!sameBallotGovernorGeography(question, governor) || !Array.isArray(candidates) || candidates.length > 100 || !Array.isArray(governor.main_candidate_ids) || governor.main_candidate_ids.length !== 2 || new Set(governor.main_candidate_ids).size !== 2) return unavailable();
+  const main = candidates.filter(candidate => candidate?.main === true);
+  if (main.length !== 2 || main.some(candidate => !text(candidate.id) || !text(candidate.label) || !governor.main_candidate_ids.includes(candidate.id)) || new Set(main.map(candidate => candidate.id)).size !== 2 || new Set(main.map(candidate => party(candidate.party))).size !== 2 || !main.some(candidate => party(candidate.party) === 'DEM') || !main.some(candidate => party(candidate.party) === 'REP')) return unavailable();
+  main.sort((a, b) => (party(a.party) === 'DEM' ? 0 : 1) - (party(b.party) === 'DEM' ? 0 : 1));
+  const value = raw => count(raw) ? raw : null;
+  const records = [
+    { id: 'question:yes', kind: 'question', response: 'yes', label: 'Yes', party: null, votes: value(question.counts?.yes), source: question.source || null },
+    { id: 'question:no', kind: 'question', response: 'no', label: 'No', party: null, votes: value(question.counts?.no), source: question.source || null },
+    ...main.map(candidate => ({ id: 'governor:' + candidate.id, kind: 'governor', candidate_id: candidate.id,
+      label: candidate.label, party: party(candidate.party), votes: value(governor.counts?.[candidate.id]), source: governor.source || null })),
+  ];
+  const order = new Map(records.map((entry, index) => [entry.id, index]));
+  records.sort((a, b) => a.votes === null ? b.votes === null ? order.get(a.id) - order.get(b.id) : 1 :
+    b.votes === null ? -1 : b.votes - a.votes || order.get(a.id) - order.get(b.id));
+  const complete = records.every(entry => entry.votes !== null), maximum = complete ? records[0].votes : null;
+  const leader_ids = complete && maximum > 0 ? records.filter(entry => entry.votes === maximum).map(entry => entry.id) : [];
+  return frozen({ status: !complete ? 'incomplete' : maximum === 0 ? 'no_votes' : 'available',
+    entries: frozen(records.map(frozen)), leader_ids: frozen(leader_ids), tied: leader_ids.length > 1,
+    max_votes: maximum, geography_key: question.geography_key });
 }
 
 async function boundedJSON(response, maxBytes = MAX_BYTES) {
