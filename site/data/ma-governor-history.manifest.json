@@ -1,0 +1,397 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-11-08T17:29:49.895887+00:00",
+  "office": "governor",
+  "stage": "general",
+  "crosswalk_sha256": "b6c397efeb1dca15fb7e27d5cdec3982d5237ee3e732f57692b7cce0c6e469a8",
+  "join": "Exact expanded municipality name to verified MassGIS town ID; no county-to-town allocation.",
+  "denominator": "All named Governor candidate votes plus All Others; blanks excluded.",
+  "years": {
+    "2022": {
+      "source": {
+        "name": "Massachusetts Secretary of the Commonwealth \u00b7 PD43+",
+        "url": "https://electionstats.state.ma.us/elections/view/154338/",
+        "download_url": "https://electionstats.state.ma.us/elections/download/154338/precincts_include:0/",
+        "retrieved_at": "2026-11-08T17:28:41.541125+00:00",
+        "sha256": "85547c8ea5bd6f88a21d27d5b2adc646a4730fc042765d12cd9b83b5188b2b0c",
+        "election_id": 154338,
+        "election_date": "2022-11-08",
+        "result_type": "official_state_historical_results",
+        "office": "governor",
+        "denominator": "All named Governor candidate votes plus All Others; blanks excluded.",
+        "all_valid_coverage_verified": true,
+        "candidate_roster_complete": false,
+        "all_others_preserved_as_source_group": true
+      },
+      "file": "ma-governor-history-2022.json",
+      "sha256": "3a7629550bc867ef3808eb4eadfb7b104c45aab677e309cc8486ac1553372457",
+      "towns": 351,
+      "name_aliases": [
+        {
+          "source_name": "E. Bridgewater",
+          "canonical_name": "EAST BRIDGEWATER",
+          "massgis_town_id": 83
+        },
+        {
+          "source_name": "E. Brookfield",
+          "canonical_name": "EAST BROOKFIELD",
+          "massgis_town_id": 84
+        },
+        {
+          "source_name": "E. Longmeadow",
+          "canonical_name": "EAST LONGMEADOW",
+          "massgis_town_id": 85
+        },
+        {
+          "source_name": "N. Adams",
+          "canonical_name": "NORTH ADAMS",
+          "massgis_town_id": 209
+        },
+        {
+          "source_name": "N. Andover",
+          "canonical_name": "NORTH ANDOVER",
+          "massgis_town_id": 210
+        },
+        {
+          "source_name": "N. Attleborough",
+          "canonical_name": "NORTH ATTLEBOROUGH",
+          "massgis_town_id": 211
+        },
+        {
+          "source_name": "N. Brookfield",
+          "canonical_name": "NORTH BROOKFIELD",
+          "massgis_town_id": 212
+        },
+        {
+          "source_name": "N. Reading",
+          "canonical_name": "NORTH READING",
+          "massgis_town_id": 213
+        },
+        {
+          "source_name": "S. Hadley",
+          "canonical_name": "SOUTH HADLEY",
+          "massgis_town_id": 275
+        },
+        {
+          "source_name": "W. Boylston",
+          "canonical_name": "WEST BOYLSTON",
+          "massgis_town_id": 321
+        },
+        {
+          "source_name": "W. Bridgewater",
+          "canonical_name": "WEST BRIDGEWATER",
+          "massgis_town_id": 322
+        },
+        {
+          "source_name": "W. Brookfield",
+          "canonical_name": "WEST BROOKFIELD",
+          "massgis_town_id": 323
+        },
+        {
+          "source_name": "W. Newbury",
+          "canonical_name": "WEST NEWBURY",
+          "massgis_town_id": 324
+        },
+        {
+          "source_name": "W. Springfield",
+          "canonical_name": "WEST SPRINGFIELD",
+          "massgis_town_id": 325
+        },
+        {
+          "source_name": "W. Stockbridge",
+          "canonical_name": "WEST STOCKBRIDGE",
+          "massgis_town_id": 326
+        },
+        {
+          "source_name": "W. Tisbury",
+          "canonical_name": "WEST TISBURY",
+          "massgis_town_id": 327
+        }
+      ],
+      "valid_votes": 2485796,
+      "blank_votes": 25665,
+      "total_votes_cast": 2511461,
+      "dem_votes": 1584403,
+      "rep_votes": 859343,
+      "normalized_order_source_column_indexes": [
+        3,
+        4,
+        5,
+        6
+      ],
+      "source_candidate_columns": [
+        {
+          "label": "Maura Healey",
+          "party": "Democratic",
+          "source_column_index": 3
+        },
+        {
+          "label": "Geoff Diehl",
+          "party": "Republican",
+          "source_column_index": 4
+        },
+        {
+          "label": "Kevin Reed",
+          "party": "Libertarian",
+          "source_column_index": 5
+        },
+        {
+          "label": "All Others",
+          "party": null,
+          "source_column_index": 6
+        }
+      ],
+      "source_consistency": {
+        "official_state_CSV_and_HTML_agree_all_columns": true,
+        "official_HTML_county_rows_with_candidate_agreement": 12,
+        "official_HTML_county_differences": [
+          {
+            "countyFips": "25017",
+            "countyName": "MIDDLESEX",
+            "field": "Maura Healey",
+            "officialHtmlCount": 424986,
+            "nativeCsvTownRollup": 426054,
+            "htmlMinusCsv": -1068
+          },
+          {
+            "countyFips": "25017",
+            "countyName": "MIDDLESEX",
+            "field": "Geoff Diehl",
+            "officialHtmlCount": 170775,
+            "nativeCsvTownRollup": 169707,
+            "htmlMinusCsv": 1068
+          },
+          {
+            "countyFips": "25001",
+            "countyName": "BARNSTABLE",
+            "field": "Maura Healey",
+            "officialHtmlCount": 68042,
+            "nativeCsvTownRollup": 70163,
+            "htmlMinusCsv": -2121
+          },
+          {
+            "countyFips": "25001",
+            "countyName": "BARNSTABLE",
+            "field": "Geoff Diehl",
+            "officialHtmlCount": 45033,
+            "nativeCsvTownRollup": 46011,
+            "htmlMinusCsv": -978
+          },
+          {
+            "countyFips": "25001",
+            "countyName": "BARNSTABLE",
+            "field": "Kevin Reed",
+            "officialHtmlCount": 1517,
+            "nativeCsvTownRollup": 1556,
+            "htmlMinusCsv": -39
+          },
+          {
+            "countyFips": "25001",
+            "countyName": "BARNSTABLE",
+            "field": "All Others",
+            "officialHtmlCount": 100,
+            "nativeCsvTownRollup": 112,
+            "htmlMinusCsv": -12
+          },
+          {
+            "countyFips": "25001",
+            "countyName": "BARNSTABLE",
+            "field": "Blanks",
+            "officialHtmlCount": 878,
+            "nativeCsvTownRollup": 891,
+            "htmlMinusCsv": -13
+          },
+          {
+            "countyFips": "25001",
+            "countyName": "BARNSTABLE",
+            "field": "Total Votes Cast",
+            "officialHtmlCount": 115570,
+            "nativeCsvTownRollup": 118733,
+            "htmlMinusCsv": -3163
+          }
+        ],
+        "native_CSV_state_columns": [
+          1584403,
+          859343,
+          39244,
+          2806,
+          25665,
+          2511461
+        ],
+        "official_HTML_counties_sum_columns": [
+          1581214,
+          859433,
+          39205,
+          2794,
+          25652,
+          2508298
+        ],
+        "official_HTML_sha256": "1d22620f4d06ddefb1428ff9d6e1dfaa18e0faf692e8b75ab1f7f4f9d00bf3d0",
+        "counts_adjusted_to_match_HTML_counties": false,
+        "independent_state_count_check": {
+          "source_name": "Previously archived and hash-verified 2022 Massachusetts general election state result table",
+          "source_url": "https://en.wikipedia.org/wiki/2022_Massachusetts_gubernatorial_election",
+          "dem_votes": 1584403,
+          "rep_votes": 859343,
+          "other_named_votes": 39244,
+          "all_others": 2806,
+          "valid_votes": 2485796,
+          "total_votes_cast": 2511461,
+          "all_state_counts_match_native_CSV_and_official_HTML_STATE": true
+        }
+      }
+    },
+    "2018": {
+      "source": {
+        "name": "Massachusetts Secretary of the Commonwealth \u00b7 PD43+",
+        "url": "https://electionstats.state.ma.us/elections/view/131501/",
+        "download_url": "https://electionstats.state.ma.us/elections/download/131501/precincts_include:0/",
+        "retrieved_at": "2026-11-08T17:28:41.695903+00:00",
+        "sha256": "07dc4ee3d9103036dfffb32052dd63cad04dabd81381e1390a33bbbe7880a637",
+        "election_id": 131501,
+        "election_date": "2018-11-06",
+        "result_type": "official_state_historical_results",
+        "office": "governor",
+        "denominator": "All named Governor candidate votes plus All Others; blanks excluded.",
+        "all_valid_coverage_verified": true,
+        "candidate_roster_complete": false,
+        "all_others_preserved_as_source_group": true
+      },
+      "file": "ma-governor-history-2018.json",
+      "sha256": "3469aae14b32533737d3cac5ff45324307a28b6c7dd2843555c0b25e475b1661",
+      "towns": 351,
+      "name_aliases": [
+        {
+          "source_name": "E. Bridgewater",
+          "canonical_name": "EAST BRIDGEWATER",
+          "massgis_town_id": 83
+        },
+        {
+          "source_name": "E. Brookfield",
+          "canonical_name": "EAST BROOKFIELD",
+          "massgis_town_id": 84
+        },
+        {
+          "source_name": "E. Longmeadow",
+          "canonical_name": "EAST LONGMEADOW",
+          "massgis_town_id": 85
+        },
+        {
+          "source_name": "N. Adams",
+          "canonical_name": "NORTH ADAMS",
+          "massgis_town_id": 209
+        },
+        {
+          "source_name": "N. Andover",
+          "canonical_name": "NORTH ANDOVER",
+          "massgis_town_id": 210
+        },
+        {
+          "source_name": "N. Attleborough",
+          "canonical_name": "NORTH ATTLEBOROUGH",
+          "massgis_town_id": 211
+        },
+        {
+          "source_name": "N. Brookfield",
+          "canonical_name": "NORTH BROOKFIELD",
+          "massgis_town_id": 212
+        },
+        {
+          "source_name": "N. Reading",
+          "canonical_name": "NORTH READING",
+          "massgis_town_id": 213
+        },
+        {
+          "source_name": "S. Hadley",
+          "canonical_name": "SOUTH HADLEY",
+          "massgis_town_id": 275
+        },
+        {
+          "source_name": "W. Boylston",
+          "canonical_name": "WEST BOYLSTON",
+          "massgis_town_id": 321
+        },
+        {
+          "source_name": "W. Bridgewater",
+          "canonical_name": "WEST BRIDGEWATER",
+          "massgis_town_id": 322
+        },
+        {
+          "source_name": "W. Brookfield",
+          "canonical_name": "WEST BROOKFIELD",
+          "massgis_town_id": 323
+        },
+        {
+          "source_name": "W. Newbury",
+          "canonical_name": "WEST NEWBURY",
+          "massgis_town_id": 324
+        },
+        {
+          "source_name": "W. Springfield",
+          "canonical_name": "WEST SPRINGFIELD",
+          "massgis_town_id": 325
+        },
+        {
+          "source_name": "W. Stockbridge",
+          "canonical_name": "WEST STOCKBRIDGE",
+          "massgis_town_id": 326
+        },
+        {
+          "source_name": "W. Tisbury",
+          "canonical_name": "WEST TISBURY",
+          "massgis_town_id": 327
+        }
+      ],
+      "valid_votes": 2674615,
+      "blank_votes": 78050,
+      "total_votes_cast": 2752665,
+      "dem_votes": 885770,
+      "rep_votes": 1781341,
+      "normalized_order_source_column_indexes": [
+        4,
+        3,
+        5
+      ],
+      "source_candidate_columns": [
+        {
+          "label": "Baker and Polito",
+          "party": "Republican",
+          "source_column_index": 3
+        },
+        {
+          "label": "Gonzalez and Palfrey",
+          "party": "Democratic",
+          "source_column_index": 4
+        },
+        {
+          "label": "All Others",
+          "party": null,
+          "source_column_index": 5
+        }
+      ],
+      "source_consistency": {
+        "official_state_CSV_and_HTML_agree_all_columns": true,
+        "official_HTML_county_rows_with_candidate_agreement": 14,
+        "official_HTML_county_differences": [],
+        "native_CSV_state_columns": [
+          1781341,
+          885770,
+          7504,
+          78050,
+          2752665
+        ],
+        "official_HTML_counties_sum_columns": [
+          1781341,
+          885770,
+          7504,
+          78050,
+          2752665
+        ],
+        "official_HTML_sha256": "3a3d8526cfc997751498dea68dafca14c3a83da7910470daff7b49e054806d9e",
+        "counts_adjusted_to_match_HTML_counties": false
+      }
+    }
+  },
+  "county_reference_basis": "Sum of the 351 verified official municipal CSV rows, grouped by exact MassGIS county assignment.",
+  "official_state_CSV_and_HTML_agree_all_columns": true
+}
