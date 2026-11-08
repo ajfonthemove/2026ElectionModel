@@ -567,3 +567,6 @@ body.results-mode{background:#f1f4f8;font-size:16px;color:#1a2940}
  .chamber-summary-meta{font-size:9px}
  .chamber-summary-meta a{font-size:9px}
 }
+
+/* Keep the additional Massachusetts tab within narrow viewports. */
+.results-office-tabs{flex-wrap:wrap;max-width:100%}

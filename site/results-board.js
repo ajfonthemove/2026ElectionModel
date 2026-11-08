@@ -7,7 +7,50 @@ const state = { office: 'senate', selected: '', raceId: '', data: null, map: nul
 state.mapMetric = 'dem_ratio';
 Object.assign(state, { chamberReference: null, chamberModule: null, chamberPending: false, chamberError: '', registration: null, registrationModule: null, registrationPending: false, registrationError: '', registrationFilter: '', registrationSort: 'name' });
 Object.assign(state, { houseBaseline: null, houseBaselinePending: false, houseBaselineError: '', houseHistoryRequest: 0, houseBaselineRequestedYear: null });
+Object.assign(state, { massachusettsMode: null, massachusettsBoard: null, massachusettsModule: null, massachusettsRequest: 0 });
 const count = (value) => Number.isFinite(value) ? value.toLocaleString('en-US') : '';
+function updateMassachusettsShell() {
+  const active = Boolean(state.massachusettsMode);
+  $('national-results-content').hidden = active;
+  $('massachusetts-results-panel').hidden = !active;
+  document.body.classList.toggle('massachusetts-active', active);
+  if (active) document.body.classList.remove('president-mode');
+  $('ma-ballot-tab').setAttribute('aria-pressed', String(state.massachusettsMode === 'ballot'));
+  document.querySelectorAll('[data-results-office]').forEach(button => button.setAttribute('aria-pressed', String(state.massachusettsMode === 'ballot' ? false : button.dataset.resultsOffice === state.office)));
+  document.querySelector('.results-search-wrap').hidden = active;
+  document.querySelector('.results-nav-caption').textContent = active ? 'Massachusetts results' : 'CNN election results';
+}
+function closeMassachusettsBoard(renderLegacy = true) {
+  state.massachusettsMode = null; state.massachusettsRequest++;
+  updateMassachusettsShell();
+  if (renderLegacy) { render(); fetchResults(); }
+}
+async function openMassachusettsBoard(mode) {
+  const request = ++state.massachusettsRequest;
+  rememberCounty(); invalidateCountyRequest(); state.countyView = false; state.selectedCounty = '';
+  state.massachusettsMode = mode; state.office = 'governor'; state.selected = 'MA'; state.raceId = ''; state.pendingHouseKey = ''; state.displayMode = 'results';
+  updateMassachusettsShell();
+  const target = $('massachusetts-results-panel'); target.setAttribute('aria-busy', 'true');
+  if (!state.massachusettsBoard) target.replaceChildren(el('p', 'Loading Massachusetts results…', 'map-loading'));
+  try {
+    if (!state.massachusettsModule) state.massachusettsModule = import('./massachusetts-board.js');
+    const module = await state.massachusettsModule;
+    if (request !== state.massachusettsRequest || !state.massachusettsMode) return;
+    if (!state.massachusettsBoard) state.massachusettsBoard = module.mountMassachusettsBoard(target, {
+      mode,
+      onModeChange(next) { state.massachusettsMode = next; updateMassachusettsShell(); },
+      onExit() { closeMassachusettsBoard(); },
+    });
+    else state.massachusettsBoard.setMode(mode);
+  } catch {
+    if (request !== state.massachusettsRequest) return;
+    state.massachusettsModule = null;
+    const reload = el('button', 'Reload'); reload.type = 'button'; reload.addEventListener('click', () => location.reload());
+    const back = el('button', 'Back to U.S.'); back.type = 'button'; back.addEventListener('click', () => closeMassachusettsBoard());
+    target.replaceChildren(el('p', 'Refresh failed.'), reload, back);
+  } finally { if (request === state.massachusettsRequest) target.removeAttribute('aria-busy'); }
+}
+function refreshVisibleResults() { if (state.massachusettsMode && state.massachusettsBoard) state.massachusettsBoard.refresh(); else fetchResults(); }
 function el(tag, text, className) { const node = document.createElement(tag); if (text !== undefined && text !== null) node.textContent = String(text); if (className) node.className = className; return node; }
 function party(value) { const code = String(value || '').toUpperCase(); return ['DEM', 'DEMOCRATIC', 'D'].includes(code) ? 'dem' : ['REP', 'REPUBLICAN', 'R'].includes(code) ? 'rep' : 'other'; }
 function eastern(value) { if (!value) return null; const date = new Date(value); if (!Number.isFinite(date.getTime())) return null; return new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }).format(date) + ' ET'; }
@@ -278,6 +321,7 @@ function selectState(code, raceId = '') {
   if (state.countyView && race) loadCounties(race, { layer: state.countyPreferredLayer, silent: Boolean(state.countyData) });
 }
 function setOffice(office) {
+  if (state.massachusettsMode) closeMassachusettsBoard(false);
   if (office === 'house' && state.displayMode === 'president') { rememberCounty(); invalidateCountyRequest(); state.countyView = false; state.selectedCounty = ''; }
   state.office = office;
 }
@@ -336,6 +380,7 @@ function renderInspector() {
     if (timestamp) source.append(el('span', age(race.source_updated_at), 'source-age'));
     target.append(source);
     const county = el('button', state.countyPending ? 'Loading local results…' : state.countyView && state.countyData ? 'Refresh local results' : 'Explore counties', 'county-toggle'); county.type = 'button'; county.disabled = state.countyPending; county.addEventListener('click', () => loadCounties(sourceRace, { layer: state.countyPreferredLayer, refresh: Boolean(state.countyData) })); target.append(county);
+    if (race.office === 'governor' && race.state === 'MA') { const towns = el('button', 'Explore towns', 'county-toggle'); towns.type = 'button'; towns.addEventListener('click', () => openMassachusettsBoard('governor')); target.append(towns); }
   }
   const stateRaces = allRaces().filter((item) => item.state === state.selected).sort((a, b) => a.office.localeCompare(b.office) || String(a.district || '').localeCompare(String(b.district || ''), undefined, { numeric: true }));
   if (stateRaces.length) {
@@ -602,6 +647,8 @@ async function loadCounties(race, { layer = state.countyPreferredLayer, refresh 
 }
 
 function render() {
+  updateMassachusettsShell();
+  if (state.massachusettsMode) return;
   if (!state.map) return;
   const races = allRaces(), officeRaces = races.filter((race) => race.office === state.office), compare = state.displayMode === 'president';
   const area = state.map.states.find((item) => item.state === state.selected);
@@ -651,6 +698,7 @@ function renderCountyTiles() {
   $('county-layer-controls').hidden = !race;
   $('map-show-states').setAttribute('aria-pressed', String(!state.countyView)); $('map-show-counties').setAttribute('aria-pressed', String(enabled && !geographic)); $('map-show-county-geo').setAttribute('aria-pressed', String(geographic));
   $('map-show-counties').disabled = !race || state.countyPending; $('map-show-county-geo').disabled = !race || state.countyPending || Boolean(data?.geometryUnavailable || data?.geometry && !data.matchedGeometry);
+  $('map-show-towns').hidden = !(race?.office === 'governor' && race.state === 'MA');
   $('map-show-county-geo').title = data?.geometryUnavailable || data?.geometry && !data.matchedGeometry ? 'No exact county boundaries for these source units; use Tiles.' : 'Show actual county outlines';
   $('county-load-status').hidden = !(state.countyPending || state.countyMessage);
   $('county-load-status').textContent = state.countyPending ? 'Loading county / local results…' : state.countyMessage;
@@ -762,6 +810,8 @@ export function ensureResultsBoard() {
   syncPage(); if (state.initialized) { fetchResults(); return; } state.initialized = true;
   updateClock(); setInterval(updateClock, 1000); window.addEventListener('hashchange', syncPage);
   document.querySelectorAll('[data-results-office]').forEach((button) => button.addEventListener('click', () => { setOffice(button.dataset.resultsOffice); selectState(state.selected); ensureComparisonReferences(); }));
+  $('ma-ballot-tab').addEventListener('click', () => openMassachusettsBoard('ballot'));
+  $('map-show-towns').addEventListener('click', () => openMassachusettsBoard('governor'));
   document.querySelectorAll('[data-results-display]').forEach((button) => button.addEventListener('click', () => { state.displayMode = button.dataset.resultsDisplay; if (state.office === 'house' && state.displayMode === 'president') { rememberCounty(); invalidateCountyRequest(); state.countyView = false; state.selectedCounty = ''; } ensureComparisonReferences(); render(); }));
   $('results-baseline-year').addEventListener('change', (event) => { state.baselineYear = Number(event.target.value); if (state.office === 'house') loadHouseBaseline(); else loadBaseline(); });
   $('results-map-metric')?.addEventListener('change', (event) => { state.mapMetric = event.target.value; render(); });
@@ -781,6 +831,6 @@ export function ensureResultsBoard() {
   document.addEventListener('fullscreenchange', () => { fullscreen.querySelector('span').textContent = document.fullscreenElement ? 'Exit fullscreen' : 'Fullscreen'; });
   createElectionMap($('results-map'), selectState).then((map) => { state.map = map; map.states.slice().sort((a, b) => a.name.localeCompare(b.name)).forEach((item) => { const option = el('option', item.name); option.value = item.state; $('results-state').append(option); }); render(); }).catch(() => { $('results-map').replaceChildren(el('p', 'Refresh map', 'map-loading')); });
   loadHouseGeography().then((geography) => { state.houseGeometry = geography; render(); }).catch(() => {});
-  loadChamberSummary(); fetchResults(); setInterval(() => { if (document.body.classList.contains('results-mode')) fetchResults(); }, 60000);
-  window.addEventListener('online', () => fetchResults()); document.addEventListener('visibilitychange', () => { if (!document.hidden && document.body.classList.contains('results-mode')) fetchResults(); });
+  loadChamberSummary(); fetchResults(); setInterval(() => { if (document.body.classList.contains('results-mode') && !document.hidden) refreshVisibleResults(); }, 60000);
+  window.addEventListener('online', refreshVisibleResults); document.addEventListener('visibilitychange', () => { if (!document.hidden && document.body.classList.contains('results-mode')) refreshVisibleResults(); });
 }

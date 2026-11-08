@@ -1,0 +1,48 @@
+{
+  "schema_version": "ma_municipal_geometry_manifest_v1",
+  "compiled_at": "2026-11-08T01:21:41.473070+00:00",
+  "source": {
+    "name": "WBUR published municipality outlines",
+    "url": "https://s3.amazonaws.com/media.wbur/embeds/2024/general-election/data/ma-towns.topojson",
+    "sha256": "ce041c4976078597b1f9dbffe82bfb8187e0d48c0a47214ef2fbce5e181c1797",
+    "retrieved_at": "2026-11-08T01:19:58.965773+00:00",
+    "published_reference_year": 2024,
+    "reused_by_2026_map": true,
+    "map_app_url": "https://media.wbur.org/embeds/2026/general-election/map/index.html",
+    "geometry_vintage": null,
+    "projection": "Publisher-preprojected planar display coordinates; no reprojection or inset transformation.",
+    "attribution": "Municipal outlines: WBUR published reference map. Town/county identifiers: MassGIS.",
+    "crosswalk_file": "ma-town-county-crosswalk.json",
+    "crosswalk_sha256": "b6c397efeb1dca15fb7e27d5cdec3982d5237ee3e732f57692b7cce0c6e469a8",
+    "crosswalk_source_url": "https://services1.arcgis.com/hGdibHYSPO59RG1h/ArcGIS/rest/services/Massachusetts_Municipalities/FeatureServer/1/query?where=1%3D1&outFields=TOWN%2CTOWN_ID%2CCOUNTY%2CFIPS_STCO&returnGeometry=false&returnDistinctValues=true&orderByFields=TOWN_ID&f=json",
+    "boundary_comparability": "All 351 municipality identifiers and county assignments match the authoritative MassGIS table. Underlying boundary vintage is not independently certified."
+  },
+  "output": {
+    "file": "ma-town-paths.json",
+    "sha256": "b1746fc46665f682e8391970a26e5d25f0ffcb40aa928d82889b628ff1c39da2",
+    "bytes": 424301
+  },
+  "coverage": {
+    "towns": 351,
+    "counties": 14,
+    "polygons": 384,
+    "rings": 385,
+    "points": 18648,
+    "all_massgis_ids_1_to_351": true,
+    "all_county_assignments_match": true
+  },
+  "join": "Exact MassGIS town identifier, with source town-name check and the documented Manchester historical-name alias.",
+  "source_name_aliases": [
+    {
+      "town_id": 166,
+      "source_town": "MANCHESTER",
+      "canonical_town": "MANCHESTER-BY-THE-SEA",
+      "source_display_name": "Manchester-by-the-Sea"
+    }
+  ],
+  "transform": "Delta-decode TopoJSON arcs using the supplied scale/translate, reverse shared arcs by bitwise-complement index, preserve every polygon/ring with even-odd SVG fill. Rounded display coordinates to 0.001 publisher units.",
+  "no_geometry_simplification_applied": true,
+  "raw_topology_preserved": true,
+  "license": null,
+  "license_note": "Uses the publicly published reference boundary data with source attribution; no blanket license for WBUR content, branding or code is asserted."
+}
