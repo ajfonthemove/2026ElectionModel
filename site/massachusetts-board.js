@@ -1,5 +1,6 @@
 import { loadMassachusettsResults, compareBallotToGovernor, rankBallotGovernorVotes, MASSACHUSETTS_CONTESTS } from './massachusetts-results.js';
 import { loadMassachusettsGeography, drawMassachusettsMap } from './massachusetts-map.js';
+import { loadMassachusettsPresidentialHistory, compareMassachusettsPresidentialVotes, MASSACHUSETTS_PRESIDENTIAL_YEARS } from './ma-presidential-history.js';
 
 let instances = 0;
 const COLORS = { yes: '#2c887d', no: '#c28b56', dem: '#77a8df', rep: '#dc8792', other: '#b3a1c5', empty: '#dce3eb' };
@@ -29,10 +30,10 @@ function reportedLeader(dataset, unit) {
 }
 
 /** A scoped Massachusetts panel; national office/map state remains with the caller. */
-export function mountMassachusettsBoard(container, { mode = 'ballot', onModeChange = () => {}, onExit = () => {} } = {}) {
+export function mountMassachusettsBoard(container, { mode = 'ballot', governorDisplay = 'results', presidentYear = 2024, presidentParty = 'dem', presidentMetric = 'ratio', onModeChange = () => {}, onExit = () => {} } = {}) {
   if (!(container instanceof Element)) throw new Error('A Massachusetts board container is required.');
-  const prefix = 'ma-' + (++instances), refs = {}, datasets = new Map(), geographies = new Map();
-  const state = { mode: mode === 'governor' ? 'governor' : 'ballot', question: 'question-1', display: 'results', response: 'yes', candidate: '', metric: 'ratio', level: 'town', selected: '', search: '', sort: 'votes', pending: false, error: '', revision: 0, destroyed: false };
+  const prefix = 'ma-' + (++instances), refs = {}, datasets = new Map(), geographies = new Map(), histories = new Map();
+  const state = { mode: mode === 'governor' ? 'governor' : 'ballot', question: 'question-1', display: 'results', governorDisplay: governorDisplay === 'president' ? 'president' : 'results', presidentYear: MASSACHUSETTS_PRESIDENTIAL_YEARS.includes(presidentYear) ? presidentYear : 2024, presidentParty: presidentParty === 'rep' ? 'rep' : 'dem', presidentMetric: presidentMetric === 'margin-shift' ? 'margin-shift' : 'ratio', response: 'yes', candidate: '', metric: 'ratio', level: 'town', selected: '', search: '', sort: 'votes', pending: false, error: '', revision: 0, destroyed: false };
   const root = node('section', null, 'ma-board'); root.setAttribute('aria-label', 'Massachusetts town and ballot question results');
   const mark = (element, type, name) => { element.dataset[type === 'control' ? 'maControl' : 'maRole'] = name; refs[name] = element; return element; };
   const button = (label, key, action, className = '') => { const element = mark(node('button', label, className), 'control', key); element.type = 'button'; element.addEventListener('click', action); return element; };
@@ -46,6 +47,9 @@ export function mountMassachusettsBoard(container, { mode = 'ballot', onModeChan
   const comparing = () => state.mode === 'ballot' && state.display === 'governor';
   const topVotes = () => state.mode === 'ballot' && state.display === 'top-vote';
   const needsGovernor = () => comparing() || topVotes();
+  const versusPresident = () => state.mode === 'governor' && state.governorDisplay === 'president';
+  const sortableComparison = () => needsGovernor() || versusPresident();
+  const presidentialHistory = () => histories.get(state.presidentYear);
   const mainCandidates = () => choicesOf(governorData()).filter(choice => choice.main === true);
   const governorChoice = () => mainCandidates().find(choice => choice.id === state.candidate) || mainCandidates()[0] || null;
   const selectedUnit = dataset => state.selected ? unitsOf(dataset, state.level).get(state.selected) || null : dataset?.state || null;
@@ -57,6 +61,11 @@ export function mountMassachusettsBoard(container, { mode = 'ballot', onModeChan
   const entryColor = entry => entry?.kind === 'question' ? COLORS[entry.response] : COLORS[party(entry?.party)];
   const rankingLeaders = ranking => ranking?.entries?.filter(entry => ranking.leader_ids.includes(entry.id)) || [];
   const rankingLabel = ranking => { const leaders = rankingLeaders(ranking); return leaders.length ? (ranking.tied ? 'Tie: ' : '') + leaders.map(entry => entry.label).join(' / ') : ''; };
+  const presidentialReference = unit => unit?.level === 'state' ? presidentialHistory()?.state : unitsOf(presidentialHistory(), state.level).get(unit?.id);
+  const presidentFor = unit => compareMassachusettsPresidentialVotes(unit, presidentialReference(unit), { candidates: choicesOf(governorData()) });
+  const nomineeName = side => choiceName(presidentialHistory()?.nominees?.[side]);
+  const governorPartyName = side => choiceName(mainCandidates().find(choice => party(choice.party) === side)) || (side === 'dem' ? 'Democratic candidate' : 'Republican candidate');
+  const presidentMetricValue = result => state.presidentMetric === 'ratio' ? result?.ratios?.[state.presidentParty]?.percent : result?.shift_pp;
   const title = () => state.mode === 'governor' ? 'Massachusetts Governor' : MASSACHUSETTS_CONTESTS.find(contest => contest.id === state.question)?.title || currentData()?.title || 'Massachusetts ballot questions';
 
   const navigation = node('div', null, 'ma-panel-navigation');
@@ -68,9 +77,13 @@ export function mountMassachusettsBoard(container, { mode = 'ballot', onModeChan
   controls.append(questionField);
   const displayControls = node('div', null, 'ma-display-controls'), displayGroup = node('div', null, 'ma-button-group'); displayGroup.setAttribute('role', 'group'); displayGroup.setAttribute('aria-label', 'Ballot question map display');
   displayGroup.append(button('Results', 'display-results', () => { state.display = 'results'; render(); }), button('Governor vs ballot question', 'display-governor', () => { state.display = 'governor'; load(); }), button('Top vote getter', 'display-top-vote', () => { state.display = 'top-vote'; load(); })); displayControls.append(displayGroup); controls.append(displayControls);
+  const governorDisplayControls = node('div', null, 'ma-display-controls'), governorDisplayGroup = node('div', null, 'ma-button-group'); governorDisplayGroup.setAttribute('role', 'group'); governorDisplayGroup.setAttribute('aria-label', 'Governor map display');
+  governorDisplayGroup.append(button('Results', 'display-gov-results', () => { state.governorDisplay = 'results'; render(); }), button('Votes vs President', 'display-president', () => { state.governorDisplay = 'president'; load(); })); governorDisplayControls.append(governorDisplayGroup); controls.append(governorDisplayControls);
   const comparisonControls = node('div', null, 'ma-comparison-controls');
   comparisonControls.append(select('Governor candidate', 'candidate', [], value => { state.candidate = value; render(); }), select('Ballot response', 'response', [['yes', 'Yes'], ['no', 'No']], value => { state.response = value; render(); }), select('Map colors', 'metric', [['ratio', 'Candidate / ballot votes'], ['vote-difference', 'Ballot − candidate votes'], ['share-gap', 'Ballot − candidate share']], value => { state.metric = value; render(); }));
   controls.append(comparisonControls); root.append(controls);
+  const presidentControls = node('div', null, 'ma-comparison-controls');
+  presidentControls.append(select('Presidential year', 'president-year', MASSACHUSETTS_PRESIDENTIAL_YEARS.map(year => [String(year), String(year)]), value => { state.presidentYear = Number(value); load(); }), select('Map party', 'president-party', [['dem', 'Democratic'], ['rep', 'Republican']], value => { state.presidentParty = value; render(); }), select('Map colors', 'president-metric', [['ratio', 'Candidate / President votes'], ['margin-shift', 'D−R margin change']], value => { state.presidentMetric = value; render(); })); controls.append(presidentControls);
   const status = mark(node('p', null, 'ma-status'), 'role', 'status'); status.setAttribute('role', 'status'); status.hidden = true; root.append(status);
   const layout = node('div', null, 'ma-layout'), mapPanel = node('section', null, 'ma-map-panel');
   const mapHeader = node('div', null, 'ma-map-heading'), heading = node('div'); heading.append(node('p', 'MASSACHUSETTS · 2026 GENERAL ELECTION', 'ma-eyebrow'));
@@ -98,6 +111,10 @@ export function mountMassachusettsBoard(container, { mode = 'ballot', onModeChan
     return Math.ceil(maximum / magnitude) * magnitude;
   }
   function mapValue(dataset, unit, rawExtent = 30) {
+    if (versusPresident()) {
+      const value = presidentMetricValue(presidentFor(unit));
+      return finite(value) ? { name: unit.name, fill: state.presidentMetric === 'ratio' ? ratioColor(value) : gapColor(value), description: state.presidentMetric === 'ratio' ? governorPartyName(state.presidentParty) + ' / ' + nomineeName(state.presidentParty) + ': ' + pct(value) : 'D−R margin change vs ' + state.presidentYear + ' President: ' + pp(value) } : { name: unit.name, description: '' };
+    }
     if (topVotes()) {
       const ranking = rankingFor(unit), leaders = rankingLeaders(ranking);
       return { name: unit.name, fill: leaders.length ? ranking.tied ? '#817587' : entryColor(leaders[0]) : COLORS.empty,
@@ -166,6 +183,24 @@ export function mountMassachusettsBoard(container, { mode = 'ballot', onModeChan
     }
     box.append(list); target.append(box);
   }
+  function renderPresident(target, unit) {
+    const result = presidentFor(unit), card = node('section', null, 'ma-comparison-card ma-president-card'); card.dataset.maRole = 'president-comparison'; card.append(node('h4', 'Votes vs ' + state.presidentYear + ' President'));
+    for (const side of ['dem', 'rep']) {
+      const pair = result?.ratios?.[side]; if (!pair) continue;
+      const section = node('section', null, 'ma-president-pair'); section.dataset.presidentParty = side;
+      section.append(node('h5', governorPartyName(side) + ' / ' + nomineeName(side)));
+      if (finite(pair.percent)) { const ratio = node('strong', pct(pair.percent), 'ma-comparison-ratio'); ratio.dataset.maMetric = 'president-ratio-' + side; ratio.dataset.ratioPercent = String(pair.percent); section.append(ratio); }
+      const counts = node('dl', null, 'ma-comparison-counts');
+      for (const [label, value, key] of [[governorPartyName(side) + ' votes', pair.current_count, 'current'], [nomineeName(side) + ' votes', pair.historical_count, 'historical']]) if (finite(value)) { const row = node('div'), number = node('dd', count(value)); number.dataset.maMetric = 'president-' + side + '-' + key; row.append(node('dt', label), number); counts.append(row); }
+      if (counts.childNodes.length) section.append(counts);
+      const gaps = node('div', null, 'ma-comparison-shares');
+      for (const [label, value, key, format] of [['Candidate − President votes', pair.vote_difference, 'vote-difference', value => signedCount(value) + ' votes'], ['Candidate − President share', pair.share_gap_pp, 'share-gap', pp]]) if (finite(value)) { const row = node('div', null, 'ma-share-gap'), number = node('strong', format(value)); number.dataset.maMetric = 'president-' + side + '-' + key; row.append(node('span', label), number); gaps.append(row); }
+      if (gaps.childNodes.length) section.append(gaps);
+      if (section.childNodes.length > 1) card.append(section);
+    }
+    if (finite(result?.shift_pp)) { const row = node('div', null, 'ma-president-shift'), number = node('strong', pp(result.shift_pp)); number.dataset.maMetric = 'president-margin-shift'; row.append(node('span', 'D−R margin change vs ' + state.presidentYear), number); card.append(row); }
+    if (card.childNodes.length > 1) target.append(card);
+  }
   function renderInspector() {
     const dataset = currentData(), unit = selectedUnit(dataset); inspector.replaceChildren();
     inspector.append(node('p', state.selected ? state.level === 'town' ? 'CITY / TOWN RESULTS' : 'COUNTY RESULTS' : 'STATEWIDE RESULTS', 'ma-eyebrow'), node('h2', unit?.name || 'Massachusetts'));
@@ -173,15 +208,21 @@ export function mountMassachusettsBoard(container, { mode = 'ballot', onModeChan
     if (!dataset || !unit) return;
     if (state.mode === 'ballot' && dataset.summary) { const summary = node('p', dataset.summary, 'ma-question-summary'); if (dataset.source_url) summary.append(document.createTextNode(' '), link(dataset.source_url, 'Question wording')); inspector.append(summary); }
     if (comparing()) renderComparison(inspector, unit);
+    if (versusPresident()) renderPresident(inspector, unit);
     if (topVotes()) renderRanking(inspector, unit); else renderChoices(inspector, dataset, unit);
     if (!topVotes() && finite(unit.reported_total)) { const total = node('div', null, 'ma-total'); total.append(node('span', state.mode === 'ballot' ? 'Yes + No votes' : 'Total votes'), node('strong', count(unit.reported_total))); inspector.append(total); }
     const reporting = unit.precincts_reporting, total = unit.precincts_total;
     if (!topVotes() && finite(reporting) && finite(total)) { const progress = node('div', null, 'ma-precincts'); progress.append(node('span', 'Precincts reporting'), node('strong', count(reporting) + ' / ' + count(total))); inspector.append(progress); }
-    const sources = node('div', null, 'ma-inspector-sources'); renderSource(sources, dataset, state.mode === 'ballot' ? 'Question' : 'Governor'); if (needsGovernor()) renderSource(sources, governorData(), 'Governor'); inspector.append(sources);
+    const sources = node('div', null, 'ma-inspector-sources'); renderSource(sources, dataset, state.mode === 'ballot' ? 'Question' : 'Governor'); if (needsGovernor()) renderSource(sources, governorData(), 'Governor'); if (versusPresident()) renderSource(sources, presidentialHistory(), state.presidentYear + ' President'); inspector.append(sources);
   }
   function renderLegend() {
     legend.replaceChildren();
-    if (topVotes()) {
+    if (versusPresident()) {
+      const label = node('strong', state.presidentMetric === 'ratio' ? governorPartyName(state.presidentParty) + ' votes / ' + nomineeName(state.presidentParty) + ' votes (' + state.presidentYear + ')' : 'Governor D−R margin − ' + state.presidentYear + ' President D−R margin');
+      const scale = node('span', null, 'ma-scale ' + (state.presidentMetric === 'ratio' ? 'ratio' : 'gap')), labels = node('span', null, 'ma-scale-labels');
+      for (const value of state.presidentMetric === 'ratio' ? ['0%', '100%', '200%+'] : ['−30 pp', '0', '+30 pp']) labels.append(node('span', value));
+      const group = node('span', null, 'ma-scale-group'); group.append(scale, labels); legend.append(label, group);
+    } else if (topVotes()) {
       legend.append(node('strong', 'Highest raw vote count: Yes, No, or either Governor candidate'));
       const choices = [{ label: 'Yes', color: COLORS.yes }, { label: 'No', color: COLORS.no }, ...mainCandidates().map(choice => ({ label: choiceName(choice), color: COLORS[party(choice.party)] }))];
       if ([...unitsOf(currentData(), state.level).values()].some(unit => rankingFor(unit).tied)) choices.push({ label: 'Tie', color: '#817587' });
@@ -211,15 +252,16 @@ export function mountMassachusettsBoard(container, { mode = 'ballot', onModeChan
   function renderTable() {
     const dataset = currentData(), sourceUnits = unitsOf(dataset, state.level), choices = choicesOf(dataset), query = state.search.trim().toLocaleLowerCase();
     const rows = [...sourceUnits.values()].filter(unit => !query || unit.name.toLocaleLowerCase().includes(query));
-    const compareValue = unit => topVotes() ? rankingLeaders(rankingFor(unit)).length ? rankingFor(unit).max_votes : null : comparisonValue(comparisonFor(unit, selectedGovernorUnit(unit)));
-    rows.sort((a, b) => { if (state.sort === 'name') return a.name.localeCompare(b.name); const av = state.sort === 'comparison' && needsGovernor() ? compareValue(a) : a.reported_total, bv = state.sort === 'comparison' && needsGovernor() ? compareValue(b) : b.reported_total; return finite(av) && finite(bv) ? bv - av || a.name.localeCompare(b.name) : finite(av) ? -1 : finite(bv) ? 1 : a.name.localeCompare(b.name); });
+    const compareValue = unit => versusPresident() ? presidentMetricValue(presidentFor(unit)) : topVotes() ? rankingLeaders(rankingFor(unit)).length ? rankingFor(unit).max_votes : null : comparisonValue(comparisonFor(unit, selectedGovernorUnit(unit)));
+    rows.sort((a, b) => { if (state.sort === 'name') return a.name.localeCompare(b.name); const av = state.sort === 'comparison' && sortableComparison() ? compareValue(a) : a.reported_total, bv = state.sort === 'comparison' && sortableComparison() ? compareValue(b) : b.reported_total; return finite(av) && finite(bv) ? bv - av || a.name.localeCompare(b.name) : finite(av) ? -1 : finite(bv) ? 1 : a.name.localeCompare(b.name); });
     tableTitle.textContent = (state.level === 'town' ? 'Town' : 'County') + (topVotes() ? ' top vote getters' : ' results');
     searchField.querySelector('span').textContent = state.level === 'town' ? 'Find a town' : 'Find a county'; search.placeholder = state.level === 'town' ? 'Town name' : 'County name';
-    const comparisonSort = refs.sort.querySelector('[value="comparison"]'); comparisonSort.disabled = !needsGovernor(); comparisonSort.textContent = topVotes() ? 'Top vote count' : 'Highest comparison'; if (!needsGovernor() && state.sort === 'comparison') { state.sort = 'votes'; refs.sort.value = state.sort; }
+    const comparisonSort = refs.sort.querySelector('[value="comparison"]'); comparisonSort.disabled = !sortableComparison(); comparisonSort.textContent = topVotes() ? 'Top vote count' : 'Highest comparison'; if (!sortableComparison() && state.sort === 'comparison') { state.sort = 'votes'; refs.sort.value = state.sort; }
     const showRemainder = state.mode === 'governor' && [...sourceUnits.values()].some(unit => sourceRemainder(dataset, unit) > 0);
     const tr = node('tr'); const headers = topVotes() ? [state.level === 'town' ? 'City / town' : 'County', 'Top vote getter', 'Yes', 'No', ...mainCandidates().map(choiceName)] : [state.level === 'town' ? 'City / town' : 'County', ...choices.map(choiceName), ...(showRemainder ? ['Other source votes'] : []), state.mode === 'ballot' ? 'Yes + No' : 'Total votes'];
     if (comparing()) headers.push((choiceName(governorChoice()) || 'Governor candidate') + ' / ' + (state.response === 'yes' ? 'Yes' : 'No'), 'Ballot − candidate votes', 'Ballot − candidate share');
-    const columnKeys = topVotes() ? ['unit', 'top-vote', 'question:yes', 'question:no', ...mainCandidates().map(choice => 'governor:' + choice.id)] : ['unit', ...choices.map(choice => choice.id), ...(showRemainder ? ['unattributed'] : []), 'total', ...(comparing() ? ['count-ratio', 'vote-difference', 'share-gap'] : [])];
+    if (versusPresident()) headers.push(governorPartyName('dem') + ' / ' + nomineeName('dem'), governorPartyName('rep') + ' / ' + nomineeName('rep'), 'D−R margin vs ' + state.presidentYear);
+    const columnKeys = topVotes() ? ['unit', 'top-vote', 'question:yes', 'question:no', ...mainCandidates().map(choice => 'governor:' + choice.id)] : ['unit', ...choices.map(choice => choice.id), ...(showRemainder ? ['unattributed'] : []), 'total', ...(comparing() ? ['count-ratio', 'vote-difference', 'share-gap'] : []), ...(versusPresident() ? ['president-ratio-dem', 'president-ratio-rep', 'president-margin-shift'] : [])];
     for (const [index, label] of headers.entries()) { const th = node('th', label); th.scope = 'col'; th.dataset.column = columnKeys[index]; tr.append(th); } head.replaceChildren(tr);
     const activeId = document.activeElement?.closest('tr[data-unit-id]')?.dataset.unitId, existing = new Map([...body.children].map(row => [row.dataset.unitId, row]));
     for (const [position, unit] of rows.entries()) {
@@ -230,6 +272,7 @@ export function mountMassachusettsBoard(container, { mode = 'ballot', onModeChan
       const values = topVotes() ? [rankingLabel(ranking), ...columnKeys.slice(2).map(key => count(ranking.entries.find(entry => entry.id === key)?.votes))] : choices.map(choice => count(unitCount(unit, choice.id)));
       if (!topVotes()) { if (showRemainder) values.push(count(sourceRemainder(dataset, unit))); values.push(count(unit.reported_total)); }
       if (comparing()) { const result = comparisonFor(unit, selectedGovernorUnit(unit)); values.push(pct(result?.count_ratio_percent), signedCount(result?.vote_difference), pp(result?.share_gap_pp)); }
+      if (versusPresident()) { const result = presidentFor(unit); values.push(pct(result?.ratios?.dem?.percent), pct(result?.ratios?.rep?.percent), pp(result?.shift_pp)); }
       let cells = [...row.querySelectorAll('td')]; while (cells.length > values.length) cells.pop().remove(); while (cells.length < values.length) { const cell = node('td'); row.append(cell); cells.push(cell); } values.forEach((value, index) => { cells[index].textContent = value; cells[index].className = !topVotes() && index >= choices.length + 1 ? 'ma-table-comparison' : ''; cells[index].dataset.column = columnKeys[index + 1]; cells[index].dataset.topVoteLeader = String(topVotes() && ranking.leader_ids.includes(columnKeys[index + 1])); if (topVotes() && index === 0) cells[index].dataset.leaderIds = JSON.stringify(ranking.leader_ids); else delete cells[index].dataset.leaderIds; });
       if (body.children[position] !== row) body.insertBefore(row, body.children[position] || null);
     }
@@ -241,6 +284,8 @@ export function mountMassachusettsBoard(container, { mode = 'ballot', onModeChan
     root.setAttribute('aria-busy', String(state.pending)); mapPanel.setAttribute('aria-busy', String(state.pending));
     refs['mode-ballot'].setAttribute('aria-pressed', String(state.mode === 'ballot')); refs['mode-governor'].setAttribute('aria-pressed', String(state.mode === 'governor'));
     questionField.hidden = state.mode !== 'ballot'; refs.question.value = state.question; displayControls.hidden = state.mode !== 'ballot'; comparisonControls.hidden = !comparing();
+    governorDisplayControls.hidden = state.mode !== 'governor'; presidentControls.hidden = !versusPresident(); refs['president-year'].value = String(state.presidentYear); refs['president-party'].value = state.presidentParty; refs['president-metric'].value = state.presidentMetric; refs['president-party'].disabled = state.presidentMetric !== 'ratio';
+    refs['display-gov-results'].setAttribute('aria-pressed', String(state.governorDisplay === 'results')); refs['display-president'].setAttribute('aria-pressed', String(state.governorDisplay === 'president'));
     refs['display-results'].setAttribute('aria-pressed', String(state.display === 'results')); refs['display-governor'].setAttribute('aria-pressed', String(state.display === 'governor')); refs['display-top-vote'].setAttribute('aria-pressed', String(state.display === 'top-vote'));
     refs.response.value = state.response; refs.metric.value = state.metric;
     const candidates = mainCandidates(), candidateKey = candidates.map(choice => choice.id + ':' + choiceName(choice)).join('|');
@@ -251,19 +296,21 @@ export function mountMassachusettsBoard(container, { mode = 'ballot', onModeChan
     mapTitle.textContent = title();
     const stale = [currentData(), needsGovernor() ? governorData() : null].some(dataset => dataset?.source?.status === 'stale' || dataset?.source?.error);
     status.hidden = !state.error && !stale; status.textContent = state.error || (stale ? 'Refresh failed. Retry Refresh.' : '');
-    source.replaceChildren(); renderSource(source, currentData(), state.mode === 'ballot' ? 'Question' : 'Governor'); if (needsGovernor()) renderSource(source, governorData(), 'Governor'); if (geographies.get(state.level)) renderSource(source, { source: geographies.get(state.level).source }, 'Boundaries');
+    source.replaceChildren(); renderSource(source, currentData(), state.mode === 'ballot' ? 'Question' : 'Governor'); if (needsGovernor()) renderSource(source, governorData(), 'Governor'); if (versusPresident()) renderSource(source, presidentialHistory(), state.presidentYear + ' President'); if (geographies.get(state.level)) renderSource(source, { source: geographies.get(state.level).source }, 'Boundaries');
     renderInspector(); renderMap(); renderLegend(); renderTable();
   }
   async function load(refresh = false) {
-    const revision = ++state.revision, contest = activeContest(), level = state.level, loadGovernor = needsGovernor();
+    const revision = ++state.revision, contest = activeContest(), level = state.level, loadGovernor = needsGovernor(), loadHistory = versusPresident(), historyYear = state.presidentYear;
     state.pending = true; state.error = ''; render();
     const requests = [loadMassachusettsResults({ contest, refresh }), loadMassachusettsGeography(level)];
     if (loadGovernor) requests.push(loadMassachusettsResults({ contest: 'governor', refresh }));
+    const historyIndex = requests.length; if (loadHistory) requests.push(loadMassachusettsPresidentialHistory(historyYear));
     const results = await Promise.allSettled(requests);
     if (state.destroyed || revision !== state.revision) return;
     if (results[0].status === 'fulfilled') datasets.set(contest, results[0].value);
     if (results[1].status === 'fulfilled') geographies.set(level, results[1].value);
     if (loadGovernor && results[2].status === 'fulfilled') datasets.set('governor', results[2].value);
+    if (loadHistory && results[historyIndex].status === 'fulfilled') histories.set(historyYear, results[historyIndex].value);
     state.pending = false; state.error = results.some(result => result.status === 'rejected') ? 'Refresh failed. Retry Refresh.' : '';
     if (state.selected && !unitsOf(currentData(), state.level).has(state.selected)) state.selected = '';
     render();
@@ -274,8 +321,10 @@ export function mountMassachusettsBoard(container, { mode = 'ballot', onModeChan
     if (state.selected && !unitsOf(currentData(), level).has(state.selected)) state.selected = '';
     if (!geographies.has(level)) load(); else render();
   }
-  function setMode(nextMode) {
+  function setMode(nextMode, options = {}) {
     const next = nextMode === 'governor' ? 'governor' : 'ballot'; const changed = state.mode !== next; state.mode = next;
+    if (options.level === 'town' && state.level !== 'town') { state.level = 'town'; state.selected = ''; }
+    if (options.governorDisplay === 'president') { state.governorDisplay = 'president'; if (MASSACHUSETTS_PRESIDENTIAL_YEARS.includes(options.presidentYear)) state.presidentYear = options.presidentYear; state.presidentParty = options.presidentParty === 'rep' ? 'rep' : 'dem'; state.presidentMetric = options.presidentMetric === 'margin-shift' ? 'margin-shift' : 'ratio'; }
     if (changed) onModeChange(next);
     load();
   }

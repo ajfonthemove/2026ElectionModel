@@ -1,0 +1,221 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-11-08T04:28:44.303770+00:00",
+  "crosswalk_sha256": "b6c397efeb1dca15fb7e27d5cdec3982d5237ee3e732f57692b7cce0c6e469a8",
+  "join": "Exact expanded municipality name to verified MassGIS town ID; no county-to-town allocation.",
+  "denominator": "All named presidential candidate votes plus All Others; blanks excluded.",
+  "years": {
+    "2024": {
+      "source": {
+        "name": "Massachusetts Secretary of the Commonwealth \u00b7 PD43+",
+        "url": "https://electionstats.state.ma.us/elections/view/165300/",
+        "download_url": "https://electionstats.state.ma.us/elections/download/165300/precincts_include:0/",
+        "retrieved_at": "2026-11-08T04:27:14.396674+00:00",
+        "sha256": "c17c59d7b058d3901d6abd5982bf723b6b5ed650779458d9241ac6741c9afc58",
+        "election_id": 165300,
+        "election_date": "2024-11-05",
+        "result_type": "official_state_historical_results",
+        "denominator": "All named presidential candidate votes plus All Others; blanks excluded.",
+        "all_valid_coverage_verified": true,
+        "candidate_roster_complete": false,
+        "all_others_preserved_as_source_group": true
+      },
+      "file": "ma-presidential-history-2024.json",
+      "sha256": "a9167a389db6b0ccd75318f1e31764d8921fc17c4eedc19a36e59370581c00ce",
+      "towns": 351,
+      "name_aliases": [
+        {
+          "source_name": "E. Bridgewater",
+          "canonical_name": "EAST BRIDGEWATER",
+          "massgis_town_id": 83
+        },
+        {
+          "source_name": "E. Brookfield",
+          "canonical_name": "EAST BROOKFIELD",
+          "massgis_town_id": 84
+        },
+        {
+          "source_name": "E. Longmeadow",
+          "canonical_name": "EAST LONGMEADOW",
+          "massgis_town_id": 85
+        },
+        {
+          "source_name": "N. Adams",
+          "canonical_name": "NORTH ADAMS",
+          "massgis_town_id": 209
+        },
+        {
+          "source_name": "N. Andover",
+          "canonical_name": "NORTH ANDOVER",
+          "massgis_town_id": 210
+        },
+        {
+          "source_name": "N. Attleborough",
+          "canonical_name": "NORTH ATTLEBOROUGH",
+          "massgis_town_id": 211
+        },
+        {
+          "source_name": "N. Brookfield",
+          "canonical_name": "NORTH BROOKFIELD",
+          "massgis_town_id": 212
+        },
+        {
+          "source_name": "N. Reading",
+          "canonical_name": "NORTH READING",
+          "massgis_town_id": 213
+        },
+        {
+          "source_name": "S. Hadley",
+          "canonical_name": "SOUTH HADLEY",
+          "massgis_town_id": 275
+        },
+        {
+          "source_name": "W. Boylston",
+          "canonical_name": "WEST BOYLSTON",
+          "massgis_town_id": 321
+        },
+        {
+          "source_name": "W. Bridgewater",
+          "canonical_name": "WEST BRIDGEWATER",
+          "massgis_town_id": 322
+        },
+        {
+          "source_name": "W. Brookfield",
+          "canonical_name": "WEST BROOKFIELD",
+          "massgis_town_id": 323
+        },
+        {
+          "source_name": "W. Newbury",
+          "canonical_name": "WEST NEWBURY",
+          "massgis_town_id": 324
+        },
+        {
+          "source_name": "W. Springfield",
+          "canonical_name": "WEST SPRINGFIELD",
+          "massgis_town_id": 325
+        },
+        {
+          "source_name": "W. Stockbridge",
+          "canonical_name": "WEST STOCKBRIDGE",
+          "massgis_town_id": 326
+        },
+        {
+          "source_name": "W. Tisbury",
+          "canonical_name": "WEST TISBURY",
+          "massgis_town_id": 327
+        }
+      ],
+      "valid_votes": 3473668,
+      "blank_votes": 39262,
+      "total_votes_cast": 3512930,
+      "dem_votes": 2126518,
+      "rep_votes": 1251303
+    },
+    "2020": {
+      "source": {
+        "name": "Massachusetts Secretary of the Commonwealth \u00b7 PD43+",
+        "url": "https://electionstats.state.ma.us/elections/view/140751/",
+        "download_url": "https://electionstats.state.ma.us/elections/download/140751/precincts_include:0/",
+        "retrieved_at": "2026-11-08T04:27:25.087706+00:00",
+        "sha256": "fabde1283f0c2624e8f068f951a46b58839f1cf882b726486f1a5b65a32adb3a",
+        "election_id": 140751,
+        "election_date": "2020-11-03",
+        "result_type": "official_state_historical_results",
+        "denominator": "All named presidential candidate votes plus All Others; blanks excluded.",
+        "all_valid_coverage_verified": true,
+        "candidate_roster_complete": false,
+        "all_others_preserved_as_source_group": true
+      },
+      "file": "ma-presidential-history-2020.json",
+      "sha256": "9bc88c02f92cf592a2e61e157579888d2d8818f2f0300e11c99a7992d5ee0977",
+      "towns": 351,
+      "name_aliases": [
+        {
+          "source_name": "E. Bridgewater",
+          "canonical_name": "EAST BRIDGEWATER",
+          "massgis_town_id": 83
+        },
+        {
+          "source_name": "E. Brookfield",
+          "canonical_name": "EAST BROOKFIELD",
+          "massgis_town_id": 84
+        },
+        {
+          "source_name": "E. Longmeadow",
+          "canonical_name": "EAST LONGMEADOW",
+          "massgis_town_id": 85
+        },
+        {
+          "source_name": "N. Adams",
+          "canonical_name": "NORTH ADAMS",
+          "massgis_town_id": 209
+        },
+        {
+          "source_name": "N. Andover",
+          "canonical_name": "NORTH ANDOVER",
+          "massgis_town_id": 210
+        },
+        {
+          "source_name": "N. Attleborough",
+          "canonical_name": "NORTH ATTLEBOROUGH",
+          "massgis_town_id": 211
+        },
+        {
+          "source_name": "N. Brookfield",
+          "canonical_name": "NORTH BROOKFIELD",
+          "massgis_town_id": 212
+        },
+        {
+          "source_name": "N. Reading",
+          "canonical_name": "NORTH READING",
+          "massgis_town_id": 213
+        },
+        {
+          "source_name": "S. Hadley",
+          "canonical_name": "SOUTH HADLEY",
+          "massgis_town_id": 275
+        },
+        {
+          "source_name": "W. Boylston",
+          "canonical_name": "WEST BOYLSTON",
+          "massgis_town_id": 321
+        },
+        {
+          "source_name": "W. Bridgewater",
+          "canonical_name": "WEST BRIDGEWATER",
+          "massgis_town_id": 322
+        },
+        {
+          "source_name": "W. Brookfield",
+          "canonical_name": "WEST BROOKFIELD",
+          "massgis_town_id": 323
+        },
+        {
+          "source_name": "W. Newbury",
+          "canonical_name": "WEST NEWBURY",
+          "massgis_town_id": 324
+        },
+        {
+          "source_name": "W. Springfield",
+          "canonical_name": "WEST SPRINGFIELD",
+          "massgis_town_id": 325
+        },
+        {
+          "source_name": "W. Stockbridge",
+          "canonical_name": "WEST STOCKBRIDGE",
+          "massgis_town_id": 326
+        },
+        {
+          "source_name": "W. Tisbury",
+          "canonical_name": "WEST TISBURY",
+          "massgis_town_id": 327
+        }
+      ],
+      "valid_votes": 3631402,
+      "blank_votes": 26603,
+      "total_votes_cast": 3658005,
+      "dem_votes": 2382202,
+      "rep_votes": 1167202
+    }
+  }
+}

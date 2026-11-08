@@ -27,6 +27,7 @@ function closeMassachusettsBoard(renderLegacy = true) {
 }
 async function openMassachusettsBoard(mode) {
   const request = ++state.massachusettsRequest;
+  const comparisonOptions = { ...(mode === 'governor' ? { level: 'town' } : {}), ...(mode === 'governor' && !state.massachusettsMode && state.displayMode === 'president' ? { governorDisplay: 'president', presidentYear: state.baselineYear, presidentParty: state.mapMetric === 'rep_ratio' ? 'rep' : 'dem', presidentMetric: ['dem_ratio', 'rep_ratio'].includes(state.mapMetric) ? 'ratio' : 'margin-shift' } : {}) };
   rememberCounty(); invalidateCountyRequest(); state.countyView = false; state.selectedCounty = '';
   state.massachusettsMode = mode; state.office = 'governor'; state.selected = 'MA'; state.raceId = ''; state.pendingHouseKey = ''; state.displayMode = 'results';
   updateMassachusettsShell();
@@ -37,11 +38,11 @@ async function openMassachusettsBoard(mode) {
     const module = await state.massachusettsModule;
     if (request !== state.massachusettsRequest || !state.massachusettsMode) return;
     if (!state.massachusettsBoard) state.massachusettsBoard = module.mountMassachusettsBoard(target, {
-      mode,
+      mode, ...comparisonOptions,
       onModeChange(next) { state.massachusettsMode = next; updateMassachusettsShell(); },
       onExit() { closeMassachusettsBoard(); },
     });
-    else state.massachusettsBoard.setMode(mode);
+    else state.massachusettsBoard.setMode(mode, comparisonOptions);
   } catch {
     if (request !== state.massachusettsRequest) return;
     state.massachusettsModule = null;
