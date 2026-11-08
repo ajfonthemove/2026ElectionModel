@@ -66,32 +66,51 @@ test('Governor town/county/state counts preserve minor candidates and keep indep
   assert.equal(data.state.accounting_complete, true);
 });
 
-test('count ratios and share differences use full Governor totals rather than a two-party denominator', () => {
+test('Governor-over-response ratios and response-minus-Governor share gaps retain their distinct directions', () => {
   const q = parseQ(ballotRows()).towns.get('35'), g = parseG(governorPayload()).towns.get('35');
   const d = compareBallotToGovernor(q, g, { response: 'yes', candidate: 'd' });
   assert.equal(d.question_votes, 55); assert.equal(d.governor_votes, 60);
-  assert.equal(d.count_ratio_percent, 100 * 55 / 60); assert.equal(d.question_share_percent, 55);
+  assert.equal(d.vote_difference, -5);
+  assert.equal(d.count_ratio_percent, 100 * 60 / 55); assert.equal(d.question_share_percent, 55);
   assert.equal(d.governor_share_percent, 60); assert.equal(d.share_gap_pp, -5);
   const r = compareBallotToGovernor(q, g, { response: 'no', candidate: 'r' });
-  assert.equal(r.count_ratio_percent, 150); assert.equal(r.share_gap_pp, 15);
+  assert.equal(r.vote_difference, 15); assert.equal(r.count_ratio_percent, 100 * 30 / 45); assert.equal(r.share_gap_pp, 15);
+  const differentDenominators = compareBallotToGovernor(parseQ(ballotRows(80, 120)).towns.get('35'), g, { candidate: 'd' });
+  assert.equal(differentDenominators.vote_difference, 20); assert.equal(differentDenominators.count_ratio_percent, 75);
+  assert.equal(differentDenominators.share_gap_pp, -20);
   for (const mismatch of [{ ...g, id: '36' }, { ...g, level: 'county' }, { ...g, county_fips: '25001' }, { ...g, state: 'NC' }]) {
     assert.equal(compareBallotToGovernor(q, mismatch, { candidate: 'd' }).count_ratio_percent, null);
+    assert.equal(compareBallotToGovernor(q, mismatch, { candidate: 'd' }).vote_difference, null);
   }
   assert.equal(compareBallotToGovernor(q, g, { candidate: 'i' }).count_ratio_percent, null);
+  assert.equal(compareBallotToGovernor(q, g, { candidate: 'i' }).vote_difference, null);
 });
 
 test('real zeros remain zero while zero denominators and missing candidate counts do not become computed values', () => {
   const question = parseQ(ballotRows(0, 0)).towns.get('35'), governor = parseG(governorPayload()).towns.get('35');
   const emptyQuestion = compareBallotToGovernor(question, governor, { candidate: 'd' });
-  assert.equal(emptyQuestion.count_ratio_percent, 0); assert.equal(emptyQuestion.question_share_percent, null); assert.equal(emptyQuestion.share_gap_pp, null);
+  assert.equal(emptyQuestion.question_votes, 0); assert.equal(emptyQuestion.count_ratio_percent, null); assert.equal(emptyQuestion.question_share_percent, null); assert.equal(emptyQuestion.share_gap_pp, null);
+  assert.equal(emptyQuestion.vote_difference, -60);
   const raw = governorPayload(); raw.supplemental_localities[34].candidates = choices(0, 0, 0); raw.supplemental_localities[34].reported_total = 0;
-  const emptyGovernor = compareBallotToGovernor(question, parseG(raw).towns.get('35'), { candidate: 'd' });
-  assert.equal(emptyGovernor.governor_votes, 0); assert.equal(emptyGovernor.count_ratio_percent, null);
+  const emptyGovernor = compareBallotToGovernor(parseQ(ballotRows()).towns.get('35'), parseG(raw).towns.get('35'), { candidate: 'd' });
+  assert.equal(emptyGovernor.governor_votes, 0); assert.equal(emptyGovernor.count_ratio_percent, 0);
+  assert.equal(emptyGovernor.vote_difference, 55);
+  const bothZero = compareBallotToGovernor(question, parseG(raw).towns.get('35'), { candidate: 'd' });
+  assert.equal(bothZero.vote_difference, 0); assert.equal(bothZero.count_ratio_percent, null); assert.equal(bothZero.share_gap_pp, null);
   const unknown = governorPayload(); unknown.supplemental_localities[34].candidates[2].votes = null;
   unknown.supplemental_localities[34].unattributed_source_votes = null; unknown.supplemental_localities[34].vote_counts_complete = false;
   const partial = parseG(unknown), result = compareBallotToGovernor(parseQ(ballotRows()).towns.get('35'), partial.towns.get('35'), { candidate: 'd' });
   assert.equal(partial.state.counts.i, null); assert.equal(partial.state.counts.r, 351 * 30);
-  assert.equal(result.count_ratio_percent, 100 * 55 / 60); assert.equal(result.governor_share_percent, null); assert.equal(result.share_gap_pp, null);
+  assert.equal(result.count_ratio_percent, 100 * 60 / 55); assert.equal(result.governor_share_percent, null); assert.equal(result.share_gap_pp, null);
+  assert.equal(result.vote_difference, -5);
+  const missingGovernor = governorPayload(); missingGovernor.supplemental_localities[34].candidates[0].votes = null;
+  const missingNumerator = compareBallotToGovernor(parseQ(ballotRows()).towns.get('35'), parseG(missingGovernor).towns.get('35'), { candidate: 'd' });
+  assert.equal(missingNumerator.governor_votes, null); assert.equal(missingNumerator.count_ratio_percent, null);
+  assert.equal(missingNumerator.vote_difference, null);
+  const missingQuestion = ballotRows(); missingQuestion.find(row => row.level === 'township' && row.reportingunitname === 'BOSTON' && row.last === 'Yes').votecount = null;
+  const missingDenominator = compareBallotToGovernor(parseQ(missingQuestion).towns.get('35'), governor, { candidate: 'd' });
+  assert.equal(missingDenominator.question_votes, null); assert.equal(missingDenominator.count_ratio_percent, null);
+  assert.equal(missingDenominator.vote_difference, null);
 });
 
 test('Governor overlapping/wrong-office/mismatched-roster sources cannot create a duplicate town partition', () => {

@@ -5,6 +5,7 @@ let instances = 0;
 const COLORS = { yes: '#2c887d', no: '#c28b56', dem: '#77a8df', rep: '#dc8792', other: '#b3a1c5', empty: '#dce3eb' };
 const finite = Number.isFinite;
 const count = value => finite(value) ? value.toLocaleString('en-US') : '';
+const signedCount = value => finite(value) ? (value > 0 ? '+' : value < 0 ? '−' : '') + count(Math.abs(value)) : '';
 const pct = value => finite(value) ? value.toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + '%' : '';
 const pp = value => finite(value) ? (value > 0 ? '+' : value < 0 ? '−' : '') + Math.abs(value).toFixed(1) + ' pp' : '';
 const party = value => ({ D: 'dem', DEM: 'dem', DEMOCRATIC: 'dem', R: 'rep', REP: 'rep', REPUBLICAN: 'rep' })[String(value || '').toUpperCase()] || 'other';
@@ -17,7 +18,7 @@ function sourceRemainder(dataset, unit) { const values = choicesOf(dataset).map(
 function eastern(value) { const date = value && new Date(value); return date && finite(date.getTime()) ? new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }).format(date) + ' ET' : ''; }
 function link(url, label) { const element = node('a', label); if (/^https?:\/\//.test(url || '')) { element.href = url; element.target = '_blank'; element.rel = 'noopener noreferrer'; } return element; }
 function ratioColor(value) { const fraction = Math.max(0, Math.min(1, value / 200)); return 'rgb(' + [111, 76, 154].map((end, index) => Math.round([244, 241, 249][index] + fraction * (end - [244, 241, 249][index]))).join(',') + ')'; }
-function gapColor(value) { const end = value >= 0 ? [111, 76, 154] : [188, 126, 65], fraction = Math.min(1, Math.abs(value) / 30); return 'rgb(' + end.map((channel, index) => Math.round([245, 243, 240][index] + fraction * (channel - [245, 243, 240][index]))).join(',') + ')'; }
+function gapColor(value, extent = 30) { const end = value >= 0 ? [111, 76, 154] : [188, 126, 65], fraction = Math.min(1, Math.abs(value) / extent); return 'rgb(' + end.map((channel, index) => Math.round([245, 243, 240][index] + fraction * (channel - [245, 243, 240][index]))).join(',') + ')'; }
 function reportedLeader(dataset, unit) {
   const choices = choicesOf(dataset), values = choices.map(choice => ({ choice, votes: unitCount(unit, choice.id) }));
   if (!values.length || values.some(row => !finite(row.votes))) return null;
@@ -60,9 +61,9 @@ export function mountMassachusettsBoard(container, { mode = 'ballot', onModeChan
   const questionField = select('Ballot question', 'question', MASSACHUSETTS_CONTESTS.filter(contest => contest.kind === 'question').map(contest => [contest.id, contest.title]), value => { state.question = value; load(); });
   controls.append(questionField);
   const displayControls = node('div', null, 'ma-display-controls'), displayGroup = node('div', null, 'ma-button-group'); displayGroup.setAttribute('role', 'group'); displayGroup.setAttribute('aria-label', 'Ballot question map display');
-  displayGroup.append(button('Results', 'display-results', () => { state.display = 'results'; render(); }), button('Votes vs Governor', 'display-governor', () => { state.display = 'governor'; load(); })); displayControls.append(displayGroup); controls.append(displayControls);
+  displayGroup.append(button('Results', 'display-results', () => { state.display = 'results'; render(); }), button('Governor vs ballot question', 'display-governor', () => { state.display = 'governor'; load(); })); displayControls.append(displayGroup); controls.append(displayControls);
   const comparisonControls = node('div', null, 'ma-comparison-controls');
-  comparisonControls.append(select('Question votes', 'response', [['yes', 'Yes'], ['no', 'No']], value => { state.response = value; render(); }), select('Governor candidate', 'candidate', [], value => { state.candidate = value; render(); }), select('Map colors', 'metric', [['ratio', 'Vote-count ratio'], ['share-gap', 'Vote-share difference']], value => { state.metric = value; render(); }));
+  comparisonControls.append(select('Governor candidate', 'candidate', [], value => { state.candidate = value; render(); }), select('Ballot response', 'response', [['yes', 'Yes'], ['no', 'No']], value => { state.response = value; render(); }), select('Map colors', 'metric', [['ratio', 'Candidate / ballot votes'], ['vote-difference', 'Ballot − candidate votes'], ['share-gap', 'Ballot − candidate share']], value => { state.metric = value; render(); }));
   controls.append(comparisonControls); root.append(controls);
   const status = mark(node('p', null, 'ma-status'), 'role', 'status'); status.setAttribute('role', 'status'); status.hidden = true; root.append(status);
   const layout = node('div', null, 'ma-layout'), mapPanel = node('section', null, 'ma-map-panel');
@@ -84,11 +85,17 @@ export function mountMassachusettsBoard(container, { mode = 'ballot', onModeChan
   const table = node('table', null, 'ma-table'), caption = node('caption', 'Reported results for each Massachusetts community.', 'visually-hidden'), head = mark(node('thead'), 'role', 'table-head'), body = mark(node('tbody'), 'role', 'table-body'); table.append(caption, head, body); tableWrap.append(table); tablePanel.append(tableWrap); root.append(tablePanel); container.replaceChildren(root);
 
   function selectedGovernorUnit(unit) { return unit?.level === 'state' ? governorData()?.state : unitsOf(governorData(), state.level).get(unit?.id); }
-  function mapValue(dataset, unit) {
+  function comparisonValue(result) { return state.metric === 'ratio' ? result?.count_ratio_percent : state.metric === 'vote-difference' ? result?.vote_difference : result?.share_gap_pp; }
+  function voteDifferenceExtent() {
+    const values = [...unitsOf(currentData(), state.level).values()].map(unit => comparisonFor(unit, selectedGovernorUnit(unit))?.vote_difference).filter(finite);
+    const maximum = Math.max(1, ...values.map(Math.abs)), magnitude = 10 ** Math.floor(Math.log10(maximum));
+    return Math.ceil(maximum / magnitude) * magnitude;
+  }
+  function mapValue(dataset, unit, rawExtent = 30) {
     if (comparing()) {
-      const result = comparisonFor(unit, selectedGovernorUnit(unit)); const value = state.metric === 'ratio' ? result?.count_ratio_percent : result?.share_gap_pp;
+      const result = comparisonFor(unit, selectedGovernorUnit(unit)), value = comparisonValue(result);
       const candidate = choiceName(governorChoice()), response = state.response === 'yes' ? 'Yes' : 'No';
-      return finite(value) ? { fill: state.metric === 'ratio' ? ratioColor(value) : gapColor(value), name: unit.name, description: state.metric === 'ratio' ? response + ' / ' + candidate + ': ' + pct(value) : response + ' share − ' + candidate + ' share: ' + pp(value) } : { name: unit.name, description: '' };
+      return finite(value) ? { fill: state.metric === 'ratio' ? ratioColor(value) : gapColor(value, state.metric === 'vote-difference' ? rawExtent : 30), name: unit.name, description: state.metric === 'ratio' ? candidate + ' / ' + response + ': ' + pct(value) : state.metric === 'vote-difference' ? response + ' votes − ' + candidate + ' votes: ' + signedCount(value) : response + ' share − ' + candidate + ' share: ' + pp(value) } : { name: unit.name, description: '' };
     }
     const lead = reportedLeader(dataset, unit), color = state.mode === 'ballot' ? COLORS[lead?.id] : COLORS[party(lead?.party)];
     return { name: unit.name, fill: lead ? color : COLORS.empty, description: lead ? choiceName(lead) + ' leads · ' + count(unit.reported_total) + (state.mode === 'ballot' ? ' Yes + No votes' : ' votes') : '' };
@@ -121,13 +128,14 @@ export function mountMassachusettsBoard(container, { mode = 'ballot', onModeChan
     const governor = selectedGovernorUnit(unit), result = comparisonFor(unit, governor), candidate = governorChoice();
     if (!result || !candidate) return;
     const response = state.response === 'yes' ? 'Yes' : 'No', box = node('section', null, 'ma-comparison-card');
-    box.append(node('h4', response + ' votes vs ' + choiceName(candidate)));
-    if (finite(result.count_ratio_percent)) { const ratio = node('strong', pct(result.count_ratio_percent), 'ma-comparison-ratio'); ratio.dataset.ratioPercent = String(result.count_ratio_percent); ratio.dataset.maMetric = 'count-ratio'; box.append(ratio, node('p', response + ' votes / ' + choiceName(candidate) + ' votes', 'ma-comparison-caption')); }
+    box.append(node('h4', choiceName(candidate) + ' vs ' + response + ' votes'));
+    if (finite(result.count_ratio_percent)) { const ratio = node('strong', pct(result.count_ratio_percent), 'ma-comparison-ratio'); ratio.dataset.ratioPercent = String(result.count_ratio_percent); ratio.dataset.maMetric = 'count-ratio'; box.append(ratio, node('p', choiceName(candidate) + ' votes / ' + response + ' votes', 'ma-comparison-caption')); }
     const pairs = node('dl', null, 'ma-comparison-counts');
-    for (const [label, value, role] of [[response + ' votes', result.question_votes, 'question-count'], [choiceName(candidate) + ' votes', result.governor_votes, 'governor-count']]) if (finite(value)) { const row = node('div'), number = node('dd', count(value)); number.dataset.maMetric = role; row.append(node('dt', label), number); pairs.append(row); }
+    for (const [label, value, role] of [[choiceName(candidate) + ' votes', result.governor_votes, 'governor-count'], [response + ' votes', result.question_votes, 'question-count']]) if (finite(value)) { const row = node('div'), number = node('dd', count(value)); number.dataset.maMetric = role; row.append(node('dt', label), number); pairs.append(row); }
     if (pairs.childNodes.length) box.append(pairs);
     const shares = node('div', null, 'ma-comparison-shares');
     for (const [label, value] of [[response + ' share of Yes + No', result.question_share_percent], [choiceName(candidate) + ' share of Governor votes', result.governor_share_percent]]) if (finite(value)) { const row = node('div'); row.append(node('span', label), node('strong', pct(value))); shares.append(row); }
+    if (finite(result.vote_difference)) { const row = node('div', null, 'ma-share-gap'), difference = node('strong', signedCount(result.vote_difference) + ' votes'); difference.dataset.maMetric = 'vote-difference'; row.append(node('span', response + ' votes − ' + choiceName(candidate) + ' votes'), difference); shares.append(row); }
     if (finite(result.share_gap_pp)) { const row = node('div', null, 'ma-share-gap'), gap = node('strong', pp(result.share_gap_pp)); gap.dataset.maMetric = 'share-gap'; row.append(node('span', response + ' share − ' + choiceName(candidate) + ' share'), gap); shares.append(row); }
     if (shares.childNodes.length) box.append(shares);
     if (box.childNodes.length > 1) target.append(box);
@@ -150,9 +158,10 @@ export function mountMassachusettsBoard(container, { mode = 'ballot', onModeChan
     if (comparing()) {
       if (!governorChoice()) return;
       const response = state.response === 'yes' ? 'Yes' : 'No', candidate = choiceName(governorChoice());
-      const label = node('strong', state.metric === 'ratio' ? response + ' votes / ' + candidate + ' votes' : response + ' share − ' + candidate + ' share');
+      const label = node('strong', state.metric === 'ratio' ? candidate + ' votes / ' + response + ' votes' : state.metric === 'vote-difference' ? response + ' votes − ' + candidate + ' votes' : response + ' share − ' + candidate + ' share');
       const scale = node('span', null, 'ma-scale ' + (state.metric === 'ratio' ? 'ratio' : 'gap')), labels = node('span', null, 'ma-scale-labels');
-      for (const text of state.metric === 'ratio' ? ['0%', '100%', '200%+'] : ['−30 pp', '0', '+30 pp']) labels.append(node('span', text));
+      const extent = state.metric === 'vote-difference' ? voteDifferenceExtent() : 30;
+      for (const text of state.metric === 'ratio' ? ['0%', '100%', '200%+'] : state.metric === 'vote-difference' ? ['−' + count(extent) + ' votes', '0', '+' + count(extent) + ' votes'] : ['−30 pp', '0', '+30 pp']) labels.append(node('span', text));
       const group = node('span', null, 'ma-scale-group'); group.append(scale, labels); legend.append(label, group);
     } else {
       const choices = state.mode === 'ballot' ? [{ label: 'Yes leads', color: COLORS.yes }, { label: 'No leads', color: COLORS.no }] : [{ label: 'Democratic lead', color: COLORS.dem }, { label: 'Republican lead', color: COLORS.rep }, { label: 'Other lead', color: COLORS.other }];
@@ -162,7 +171,8 @@ export function mountMassachusettsBoard(container, { mode = 'ballot', onModeChan
   function renderMap() {
     const geography = geographies.get(state.level), dataset = currentData();
     if (!geography) { map.replaceChildren(); if (state.pending) map.append(node('p', 'Loading map…', 'ma-loading')); else map.append(button('Refresh map', 'retry-map', () => load())); return; }
-    const values = new Map(); for (const [id, unit] of unitsOf(dataset, state.level)) values.set(id, mapValue(dataset, unit));
+    const rawExtent = comparing() && state.metric === 'vote-difference' ? voteDifferenceExtent() : 30;
+    const values = new Map(); for (const [id, unit] of unitsOf(dataset, state.level)) values.set(id, mapValue(dataset, unit, rawExtent));
     const focused = document.activeElement?.closest('[data-ma-unit-id]')?.dataset.maUnitId;
     drawMassachusettsMap(map, { geography, values, selected: state.selected, onSelect: id => { state.selected = String(id); render(); } });
     if (focused) map.querySelector('[data-ma-unit-id="' + focused + '"]')?.focus({ preventScroll: true });
@@ -170,15 +180,15 @@ export function mountMassachusettsBoard(container, { mode = 'ballot', onModeChan
   function renderTable() {
     const dataset = currentData(), sourceUnits = unitsOf(dataset, state.level), choices = choicesOf(dataset), query = state.search.trim().toLocaleLowerCase();
     const rows = [...sourceUnits.values()].filter(unit => !query || unit.name.toLocaleLowerCase().includes(query));
-    const compareValue = unit => { const result = comparisonFor(unit, selectedGovernorUnit(unit)); return state.metric === 'ratio' ? result?.count_ratio_percent : result?.share_gap_pp; };
+    const compareValue = unit => comparisonValue(comparisonFor(unit, selectedGovernorUnit(unit)));
     rows.sort((a, b) => { if (state.sort === 'name') return a.name.localeCompare(b.name); const av = state.sort === 'comparison' && comparing() ? compareValue(a) : a.reported_total, bv = state.sort === 'comparison' && comparing() ? compareValue(b) : b.reported_total; return finite(av) && finite(bv) ? bv - av || a.name.localeCompare(b.name) : finite(av) ? -1 : finite(bv) ? 1 : a.name.localeCompare(b.name); });
     tableTitle.textContent = state.level === 'town' ? 'Town results' : 'County results';
     searchField.querySelector('span').textContent = state.level === 'town' ? 'Find a town' : 'Find a county'; search.placeholder = state.level === 'town' ? 'Town name' : 'County name';
     const comparisonSort = refs.sort.querySelector('[value="comparison"]'); comparisonSort.disabled = !comparing(); if (!comparing() && state.sort === 'comparison') { state.sort = 'votes'; refs.sort.value = state.sort; }
     const showRemainder = state.mode === 'governor' && [...sourceUnits.values()].some(unit => sourceRemainder(dataset, unit) > 0);
     const tr = node('tr'); const headers = [state.level === 'town' ? 'City / town' : 'County', ...choices.map(choiceName), ...(showRemainder ? ['Other source votes'] : []), state.mode === 'ballot' ? 'Yes + No' : 'Total votes'];
-    if (comparing()) headers.push((state.response === 'yes' ? 'Yes' : 'No') + ' / ' + (choiceName(governorChoice()) || 'Governor candidate'), 'Share difference');
-    const columnKeys = ['unit', ...choices.map(choice => choice.id), ...(showRemainder ? ['unattributed'] : []), 'total', ...(comparing() ? ['count-ratio', 'share-gap'] : [])];
+    if (comparing()) headers.push((choiceName(governorChoice()) || 'Governor candidate') + ' / ' + (state.response === 'yes' ? 'Yes' : 'No'), 'Ballot − candidate votes', 'Ballot − candidate share');
+    const columnKeys = ['unit', ...choices.map(choice => choice.id), ...(showRemainder ? ['unattributed'] : []), 'total', ...(comparing() ? ['count-ratio', 'vote-difference', 'share-gap'] : [])];
     for (const [index, label] of headers.entries()) { const th = node('th', label); th.scope = 'col'; th.dataset.column = columnKeys[index]; tr.append(th); } head.replaceChildren(tr);
     const activeId = document.activeElement?.closest('tr[data-unit-id]')?.dataset.unitId, existing = new Map([...body.children].map(row => [row.dataset.unitId, row]));
     for (const [position, unit] of rows.entries()) {
@@ -186,7 +196,7 @@ export function mountMassachusettsBoard(container, { mode = 'ballot', onModeChan
       if (!row) { row = node('tr'); row.dataset.unitId = unit.id; const th = node('th'); th.scope = 'row'; const selectUnit = node('button'); selectUnit.type = 'button'; selectUnit.addEventListener('click', () => { state.selected = unit.id; render(); }); th.append(selectUnit); row.append(th); }
       row.classList.toggle('selected', state.selected === unit.id); const selectUnit = row.querySelector('button'); selectUnit.textContent = unit.name; selectUnit.setAttribute('aria-pressed', String(state.selected === unit.id));
       const values = choices.map(choice => count(unitCount(unit, choice.id))); if (showRemainder) values.push(count(sourceRemainder(dataset, unit))); values.push(count(unit.reported_total));
-      if (comparing()) { const result = comparisonFor(unit, selectedGovernorUnit(unit)); values.push(pct(result?.count_ratio_percent), pp(result?.share_gap_pp)); }
+      if (comparing()) { const result = comparisonFor(unit, selectedGovernorUnit(unit)); values.push(pct(result?.count_ratio_percent), signedCount(result?.vote_difference), pp(result?.share_gap_pp)); }
       let cells = [...row.querySelectorAll('td')]; while (cells.length > values.length) cells.pop().remove(); while (cells.length < values.length) { const cell = node('td'); row.append(cell); cells.push(cell); } values.forEach((value, index) => { cells[index].textContent = value; cells[index].className = index >= choices.length + 1 ? 'ma-table-comparison' : ''; cells[index].dataset.column = columnKeys[index + 1]; });
       if (body.children[position] !== row) body.insertBefore(row, body.children[position] || null);
     }

@@ -184,16 +184,17 @@ export function parseMassachusettsGovernorResults(payload, { crosswalk, source: 
     published_state: build(parent, 'MA', 'state', 'Massachusetts', null, nationalSource) });
 }
 
-/** Count ratios and share differences always compare exactly the same geography. */
+/** Same geography: Governor/response ratio; response minus Governor vote and share gaps. */
 export function compareBallotToGovernor(question, governor, { response = 'yes', candidate } = {}) {
-  const output = { question_votes: null, governor_votes: null, count_ratio_percent: null,
+  const output = { question_votes: null, governor_votes: null, vote_difference: null, count_ratio_percent: null,
     question_share_percent: null, governor_share_percent: null, share_gap_pp: null,
     question_source: question?.source || null, governor_source: governor?.source || null };
   if (!/^question-[1-9]$/.test(question?.contest || '') || governor?.contest !== 'governor' || !['yes', 'no'].includes(response) || !['state', 'county', 'town'].includes(question?.level) || question.state !== 'MA' || governor.state !== 'MA' || question.level !== governor.level || question.id !== governor.id || question.geography_key !== question.level + ':' + question.id || question.geography_key !== governor.geography_key || !governor.main_candidate_ids?.includes(candidate)) return frozen(output);
   if (question.level === 'state' ? question.id !== 'MA' : question.level === 'county' ? !/^25\d{3}$/.test(question.id) || question.county_fips !== question.id || governor.county_fips !== question.id : !/^[1-9]\d{0,2}$/.test(question.id) || Number(question.id) > 351 || !/^25\d{3}$/.test(question.county_fips || '') || question.county_fips !== governor.county_fips) return frozen(output);
   const q = question.counts?.[response], g = governor.counts?.[candidate];
   output.question_votes = count(q) ? q : null; output.governor_votes = count(g) ? g : null;
-  if (output.question_votes !== null && output.governor_votes > 0) output.count_ratio_percent = 100 * q / g;
+  if (output.question_votes !== null && output.governor_votes !== null) output.vote_difference = q - g;
+  if (output.question_votes > 0 && output.governor_votes !== null) output.count_ratio_percent = 100 * g / q;
   if (count(q) && count(question.counts?.yes) && count(question.counts?.no) && question.reported_total > 0 && question.counts.yes + question.counts.no === question.reported_total) output.question_share_percent = 100 * q / question.reported_total;
   if (count(g) && governor.accounting_complete === true && governor.reported_total > 0) output.governor_share_percent = 100 * g / governor.reported_total;
   if (output.question_share_percent !== null && output.governor_share_percent !== null) output.share_gap_pp = output.question_share_percent - output.governor_share_percent;
