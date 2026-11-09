@@ -1,5 +1,6 @@
 import { resultsFetch } from './results-client.js';
 import { createElectionMap, loadCountyGeography, drawCountyMap, loadHouseGeography, drawHouseMap } from './election-map.js';
+import { presidentialVoteDeviation, formatVoteDeviation, deviationFill } from './comparison-scale.js';
 
 const $ = (id) => document.getElementById(id);
 const OFFICE = { senate: 'U.S. Senate', house: 'U.S. House', governor: 'Governor' };
@@ -73,8 +74,19 @@ function withCountyContext(row, race) { return { ...row, state: race.state, offi
 function shiftLabel(value) { return Math.abs(value) < 0.05 ? 'No margin shift' : (value > 0 ? 'D +' : 'R +') + Math.abs(value).toFixed(1) + ' pp'; }
 function marginLabel(value) { return Math.abs(value) < 0.05 ? 'Even' : (value > 0 ? 'D +' : 'R +') + Math.abs(value).toFixed(1) + ' pp'; }
 function shiftFill(value) { const amount = Math.min(1, Math.abs(value) / 15); const end = value >= 0 ? [45, 105, 179] : [191, 66, 86]; return 'rgb(' + end.map((v, i) => Math.round([242, 243, 246][i] + (v - [242, 243, 246][i]) * amount)).join(',') + ')'; }
-function ratioFill(value, code) { const amount = Math.max(0, Math.min(1, value / 150)), start = code === 'dem' ? [239, 245, 252] : [253, 241, 242], end = code === 'dem' ? [36, 91, 158] : [179, 46, 67]; return 'rgb(' + end.map((channel, index) => Math.round(start[index] + (channel - start[index]) * amount)).join(',') + ')'; }
-function ratioMapLabel() { return state.mapMetric === 'dem_ratio' ? 'Democratic votes / ' + (state.baselineYear === 2024 ? 'Harris' : 'Biden') : 'Republican votes / Trump'; }
+function ratioMapLabel() { return state.mapMetric === 'dem_ratio' ? 'Democratic votes vs ' + (state.baselineYear === 2024 ? 'Harris' : 'Biden') : 'Republican votes vs Trump'; }
+function deviationMetric(rawPercent, className = '') {
+  const value = presidentialVoteDeviation(rawPercent), metric = el('strong', formatVoteDeviation(value), (className ? className + ' ' : '') + 'vote-deviation');
+  metric.dataset.ratioPercent = String(rawPercent); metric.dataset.deviationPercent = String(value); metric.dataset.deviationSign = value > 0 ? 'above' : value < 0 ? 'below' : 'equal';
+  return metric;
+}
+function deviationTextColor(fill) {
+  const rgb = /^rgb\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)$/.exec(fill || '');
+  if (!rgb) return '#243e5c';
+  const linear = value => { const channel = value / 255; return channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4; };
+  const luminance = [0.2126, 0.7152, 0.0722].reduce((sum, weight, index) => sum + weight * linear(Number(rgb[index + 1])), 0);
+  return 1.05 / (luminance + 0.05) > (luminance + 0.05) / 0.05 ? '#fff' : '#000';
+}
 function comparisonGeography(race, geography) { return race?.office === 'house' && geography === 'state' ? 'district' : geography; }
 function comparison(race, geography = 'state') {
   geography = comparisonGeography(race, geography);
@@ -105,7 +117,8 @@ function mapValue(race, geography = 'state') {
   if (state.displayMode === 'president') {
     if (state.mapMetric === 'margin_shift') { const change = comparison(race, geography); return change.status === 'available' && Number.isFinite(change.shift_pp) ? { fill: shiftFill(change.shift_pp), shift: change.shift_pp, description: shiftLabel(change.shift_pp) + ' vs ' + state.baselineYear + ' President · ' + marginLabel(change.current_margin_pp) } : { description: name }; }
     const display = comparisonDisplay(race, geography), code = state.mapMetric === 'rep_ratio' ? 'rep' : 'dem', ratio = display.ratios?.[code];
-    return Number.isFinite(ratio?.percent) ? { fill: ratioFill(ratio.percent, code), ratio: ratio.percent, metricParty: code, description: ratioMapLabel() + ' ' + state.baselineYear + ': ' + count(ratio.current_count) + ' / ' + count(ratio.historical_count) + ' = ' + percent(ratio.percent) } : { description: name };
+    const deviation = presidentialVoteDeviation(ratio?.percent);
+    return Number.isFinite(deviation) ? { fill: deviationFill(deviation), ratio: ratio.percent, deviation, metricParty: code, description: ratioMapLabel() + ' ' + state.baselineYear + ': ' + formatVoteDeviation(deviation) + ' · ' + count(ratio.current_count) + ' current / ' + count(ratio.historical_count) + ' presidential votes' } : { description: name };
   }
   return { party: lead ? party(lead.party) : null, called: Boolean(calledName(race)), description: lead ? lead.name + ' leads · ' + count(race.reported_total) + ' votes' : Number.isFinite(race?.reported_total) ? count(race.reported_total) + ' votes' : name };
 }
@@ -233,8 +246,8 @@ function renderComparison(race, target, geography = 'state') {
     const card = el('article', null, 'comparison-party-card ' + code); card.setAttribute('aria-label', (code === 'dem' ? 'Democratic' : 'Republican') + ' votes');
     card.append(el('h5', (code === 'dem' ? 'Democratic' : 'Republican') + ' votes'));
     if (Number.isFinite(ratio?.percent)) {
-      const metric = el('strong', percent(ratio.percent), 'comparison-ratio'); metric.dataset.party = code; metric.dataset.ratioPercent = String(ratio.percent);
-      card.append(metric, el('small', 'of ' + historicalName + '’s ' + state.baselineYear + ' count', 'comparison-ratio-label'));
+      const metric = deviationMetric(ratio.percent, 'comparison-ratio'); metric.dataset.party = code;
+      card.append(metric, el('small', 'vs ' + historicalName + '’s ' + state.baselineYear + ' count', 'comparison-ratio-label'));
     }
     const pair = el('div', null, 'comparison-count-pair');
     for (const [label, votes] of [['2026 counted', current], [historicalName + ' ' + state.baselineYear, historical]]) {
@@ -420,13 +433,13 @@ function renderCountyTable() {
   if (panel.hidden) return;
   const data = state.countyData, race = currentRace();
   $('county-table-title').textContent = data?.rows.some((row) => !row.county_fips) ? 'Local reporting units' : 'County comparison';
-  $('county-table-context').textContent = (state.map?.states.find((area) => area.state === state.selected)?.name || state.selected) + (race ? ' · ' + raceLabel(race) : '') + ' · Counted votes / ' + state.baselineYear + ' presidential votes';
+  $('county-table-context').textContent = (state.map?.states.find((area) => area.state === state.selected)?.name || state.selected) + (race ? ' · ' + raceLabel(race) : '') + ' · Counted votes vs ' + state.baselineYear + ' presidential votes';
   if (!$('county-filter')) {
     const controls = el('div', null, 'county-table-controls');
     const label = el('label', 'Find a county or unit'); const input = el('input'); input.type = 'search'; input.id = 'county-filter'; input.placeholder = 'Search counties'; input.autocomplete = 'off'; input.value = state.countyFilter; label.append(input);
     input.addEventListener('input', () => { state.countyFilter = input.value; renderCountyTable(); });
     const sortLabel = el('label', 'Sort'); const sort = el('select'); sort.id = 'county-sort';
-    for (const [value, name] of [['votes_desc', 'Most counted votes'], ['name', 'Name A–Z'], ['dem_ratio_desc', 'Highest D count ratio'], ['rep_ratio_desc', 'Highest R count ratio'], ['shift_desc', 'Largest shift toward D'], ['in_desc', 'Highest CNN est. in']]) { const option = el('option', name); option.value = value; sort.append(option); }
+    for (const [value, name] of [['votes_desc', 'Most counted votes'], ['name', 'Name A–Z'], ['dem_ratio_desc', 'Highest D change vs President'], ['rep_ratio_desc', 'Highest R change vs President'], ['shift_desc', 'Largest shift toward D'], ['in_desc', 'Highest CNN est. in']]) { const option = el('option', name); option.value = value; sort.append(option); }
     sort.value = state.countySort; sort.addEventListener('change', () => { state.countySort = sort.value; renderCountyTable(); }); sortLabel.append(sort);
     const clear = el('button', 'Clear search', 'county-filter-clear'); clear.type = 'button'; clear.addEventListener('click', () => { state.countyFilter = ''; input.value = ''; renderCountyTable(); input.focus({ preventScroll: true }); });
     controls.append(label, sortLabel, clear);
@@ -435,7 +448,7 @@ function renderCountyTable() {
     const table = el('table', null, 'county-table'); table.id = 'county-comparison-table';
     const caption = el('caption', 'County votes and presidential comparisons.'); caption.className = 'visually-hidden';
     const head = el('thead'), tr = el('tr');
-    for (const [id, title] of [['unit', 'County / unit'], ['dem', 'D / prior D'], ['rep', 'R / Trump'], ['current', 'Current margin'], ['prior', 'Pres. margin'], ['shift', 'Shift'], ['votes', 'Counted votes'], ['in', 'CNN est. in']]) { const th = el('th', title); th.scope = 'col'; th.dataset.column = id; tr.append(th); }
+    for (const [id, title] of [['unit', 'County / unit'], ['dem', 'D vs prior D'], ['rep', 'R vs Trump'], ['current', 'Current margin'], ['prior', 'Pres. margin'], ['shift', 'Shift'], ['votes', 'Counted votes'], ['in', 'CNN est. in']]) { const th = el('th', title); th.scope = 'col'; th.dataset.column = id; tr.append(th); }
     head.append(tr); const body = el('tbody'); body.id = 'county-table-rows'; table.append(caption, head, body); wrap.append(table);
     target.append(controls, status, wrap);
   }
@@ -447,8 +460,8 @@ function renderCountyTable() {
   if (total) notes.push(records.length + ' of ' + total + ' units');
   status.textContent = notes.join(' · '); status.hidden = !notes.length;
   panel.setAttribute('aria-busy', String(state.countyPending));
-  $('county-comparison-table').querySelector('[data-column="dem"]').textContent = 'D / ' + (state.baselineYear === 2024 ? 'Harris' : 'Biden') + ' ' + state.baselineYear;
-  $('county-comparison-table').querySelector('[data-column="rep"]').textContent = 'R / Trump ' + state.baselineYear;
+  $('county-comparison-table').querySelector('[data-column="dem"]').textContent = 'D vs ' + (state.baselineYear === 2024 ? 'Harris' : 'Biden') + ' ' + state.baselineYear;
+  $('county-comparison-table').querySelector('[data-column="rep"]').textContent = 'R vs Trump ' + state.baselineYear;
   const body = $('county-table-rows'), existing = new Map([...body.children].map((row) => [row.dataset.unitKey, row]));
   const focusedKey = document.activeElement?.closest('#county-table-rows tr')?.dataset.unitKey;
   for (const [position, record] of records.entries()) {
@@ -464,9 +477,9 @@ function renderCountyTable() {
     const cells = [...tr.querySelectorAll('td')];
     ['dem', 'rep'].forEach((code, index) => {
       const ratio = display.ratios?.[code], cell = cells[index]; cell.className = 'county-count-comparison ' + code;
-      cell.replaceChildren(); if (Number.isFinite(ratio?.percent)) cell.append(el('strong', percent(ratio.percent)));
+      cell.replaceChildren(); if (Number.isFinite(ratio?.percent)) cell.append(deviationMetric(ratio.percent));
       if (Number.isFinite(display.current?.[code + '_votes']) && Number.isFinite(display.historical?.[code + '_votes'])) cell.append(el('small', count(display.current[code + '_votes']) + ' / ' + count(display.historical[code + '_votes'])));
-      cell.title = Number.isFinite(ratio?.percent) ? 'Current votes / presidential votes' : '';
+      cell.title = Number.isFinite(ratio?.percent) ? 'Percent change from the same-party presidential count; 0% = equal count' : '';
     });
     for (const [index, value, label] of [[2, record.currentMargin, marginLabel], [3, display.historical_margin_pp ?? display.historical?.margin_pp, marginLabel], [4, display.shift_pp, shiftLabel]]) { cells[index].textContent = Number.isFinite(value) ? label(value) : ''; cells[index].className = Number.isFinite(value) ? value >= 0 ? 'shift-dem' : 'shift-rep' : ''; }
     cells[5].textContent = count(row.reported_total); cells[6].replaceChildren();
@@ -532,7 +545,7 @@ function renderRegistrationOverview() {
     const table = el('table', null, 'county-table registration-overview-table'); table.id = 'registration-overview-table';
     const caption = el('caption', 'State registrations and presidential comparisons.'); caption.className = 'visually-hidden';
     const head = el('thead'), tr = el('tr');
-    for (const [key, text] of [['state', 'State'], ['dem', 'D registered'], ['rep', 'R registered'], ['unaffiliated', 'Unaffiliated'], ['total', 'Total registered'], ['dem_pres', 'D / Harris'], ['rep_pres', 'R / Trump'], ['shift', 'Presidential margin shift'], ['snapshot', 'Snapshot / source']]) { const th = el('th', text); th.scope = 'col'; th.dataset.column = key; tr.append(th); }
+    for (const [key, text] of [['state', 'State'], ['dem', 'D registered'], ['rep', 'R registered'], ['unaffiliated', 'Unaffiliated'], ['total', 'Total registered'], ['dem_pres', 'D vs Harris'], ['rep_pres', 'R vs Trump'], ['shift', 'Presidential margin shift'], ['snapshot', 'Snapshot / source']]) { const th = el('th', text); th.scope = 'col'; th.dataset.column = key; tr.append(th); }
     const body = el('tbody'); body.id = 'registration-state-rows'; head.append(tr); table.append(caption, head, body); wrap.append(table);
     target.append(controls, status, wrap);
   }
@@ -540,8 +553,8 @@ function renderRegistrationOverview() {
   const note = state.registrationPending ? 'Loading…' : state.registrationError ? 'Refresh failed.' : state.registration ? records.length + ' states / DC' : '';
   status.replaceChildren(el('span', note)); status.hidden = !note;
   if (state.registrationError) { const retry = el('button', 'Retry', 'comparison-retry'); retry.type = 'button'; retry.addEventListener('click', loadRegistration); status.append(retry); }
-  $('registration-overview-table').querySelector('[data-column="dem_pres"]').textContent = 'D / ' + (state.baselineYear === 2024 ? 'Harris' : 'Biden') + ' ' + state.baselineYear;
-  $('registration-overview-table').querySelector('[data-column="rep_pres"]').textContent = 'R / Trump ' + state.baselineYear;
+  $('registration-overview-table').querySelector('[data-column="dem_pres"]').textContent = 'D vs ' + (state.baselineYear === 2024 ? 'Harris' : 'Biden') + ' ' + state.baselineYear;
+  $('registration-overview-table').querySelector('[data-column="rep_pres"]').textContent = 'R vs Trump ' + state.baselineYear;
   for (const key of ['dem_pres', 'rep_pres', 'shift']) $('registration-overview-table').querySelector('[data-column="' + key + '"]').hidden = state.office === 'house';
   const body = $('registration-state-rows'), existing = new Map([...body.children].map((row) => [row.dataset.state, row]));
   const focused = document.activeElement?.closest('#registration-state-rows tr')?.dataset.state;
@@ -565,8 +578,8 @@ function renderRegistrationOverview() {
       }
     }
     for (const [index, code] of ['dem', 'rep'].entries()) {
-      const value = presidential?.ratios?.[code]?.percent; cells[index + 4].className = 'county-count-comparison ' + code; cells[index + 4].replaceChildren(); if (Number.isFinite(value)) { cells[index + 4].append(el('strong', percent(value))); if (race) cells[index + 4].append(el('small', raceLabel(race))); }
-      cells[index + 4].title = Number.isFinite(value) ? 'Current votes / presidential votes' : '';
+      const value = presidential?.ratios?.[code]?.percent; cells[index + 4].className = 'county-count-comparison ' + code; cells[index + 4].replaceChildren(); if (Number.isFinite(value)) { cells[index + 4].append(deviationMetric(value)); if (race) cells[index + 4].append(el('small', raceLabel(race))); }
+      cells[index + 4].title = Number.isFinite(value) ? 'Percent change from the same-party presidential count; 0% = equal count' : '';
     }
     cells[6].textContent = Number.isFinite(presidential?.shift_pp) ? shiftLabel(presidential.shift_pp) : ''; cells[6].className = Number.isFinite(presidential?.shift_pp) ? presidential.shift_pp >= 0 ? 'shift-dem' : 'shift-rep' : '';
     cells[7].className = 'registration-snapshot-cell'; renderRegistrationSnapshotCell(cells[7], row);
@@ -664,7 +677,7 @@ function render() {
   $('results-lead-legend').hidden = compare; $('results-shift-legend').hidden = !compare || ratioMode;
   if ($('results-ratio-legend')) { $('results-ratio-legend').hidden = !ratioMode; $('results-ratio-legend').classList.toggle('rep', state.mapMetric === 'rep_ratio'); $('results-ratio-legend').classList.toggle('dem', state.mapMetric !== 'rep_ratio'); $('ratio-legend-label').textContent = ratioMapLabel() + ' ' + state.baselineYear; }
   if ($('results-map-metric-control')) $('results-map-metric-control').hidden = !compare;
-  if ($('results-map-metric')) { $('results-map-metric').value = state.mapMetric; $('results-map-metric').querySelector('[value="dem_ratio"]').textContent = 'D votes / ' + (state.baselineYear === 2024 ? 'Harris' : 'Biden'); }
+  if ($('results-map-metric')) { $('results-map-metric').value = state.mapMetric; $('results-map-metric').querySelector('[value="dem_ratio"]').textContent = 'D votes vs ' + (state.baselineYear === 2024 ? 'Harris' : 'Biden'); }
   const values = new Map();
   // The main race supplies the statewide map when a state also has a special election.
   officeRaces.slice().sort((a, b) => Number(Boolean(a.special)) - Number(Boolean(b.special))).forEach((race) => { if (state.office !== 'house' && !values.has(race.state)) values.set(race.state, mapValue(race)); });
@@ -678,11 +691,17 @@ function render() {
   });
   const selectedUnit = state.countyView && state.countyData?.rows.find((row) => countyKey(row) === state.selectedCounty);
   const selectedDisplay = ratioMode && currentRace() ? comparisonDisplay(selectedUnit ? withCountyContext(selectedUnit, currentRace()) : currentRace(), selectedUnit ? 'county' : 'state') : null;
-  $('map-dem-leads').textContent = ratioMode ? percent(selectedDisplay?.ratios?.dem?.percent) : state.data ? String(dem) : ''; $('map-rep-leads').textContent = ratioMode ? percent(selectedDisplay?.ratios?.rep?.percent) : state.data ? String(rep) : '';
+  for (const [code, leads] of [['dem', dem], ['rep', rep]]) {
+    const metric = $('map-' + code + '-leads'), rawPercent = selectedDisplay?.ratios?.[code]?.percent, value = presidentialVoteDeviation(rawPercent);
+    metric.textContent = ratioMode ? formatVoteDeviation(value) : state.data ? String(leads) : '';
+    metric.classList.toggle('vote-deviation', ratioMode && Number.isFinite(value));
+    if (ratioMode && Number.isFinite(value)) { metric.dataset.ratioPercent = String(rawPercent); metric.dataset.deviationPercent = String(value); metric.dataset.deviationSign = value > 0 ? 'above' : value < 0 ? 'below' : 'equal'; }
+    else { delete metric.dataset.ratioPercent; delete metric.dataset.deviationPercent; delete metric.dataset.deviationSign; }
+  }
   $('map-dem-leads').closest('.summary-party').hidden = ratioMode && !Number.isFinite(selectedDisplay?.ratios?.dem?.percent); $('map-rep-leads').closest('.summary-party').hidden = ratioMode && !Number.isFinite(selectedDisplay?.ratios?.rep?.percent);
   $('map-national-summary').hidden = !compare && !state.countyView || state.countyView && !state.countyData?.rows.length || compare && (!comparable || ratioMode && !Number.isFinite(selectedDisplay?.ratios?.dem?.percent) && !Number.isFinite(selectedDisplay?.ratios?.rep?.percent)) || !compare && state.countyView && !units.some((race) => Number.isFinite(race.reported_total));
-  $('map-dem-label').textContent = ratioMode ? 'D / ' + (state.baselineYear === 2024 ? 'Harris' : 'Biden') : compare ? 'Shift toward D' : 'Democratic leads'; $('map-rep-label').textContent = ratioMode ? 'R / Trump' : compare ? 'Shift toward R' : 'Republican leads';
-  $('map-summary-context').textContent = ratioMode ? comparable + ' mapped count ratios · ' + (selectedUnit?.name || area?.name || 'Selected race') : compare ? comparable + ' margin shifts · ' + state.baselineYear : state.countyView && state.countyData ? state.countyData.rows.length + ' local units · reported leads' : officeRaces.filter(hasVotes).length + ' races with reported votes';
+  $('map-dem-label').textContent = ratioMode ? 'D vs ' + (state.baselineYear === 2024 ? 'Harris' : 'Biden') : compare ? 'Shift toward D' : 'Democratic leads'; $('map-rep-label').textContent = ratioMode ? 'R vs Trump' : compare ? 'Shift toward R' : 'Republican leads';
+  $('map-summary-context').textContent = ratioMode ? comparable + ' mapped count changes · ' + (selectedUnit?.name || area?.name || 'Selected race') : compare ? comparable + ' margin shifts · ' + state.baselineYear : state.countyView && state.countyData ? state.countyData.rows.length + ' local units · reported leads' : officeRaces.filter(hasVotes).length + ' races with reported votes';
   $('map-view-label').textContent = state.focused ? area?.name || 'Selected state' : state.office === 'house' ? 'National overview · select a district' : 'National overview · select a state';
   $('map-geography-note').textContent = '';
   $('results-lead-legend').classList.toggle('house-state-mode', state.office === 'house');
@@ -750,9 +769,9 @@ function renderCountyTiles() {
   data.rows.slice().sort((a, b) => (a.name || '').localeCompare(b.name || '')).forEach((row) => {
     const county = withCountyContext(row, data.race), value = mapValue(county, 'county'), key = countyKey(county), fullName = county.name || county.reporting_unit_id || county.county_fips;
     const button = el('button', null, 'county-tile ' + (value.party || 'no-returns') + (state.selectedCounty === key ? ' selected' : ''));
-    if (value.fill) { button.style.background = value.fill; button.style.color = Number.isFinite(value.ratio) ? value.ratio > 90 ? '#fff' : '#243e5c' : Math.abs(value.shift) > 8 ? '#fff' : '#243e5c'; }
+    if (value.fill) { button.style.background = value.fill; button.style.color = Number.isFinite(value.deviation) ? deviationTextColor(value.fill) : Math.abs(value.shift) > 8 ? '#fff' : '#243e5c'; }
     button.type = 'button'; button.dataset.countyFips = county.county_fips || ''; button.dataset.reportingUnitId = county.reporting_unit_id || '';
-    const status = compare ? Number.isFinite(value.ratio) ? percent(value.ratio) + ' of prior' : Number.isFinite(value.shift) ? shiftLabel(value.shift) : '' : leader(county) ? (leader(county).party || 'Other') + ' leads' : '';
+    const status = compare ? Number.isFinite(value.deviation) ? formatVoteDeviation(value.deviation) + ' vs prior' : Number.isFinite(value.shift) ? shiftLabel(value.shift) : '' : leader(county) ? (leader(county).party || 'Other') + ' leads' : '';
     button.setAttribute('aria-label', [fullName, Number.isFinite(county.reported_total) ? count(county.reported_total) + ' votes' : '', value.description].filter(Boolean).join(' · ')); button.setAttribute('aria-pressed', String(state.selectedCounty === key)); button.title = fullName + ' · ' + value.description;
     button.append(el('strong', fullName.replace(/ County$/, ''))); if (status) button.append(el('span', status)); if (Number.isFinite(county.reported_total)) button.append(el('small', count(county.reported_total) + ' votes'));
     button.addEventListener('click', () => chooseCounty(key)); grid.append(button);

@@ -6,7 +6,7 @@
   "description": "Results-only 2026 election dashboard",
   "scripts": {
     "pretest": "npm run build",
-    "test": "node site-worker/test/worker.test.js && node site/results-client.test.mjs && node site/chamber-results.test.mjs && node site/presidential-history.test.mjs && node site/house-presidential-history.test.mjs && node site/voter-registration.test.mjs && node site/election-map.test.mjs && node site/massachusetts-results.test.mjs && node site/ma-presidential-history.test.mjs && node site/ma-governor-history.test.mjs && node site/massachusetts-map.test.mjs && node scripts/build-github-pages.test.mjs",
+    "test": "node site-worker/test/worker.test.js && node site/results-client.test.mjs && node site/chamber-results.test.mjs && node site/presidential-history.test.mjs && node site/comparison-scale.test.mjs && node site/house-presidential-history.test.mjs && node site/voter-registration.test.mjs && node site/election-map.test.mjs && node site/massachusetts-results.test.mjs && node site/ma-presidential-history.test.mjs && node site/ma-governor-history.test.mjs && node site/massachusetts-map.test.mjs && node scripts/build-github-pages.test.mjs",
     "build": "node scripts/build-github-pages.mjs",
     "preview": "node scripts/preview.mjs"
   },

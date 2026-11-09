@@ -147,8 +147,8 @@ body.results-mode{background:#f1f4f8;font-size:16px;color:#1a2940}
 .ratio-legend{gap:10px 14px}
 .ratio-legend #ratio-legend-label,.legend-title{font-weight:600;color:#385a7d;font-size:11px}
 .ratio-legend>.ratio-scale-group{display:flex;flex-direction:column;gap:4px;width:170px}
-.ratio-legend .ratio-scale{display:block;width:100%;height:9px;border:1px solid #d2dfed;border-radius:2px;background:linear-gradient(to right,#f1f6fc,#a7c8ed,#2169b4)}
-.ratio-legend.rep .ratio-scale,.ratio-scale.rep{background:linear-gradient(to right,#fff4f5,#edb3be,#b64052)}
+.ratio-legend .ratio-scale{display:block;width:100%;height:9px;border:1px solid #d2dfed;border-radius:2px;background:linear-gradient(to right,#bc7e41,#f5f3f0,#6f4c9a)}
+.ratio-legend.rep .ratio-scale,.ratio-scale.rep{background:linear-gradient(to right,#bc7e41,#f5f3f0,#6f4c9a)}
 .ratio-scale-group>span{display:flex;justify-content:space-between;width:100%;font-size:10px;color:#526c89}
 .ratio-scale-group b{font-weight:400}
 .map-geography-note{padding:0 20px 13px;font-size:11px;color:#62758b;line-height:1.45}
@@ -570,3 +570,6 @@ body.results-mode{background:#f1f4f8;font-size:16px;color:#1a2940}
 
 /* Keep the additional Massachusetts tab within narrow viewports. */
 .results-office-tabs{flex-wrap:wrap;max-width:100%}
+.comparison-ratio.vote-deviation[data-deviation-sign=below],.county-table strong.vote-deviation[data-deviation-sign=below],.summary-party strong.vote-deviation[data-deviation-sign=below]{color:#8b5a2b}
+.comparison-ratio.vote-deviation[data-deviation-sign=above],.county-table strong.vote-deviation[data-deviation-sign=above],.summary-party strong.vote-deviation[data-deviation-sign=above]{color:#6f4c9a}
+.comparison-ratio.vote-deviation[data-deviation-sign=equal],.county-table strong.vote-deviation[data-deviation-sign=equal],.summary-party strong.vote-deviation[data-deviation-sign=equal]{color:#526c89}
